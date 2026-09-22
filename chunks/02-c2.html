@@ -1,0 +1,308 @@
+<section class="comp" id="c2">
+  <div class="comp-head"><span class="num">2</span><h2>Sector heatmap</h2><span class="sz">Huge</span>
+    <span class="desc">Every sector and its sub-industries, coloured by today's performance.</span></div>
+
+<!-- ============================ 2.a ============================ -->
+<div class="design" id="d2a">
+  <div class="dlabel"><span class="id">2.a</span><span class="nm">Capitalisation treemap, terminal style</span><span class="tag">hover · metric switch · scale</span></div>
+  <div class="dbody">
+<style>
+#d2a .root{background:#07090d;color:#dfe6f0;padding:16px 18px 18px;font-family:var(--sans)}
+#d2a .hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#d2a .hd h3{font:600 14px var(--sans)}
+#d2a .hd .m{font:500 10px var(--mono);color:#5d6678;letter-spacing:.12em;text-transform:uppercase}
+#d2a .tools{margin-left:auto;display:flex;gap:14px;align-items:center}
+#d2a .sw{display:flex;gap:0;border:1px solid #1c222e;border-radius:5px;overflow:hidden}
+#d2a .sw button{background:#0d1118;border:0;padding:6px 10px;font:600 10px var(--mono);color:#6d7789;letter-spacing:.08em}
+#d2a .sw button.on{background:#e6ecf6;color:#07090d}
+#d2a label{font:500 10px var(--mono);color:#6d7789;display:flex;gap:6px;align-items:center}
+#d2a .tm{position:relative;display:flex;gap:2px;height:430px}
+#d2a .sec{display:flex;flex-direction:column;gap:2px}
+#d2a .sec .sh{font:600 9.5px var(--mono);letter-spacing:.1em;color:#8b95a8;padding:2px 3px;text-transform:uppercase;display:flex;justify-content:space-between}
+#d2a .cells{flex:1;display:flex;flex-direction:column;gap:2px}
+#d2a .cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;cursor:crosshair;border-radius:2px}
+#d2a .cell:hover{outline:1.5px solid #fff;z-index:3}
+#d2a .cell .t{font:700 11px var(--mono);letter-spacing:.02em}
+#d2a .cell .p{font:600 10px var(--mono);opacity:.92}
+#d2a .tip{position:absolute;background:#0d1118;border:1px solid #2a3243;padding:9px 11px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity .1s;z-index:9;min-width:170px}
+#d2a .tip b{font-size:12px}#d2a .tip div{font:500 11px var(--mono);color:#8b95a8;margin-top:3px}
+#d2a .foot{display:flex;align-items:center;gap:3px;margin-top:10px;font:500 10px var(--mono);color:#5d6678}
+#d2a .foot i{width:30px;height:7px;display:block}
+</style>
+<div class="root">
+  <div class="hd"><h3>S&amp;P 500 sector &amp; sub-industry map</h3><span class="m">1D % change · area = float cap</span>
+    <div class="tools">
+      <label><input type="checkbox" id="d2a-eq"> equal-weight tiles</label>
+      <div class="sw" id="d2a-sw"><button class="on" data-k="d">1D</button><button data-k="w">5D</button><button data-k="y">YTD</button></div>
+    </div></div>
+  <div class="tm" id="d2a-tm"></div>
+  <div class="tip" id="d2a-tip"></div>
+  <div class="foot"><span style="margin-right:6px">−3</span><i style="background:#7f1d1d"></i><i style="background:#b8332b"></i><i style="background:#d4695f"></i><i style="background:#3d4350"></i><i style="background:#3f9a70"></i><i style="background:#18a866"></i><i style="background:#0ad18a"></i><span style="margin-left:6px">+3%</span>
+    <span style="margin-left:auto">Breadth 318 ▲ / 182 ▼ · median −0.04% · dispersion 1.8σ</span></div>
+</div>
+<script>(function(){
+ var S=[
+  {n:"Technology",cap:31,ch:[["SEMI","Semiconductors",9.2,1.86,3.1,22.4],["SOFT","Software",8.1,0.42,1.2,9.8],["HDWR","Hardware",6.4,-0.31,0.4,5.2],["ITSV","IT Services",3.6,0.14,-0.6,2.1],["EQIP","Comms Equip",2.1,0.88,2.2,11.0],["ELEC","Electronic Comp",1.6,-0.62,-1.4,-3.2]]},
+  {n:"Financials",cap:14,ch:[["BANK","Diversified Banks",4.6,-0.74,-2.1,1.4],["INSU","Insurance",3.4,0.22,0.6,7.8],["CAPM","Capital Markets",3.1,0.61,1.9,12.2],["CARD","Consumer Finance",1.6,-0.18,0.2,4.4],["REIT","Mortgage REITs",1.3,-1.22,-2.8,-6.1]]},
+  {n:"Health Care",cap:12,ch:[["PHRM","Pharma",4.2,0.36,1.1,3.2],["BIOT","Biotech",2.8,-1.44,-3.6,-8.4],["EQSV","Devices & Equip",2.6,0.18,0.4,2.0],["MGCR","Managed Care",1.6,1.06,2.4,6.6],["LIFE","Life Sciences",0.8,-0.52,-1.2,-4.0]]},
+  {n:"Cons. Disc.",cap:11,ch:[["RETL","Broadline Retail",3.9,0.94,2.0,10.4],["AUTO","Automobiles",2.4,-2.16,-4.8,-14.2],["HOTL","Hotels & Leisure",1.9,0.44,1.4,5.0],["HOME","Homebuilders",1.4,-0.86,-2.2,-3.4],["APRL","Apparel",1.4,0.12,0.4,1.2]]},
+  {n:"Industrials",cap:9,ch:[["AERO","Aerospace & Def",2.4,0.68,1.6,9.2],["MACH","Machinery",2.0,0.24,0.8,6.4],["TRAN","Transport",1.8,-0.46,-1.8,-2.2],["BLDG","Building Prod",1.4,0.32,1.0,4.8],["PROF","Prof Services",1.4,-0.1,0.2,3.0]]},
+  {n:"Comm. Svcs",cap:9,ch:[["IMED","Interactive Media",5.1,1.12,2.6,16.8],["ENTM","Entertainment",2.0,-0.34,-1.0,-2.6],["TELC","Telecom",1.9,0.46,0.8,5.4]]},
+  {n:"Cons. Stpl.",cap:6,ch:[["BEVG","Beverages",1.8,-0.24,-0.8,-1.6],["FOOD","Food Products",1.5,0.18,0.2,0.8],["HHPD","Household Prod",1.4,0.52,1.2,3.6],["STRT","Staples Retail",1.3,-0.66,-1.4,2.2]]},
+  {n:"Energy",cap:4,ch:[["EXPL","E&P",1.8,-1.64,-3.4,4.8],["INTG","Integrated",1.2,-1.02,-2.2,6.2],["SERV","Oil Services",1.0,-2.28,-5.1,-7.4]]},
+  {n:"Utilities",cap:2.5,ch:[["ELUT","Electric Utils",1.7,1.34,2.8,11.6],["MULT","Multi-Utils",0.8,0.96,2.0,8.2]]},
+  {n:"Materials",cap:1.5,ch:[["CHEM","Chemicals",0.9,-0.42,-1.2,1.0],["METL","Metals & Mining",0.6,1.88,3.6,14.4]]}
+ ];
+ var K=1,idx={d:1,w:2,y:3},eq=false,tip=document.getElementById("d2a-tip"),wrap=document.getElementById("d2a-tm");
+ function col(v){var s=Math.max(-1,Math.min(1,v/3));
+  if(s>=0)return "rgb("+Math.round(61-51*s)+","+Math.round(67+142*s)+","+Math.round(80+58*s)+")";
+  s=-s;return "rgb("+Math.round(61+66*s)+","+Math.round(67-38*s)+","+Math.round(80-51*s)+")";}
+ function draw(){
+  wrap.innerHTML="";
+  var tot=S.reduce(function(a,s){return a+(eq?1:s.cap)},0);
+  S.forEach(function(s){
+    var sc=document.createElement("div");sc.className="sec";
+    sc.style.flex=(eq?1:s.cap)/tot;
+    var sv=s.ch.reduce(function(a,c){return a+c[1+K]*c[2]},0)/s.ch.reduce(function(a,c){return a+c[2]},0);
+    sc.innerHTML='<div class="sh"><span>'+s.n+'</span><span style="color:'+(sv>=0?"#0ad18a":"#e0483d")+'">'+(sv>=0?"+":"")+sv.toFixed(2)+'%</span></div>';
+    var cc=document.createElement("div");cc.className="cells";
+    var ct=s.ch.reduce(function(a,c){return a+(eq?1:c[2])},0);
+    s.ch.forEach(function(c){
+      var v=c[1+K],e=document.createElement("div");e.className="cell";
+      e.style.flex=(eq?1:c[2])/ct;e.style.background=col(v);
+      e.style.color=Math.abs(v)>1.2?"#fff":"#c7d0de";
+      e.innerHTML='<span class="t">'+c[0]+'</span><span class="p">'+(v>=0?"+":"")+v.toFixed(2)+'%</span>';
+      e.addEventListener("mousemove",function(ev){
+        var b=wrap.getBoundingClientRect();tip.style.opacity=1;
+        tip.style.left=Math.min(b.width-180,ev.clientX-b.left+14)+"px";tip.style.top=(ev.clientY-b.top+14)+"px";
+        tip.innerHTML='<b>'+c[1]+'</b><div>'+s.n+' · '+c[2]+'% of index</div>'+
+        '<div style="color:'+(v>=0?"#0ad18a":"#ff8178")+';font-size:15px">'+(v>=0?"+":"")+v.toFixed(2)+'% '+["","1D","5D","YTD"][K]+'</div>'+
+        '<div>5D '+(c[3]>=0?"+":"")+c[3]+'% · YTD '+(c[4]>=0?"+":"")+c[4]+'%</div>';
+      });
+      e.addEventListener("mouseleave",function(){tip.style.opacity=0});
+      cc.appendChild(e);
+    });
+    sc.appendChild(cc);wrap.appendChild(sc);
+  });
+ }
+ document.getElementById("d2a-sw").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});K=idx[b.dataset.k];draw();});
+ document.getElementById("d2a-eq").addEventListener("change",function(){eq=this.checked;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 2.b ============================ -->
+<div class="design" id="d2b">
+  <div class="dlabel"><span class="id">2.b</span><span class="nm">Sunburst — sector ring, sub-industry ring, click to focus</span><span class="tag">click sector · centre readout</span></div>
+  <div class="dbody">
+<style>
+#d2b .root{background:#fff;padding:22px 26px;font-family:var(--sans);display:grid;grid-template-columns:1fr 340px;gap:26px}
+#d2b h3{font-size:17px;font-weight:650;letter-spacing:-.01em}
+#d2b .sub{font-size:12px;color:var(--muted);margin-top:4px}
+#d2b .arc{cursor:pointer;transition:opacity .18s}
+#d2b .arc:hover{opacity:.78}
+#d2b .arcl{font:600 9px var(--mono);pointer-events:none}
+#d2b .ctr1{font:600 30px var(--mono);text-anchor:middle}
+#d2b .ctr2{font:600 11px var(--sans);text-anchor:middle;fill:#697086}
+#d2b .ctr3{font:500 10px var(--mono);text-anchor:middle;fill:#98a0b3;letter-spacing:.1em}
+#d2b .side h4{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#98a0b3;margin-bottom:8px}
+#d2b .lst{border-top:1px solid var(--line)}
+#d2b .lst .r{display:grid;grid-template-columns:1fr 62px 92px;align-items:center;gap:8px;padding:8px 2px;border-bottom:1px solid #f1f3f6;font-size:12.5px;cursor:pointer}
+#d2b .lst .r:hover{background:#f7f9fc}
+#d2b .lst .r .v{text-align:right;font:600 12px var(--mono)}
+#d2b .lst .r .bar{height:16px;position:relative;background:linear-gradient(90deg,#f5f6f8 50%,#f5f6f8 50%);border-radius:3px}
+#d2b .lst .r .bar i{position:absolute;top:0;bottom:0;border-radius:2px}
+#d2b .lst .r .bar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#d6dae2}
+#d2b .note{margin-top:14px;background:#f6f8fb;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:12px;color:#4b5364;line-height:1.5}
+#d2b .bk{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 10px;font:600 11px var(--mono);margin-bottom:10px}
+</style>
+<div class="root">
+  <div>
+    <h3>Sector composition &amp; today's move</h3>
+    <div class="sub">Inner ring = 11 GICS sectors sized by index weight · outer ring = sub-industries · colour = 1-day return</div>
+    <svg id="d2b-svg" viewBox="0 0 460 460" style="width:100%;max-width:520px;height:auto;margin-top:6px"></svg>
+  </div>
+  <div class="side">
+    <button class="bk" id="d2b-bk" style="display:none">← all sectors</button>
+    <h4 id="d2b-t">Sub-industry detail</h4>
+    <div class="lst" id="d2b-lst"></div>
+    <div class="note" id="d2b-note"></div>
+  </div>
+</div>
+<script>(function(){
+ var S=[
+  {n:"Technology",w:31,v:0.74,ch:[["Semiconductors",9.2,1.86],["Software",8.1,0.42],["Hardware",6.4,-0.31],["IT Services",3.6,0.14],["Comms Equip",2.1,0.88],["Electronic Comp",1.6,-0.62]]},
+  {n:"Financials",w:14,v:-0.12,ch:[["Banks",4.6,-0.74],["Insurance",3.4,0.22],["Capital Markets",3.1,0.61],["Cons Finance",1.6,-0.18],["Mortgage REITs",1.3,-1.22]]},
+  {n:"Health Care",w:12,v:-0.06,ch:[["Pharma",4.2,0.36],["Biotech",2.8,-1.44],["Devices",2.6,0.18],["Managed Care",1.6,1.06],["Life Sciences",0.8,-0.52]]},
+  {n:"Cons Disc",w:11,v:-0.14,ch:[["Broadline Retail",3.9,0.94],["Automobiles",2.4,-2.16],["Hotels & Leisure",1.9,0.44],["Homebuilders",1.4,-0.86],["Apparel",1.4,0.12]]},
+  {n:"Industrials",w:9,v:0.15,ch:[["Aerospace",2.4,0.68],["Machinery",2.0,0.24],["Transport",1.8,-0.46],["Building",1.4,0.32],["Prof Svcs",1.4,-0.10]]},
+  {n:"Comm Svcs",w:9,v:0.60,ch:[["Interactive Media",5.1,1.12],["Entertainment",2.0,-0.34],["Telecom",1.9,0.46]]},
+  {n:"Staples",w:6,v:-0.05,ch:[["Beverages",1.8,-0.24],["Food",1.5,0.18],["Household",1.4,0.52],["Staples Retail",1.3,-0.66]]},
+  {n:"Energy",w:4,v:-1.60,ch:[["E&P",1.8,-1.64],["Integrated",1.2,-1.02],["Oil Services",1.0,-2.28]]},
+  {n:"Utilities",w:2.5,v:1.22,ch:[["Electric",1.7,1.34],["Multi-Utility",0.8,0.96]]},
+  {n:"Materials",w:1.5,v:0.50,ch:[["Chemicals",0.9,-0.42],["Metals & Mining",0.6,1.88]]}
+ ];
+ var ns="http://www.w3.org/2000/svg",svg=document.getElementById("d2b-svg"),cx=230,cy=230,focus=null;
+ function col(v){var s=Math.max(-1,Math.min(1,v/2.2));
+  if(s>=0)return "rgb("+Math.round(236-221*s)+","+Math.round(244-90*s)+","+Math.round(239-133*s)+")";
+  s=-s;return "rgb("+Math.round(236-12*s)+","+Math.round(244-172*s)+","+Math.round(239-178*s)+")";}
+ function arc(r0,r1,a0,a1){
+  var x0=cx+Math.cos(a0)*r1,y0=cy+Math.sin(a0)*r1,x1=cx+Math.cos(a1)*r1,y1=cy+Math.sin(a1)*r1,
+      x2=cx+Math.cos(a1)*r0,y2=cy+Math.sin(a1)*r0,x3=cx+Math.cos(a0)*r0,y3=cy+Math.sin(a0)*r0,
+      lg=(a1-a0)>Math.PI?1:0;
+  return "M"+x0+","+y0+"A"+r1+","+r1+" 0 "+lg+" 1 "+x1+","+y1+"L"+x2+","+y2+"A"+r0+","+r0+" 0 "+lg+" 0 "+x3+","+y3+"Z";}
+ function draw(){
+  svg.innerHTML="";
+  var set=focus?[focus]:S,tot=set.reduce(function(a,s){return a+s.w},0),a=-Math.PI/2;
+  var span=focus?Math.PI*2:Math.PI*2;
+  set.forEach(function(s){
+    var sw=s.w/tot*span,a0=a,a1=a+sw;
+    var p=document.createElementNS(ns,"path");
+    p.setAttribute("d",arc(72,128,a0+0.004,a1-0.004));p.setAttribute("fill",col(s.v));
+    p.setAttribute("stroke","#fff");p.setAttribute("stroke-width","1.5");p.setAttribute("class","arc");
+    p.addEventListener("click",function(){focus=focus===s?null:s;draw();panel();});
+    svg.appendChild(p);
+    if(sw>0.22){var mid=(a0+a1)/2,t=document.createElementNS(ns,"text");
+      t.setAttribute("x",cx+Math.cos(mid)*100);t.setAttribute("y",cy+Math.sin(mid)*100+3);
+      t.setAttribute("class","arcl");t.setAttribute("text-anchor","middle");
+      t.setAttribute("fill",Math.abs(s.v)>1?"#fff":"#39404f");t.textContent=s.n.toUpperCase().slice(0,11);svg.appendChild(t);}
+    var ct=s.ch.reduce(function(x,c){return x+c[1]},0),b=a0;
+    s.ch.forEach(function(c){
+      var cw=c[1]/ct*sw,q=document.createElementNS(ns,"path");
+      q.setAttribute("d",arc(134,134+30+Math.min(40,Math.abs(c[2])*18),b+0.004,b+cw-0.004));
+      q.setAttribute("fill",col(c[2]));q.setAttribute("stroke","#fff");q.setAttribute("stroke-width","1.2");q.setAttribute("class","arc");
+      var mid=b+cw/2;
+      q.addEventListener("mouseenter",function(){centre(c[0],c[2],c[1]+"% of index · "+s.n);});
+      q.addEventListener("mouseleave",function(){centre(focus?focus.n:"S&P 500",focus?focus.v:0.21,focus?focus.w+"% weight":"cap-weighted index");});
+      svg.appendChild(q);
+      if(cw>0.14){var t2=document.createElementNS(ns,"text");
+        var rr=134+30+Math.min(40,Math.abs(c[2])*18)+10;
+        t2.setAttribute("x",cx+Math.cos(mid)*rr);t2.setAttribute("y",cy+Math.sin(mid)*rr+3);
+        t2.setAttribute("class","arcl");t2.setAttribute("fill","#697086");
+        t2.setAttribute("text-anchor",Math.cos(mid)<-0.15?"end":(Math.cos(mid)>0.15?"start":"middle"));
+        t2.textContent=c[0];svg.appendChild(t2);}
+      b+=cw;
+    });
+    a=a1;
+  });
+  centre(focus?focus.n:"S&P 500",focus?focus.v:0.21,focus?focus.w+"% index weight":"cap-weighted · 24 Apr");
+ }
+ function centre(n,v,s){
+  [].forEach.call(svg.querySelectorAll(".ctr1,.ctr2,.ctr3"),function(e){e.remove()});
+  var t1=document.createElementNS(ns,"text");t1.setAttribute("class","ctr1");t1.setAttribute("x",cx);t1.setAttribute("y",cy+2);
+  t1.setAttribute("fill",v>=0?"#0f9d6a":"#e0483d");t1.textContent=(v>=0?"+":"")+v.toFixed(2)+"%";
+  var t2=document.createElementNS(ns,"text");t2.setAttribute("class","ctr2");t2.setAttribute("x",cx);t2.setAttribute("y",cy+22);t2.textContent=n;
+  var t3=document.createElementNS(ns,"text");t3.setAttribute("class","ctr3");t3.setAttribute("x",cx);t3.setAttribute("y",cy+40);t3.textContent=s.toUpperCase();
+  svg.appendChild(t1);svg.appendChild(t2);svg.appendChild(t3);
+ }
+ function panel(){
+  var rows=[];
+  (focus?focus.ch.map(function(c){return {n:c[0],w:c[1],v:c[2]}}):S.map(function(s){return {n:s.n,w:s.w,v:s.v}})).forEach(function(r){rows.push(r)});
+  rows.sort(function(a,b){return b.v-a.v});
+  document.getElementById("d2b-t").textContent=focus?focus.n+" sub-industries":"All sectors, ranked";
+  document.getElementById("d2b-bk").style.display=focus?"block":"none";
+  document.getElementById("d2b-lst").innerHTML=rows.map(function(r){
+   var w=Math.min(50,Math.abs(r.v)*20);
+   return '<div class="r"><span>'+r.n+'</span><span class="v" style="color:'+(r.v>=0?"#0f9d6a":"#e0483d")+'">'+(r.v>=0?"+":"")+r.v.toFixed(2)+'%</span>'+
+   '<div class="bar"><i style="background:'+(r.v>=0?"#0f9d6a":"#e0483d")+';'+(r.v>=0?"left:50%;width:"+w+"%":"right:50%;width:"+w+"%")+'"></i></div></div>';}).join("");
+  var up=rows.filter(function(r){return r.v>0}).length;
+  document.getElementById("d2b-note").innerHTML="<b>"+up+" of "+rows.length+"</b> groups higher. Widest dispersion sits between semiconductors (+1.86%) and oil services (−2.28%) — a 4.1pp spread, the broadest since 12 March.";
+ }
+ document.getElementById("d2b-bk").addEventListener("click",function(){focus=null;draw();panel();});
+ draw();panel();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 2.c ============================ -->
+<div class="design" id="d2c">
+  <div class="dlabel"><span class="id">2.c</span><span class="nm">Editorial accordion with constituent beeswarm</span><span class="tag">expand rows · sort · dot hover</span></div>
+  <div class="dbody">
+<style>
+#d2c .root{background:#faf9f7;padding:24px 28px;font-family:var(--sans)}
+#d2c .hd{display:flex;align-items:baseline;gap:14px;margin-bottom:4px}
+#d2c .hd h3{font:600 23px/1.1 var(--serif);letter-spacing:-.015em}
+#d2c .hd .d{font:500 11px var(--mono);color:#9a968c;letter-spacing:.1em;text-transform:uppercase;margin-left:auto}
+#d2c .lede{font-size:13px;color:#6d6a62;max-width:80ch;line-height:1.55;margin-bottom:16px}
+#d2c .srt{display:flex;gap:16px;border-bottom:1px solid #e2e0d8;padding-bottom:8px;margin-bottom:2px}
+#d2c .srt button{background:none;border:0;padding:0;font:600 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#a8a49a}
+#d2c .srt button.on{color:#1a1916;border-bottom:2px solid #1a1916;padding-bottom:6px;margin-bottom:-9px}
+#d2c .row{border-bottom:1px solid #e9e7e0}
+#d2c .rh{display:grid;grid-template-columns:20px 168px 80px 1fr 110px;align-items:center;gap:14px;padding:13px 4px;cursor:pointer}
+#d2c .rh:hover{background:#f2f0ea}
+#d2c .rh .ar{font:600 11px var(--mono);color:#a8a49a;transition:transform .2s}
+#d2c .row.op .ar{transform:rotate(90deg)}
+#d2c .rh .nm{font-size:14.5px;font-weight:600}
+#d2c .rh .nm small{display:block;font:500 10px var(--mono);color:#a8a49a;letter-spacing:.06em;margin-top:2px}
+#d2c .rh .pc{font:600 17px var(--mono);text-align:right}
+#d2c .swarm{height:38px;position:relative}
+#d2c .swarm .ax{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#d8d5cb}
+#d2c .swarm .dot{position:absolute;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);opacity:.72;cursor:pointer;transition:transform .12s}
+#d2c .swarm .dot:hover{transform:translate(-50%,-50%) scale(1.9);opacity:1;z-index:4}
+#d2c .rh .st{font:500 10.5px var(--mono);color:#8b877d;text-align:right}
+#d2c .body{display:none;padding:6px 4px 18px 202px}
+#d2c .row.op .body{display:block}
+#d2c .sub{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#d2c .sub div{display:grid;grid-template-columns:1fr 54px;align-items:center;gap:8px;background:#fff;border:1px solid #e9e7e0;border-radius:7px;padding:8px 10px;font-size:12px}
+#d2c .sub div b{font:600 12px var(--mono);text-align:right}
+#d2c .legend{display:flex;gap:18px;margin-top:14px;font:500 10.5px var(--mono);color:#9a968c}
+#d2c .legend b{color:#1a1916}
+</style>
+<div class="root">
+  <div class="hd"><h3>Where the money moved today</h3><span class="d">Close 24 Apr 2026 · GICS L1 / L2</span></div>
+  <p class="lede">Each row is a sector. The swarm shows every constituent's return, one dot per company, so you can see whether a sector's headline number is broad-based or the work of a couple of names. Open a row for the sub-industry breakdown.</p>
+  <div class="srt" id="d2c-srt"><button class="on" data-k="v">Sort: performance</button><button data-k="w">Sort: index weight</button><button data-k="s">Sort: dispersion</button><button data-k="a">Sort: A–Z</button></div>
+  <div id="d2c-rows"></div>
+  <div class="legend"><span>Dot = one constituent · position = its 1-day return</span><span><b>Dispersion</b> = interquartile spread of member returns</span><span><b>Breadth</b> = share of members up</span></div>
+</div>
+<script>(function(){
+ var S=[
+ {n:"Information Technology",t:"64 members · 31.4% wt",v:0.74,w:31.4,sp:2.9,br:62,sub:[["Semiconductors",1.86],["Software",0.42],["Hardware",-0.31],["IT Services",0.14],["Comms Equipment",0.88],["Electronic Comp",-0.62]]},
+ {n:"Communication Svcs",t:"22 members · 9.1% wt",v:0.60,w:9.1,sp:2.2,br:59,sub:[["Interactive Media",1.12],["Entertainment",-0.34],["Telecom",0.46]]},
+ {n:"Utilities",t:"31 members · 2.5% wt",v:1.22,w:2.5,sp:0.9,br:87,sub:[["Electric Utilities",1.34],["Multi-Utilities",0.96]]},
+ {n:"Industrials",t:"78 members · 8.9% wt",v:0.15,w:8.9,sp:1.6,br:51,sub:[["Aerospace & Defence",0.68],["Machinery",0.24],["Transport",-0.46],["Building Products",0.32],["Prof Services",-0.10]]},
+ {n:"Consumer Staples",t:"38 members · 6.0% wt",v:-0.05,w:6.0,sp:1.1,br:47,sub:[["Beverages",-0.24],["Food Products",0.18],["Household",0.52],["Staples Retail",-0.66]]},
+ {n:"Health Care",t:"62 members · 12.2% wt",v:-0.06,w:12.2,sp:2.4,br:44,sub:[["Pharmaceuticals",0.36],["Biotech",-1.44],["Devices",0.18],["Managed Care",1.06],["Life Sciences",-0.52]]},
+ {n:"Consumer Discretionary",t:"53 members · 10.6% wt",v:-0.14,w:10.6,sp:3.1,br:42,sub:[["Broadline Retail",0.94],["Automobiles",-2.16],["Hotels & Leisure",0.44],["Homebuilders",-0.86],["Apparel",0.12]]},
+ {n:"Financials",t:"72 members · 13.8% wt",v:-0.12,w:13.8,sp:1.8,br:45,sub:[["Banks",-0.74],["Insurance",0.22],["Capital Markets",0.61],["Consumer Finance",-0.18],["Mortgage REITs",-1.22]]},
+ {n:"Materials",t:"28 members · 1.5% wt",v:0.50,w:1.5,sp:2.0,br:54,sub:[["Chemicals",-0.42],["Metals & Mining",1.88]]},
+ {n:"Energy",t:"23 members · 3.9% wt",v:-1.60,w:3.9,sp:2.6,br:13,sub:[["E&P",-1.64],["Integrated",-1.02],["Oil Services",-2.28]]}
+ ];
+ var TK=["NVDA","MSFT","AAPL","AVGO","ORCL","CRM","AMD","TXN","QCOM","NOW","INTU","ADBE","MU","LRCX","PANW","SNPS","KLAC","ANET","IBM","ACN"];
+ function dots(s){
+  var out=[],n=Math.max(9,Math.round(s.w*1.6)+8);
+  for(var i=0;i<n;i++){
+   var r=(Math.sin(i*97.3+s.w)*0.5+Math.cos(i*41.7)*0.5);
+   var v=s.v+r*s.sp*0.9;
+   out.push({v:v,t:TK[i%TK.length],y:((i*37)%5)-2});
+  }
+  return out;}
+ function render(){
+  document.getElementById("d2c-rows").innerHTML=S.map(function(s,i){
+   var ds=dots(s);
+   return '<div class="row" data-i="'+i+'"><div class="rh">'+
+    '<span class="ar">▶</span>'+
+    '<div class="nm">'+s.n+'<small>'+s.t+'</small></div>'+
+    '<div class="pc" style="color:'+(s.v>=0?"#0f7a52":"#c0392b")+'">'+(s.v>=0?"+":"")+s.v.toFixed(2)+'%</div>'+
+    '<div class="swarm"><div class="ax"></div>'+ds.map(function(d){
+      return '<span class="dot" title="'+d.t+' '+(d.v>=0?"+":"")+d.v.toFixed(2)+'%" style="left:'+(50+Math.max(-48,Math.min(48,d.v*9)))+'%;top:'+(50+d.y*7)+'%;background:'+(d.v>=0?"#2f9e74":"#d05a4b")+'"></span>';}).join("")+'</div>'+
+    '<div class="st">disp '+s.sp.toFixed(1)+'pp<br>breadth '+s.br+'%</div></div>'+
+    '<div class="body"><div class="sub">'+s.sub.map(function(c){
+      return '<div><span>'+c[0]+'</span><b style="color:'+(c[1]>=0?"#0f7a52":"#c0392b")+'">'+(c[1]>=0?"+":"")+c[1].toFixed(2)+'</b></div>';}).join("")+'</div></div></div>';
+  }).join("");
+  [].forEach.call(document.querySelectorAll("#d2c-rows .rh"),function(h){
+   h.addEventListener("click",function(){h.parentNode.classList.toggle("op")});});
+ }
+ document.getElementById("d2c-srt").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});
+  var k=b.dataset.k;
+  S.sort(function(a,c){return k==="v"?c.v-a.v:k==="w"?c.w-a.w:k==="s"?c.sp-a.sp:a.n.localeCompare(c.n)});
+  render();});
+ render();
+})();</script>
+  </div>
+</div>
+</section>

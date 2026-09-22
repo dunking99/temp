@@ -1,0 +1,355 @@
+<section class="comp" id="c1">
+  <div class="comp-head"><span class="num">1</span><h2>World markets map</h2><span class="sz">Huge</span>
+    <span class="desc">Global stock indices' performance by country or region, shown geographically.</span></div>
+
+<!-- ============================ 1.a ============================ -->
+<div class="design" id="d1a">
+  <div class="dlabel"><span class="id">1.a</span><span class="nm">Stylised choropleth with capitalisation bubbles</span><span class="tag">hover · period toggle</span></div>
+  <div class="dbody">
+<style>
+#d1a .root{background:#0d1017;color:#e7ecf5;padding:20px 24px 24px;position:relative;font-family:var(--sans)}
+#d1a .bar{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+#d1a .bar h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
+#d1a .bar .sub{font:500 11px/1 var(--mono);color:#6d7789;letter-spacing:.1em;text-transform:uppercase}
+#d1a .seg{margin-left:auto;display:flex;border:1px solid #232a38;border-radius:8px;overflow:hidden}
+#d1a .seg button{background:transparent;border:0;color:#8892a6;padding:7px 13px;font:600 11px/1 var(--mono);letter-spacing:.06em}
+#d1a .seg button[aria-pressed="true"]{background:#1d2headers}
+#d1a .seg button[aria-pressed="true"]{background:#212a3a;color:#fff}
+#d1a .mapwrap{position:relative;border:1px solid #1b212d;border-radius:12px;background:radial-gradient(1000px 420px at 50% 20%,#141a25 0%,#0d1017 70%);overflow:hidden}
+#d1a .land{stroke:#0d1017;stroke-width:1.2;transition:fill .35s}
+#d1a .bub{cursor:pointer;transition:r .2s,opacity .2s}
+#d1a .bub:hover{stroke:#fff;stroke-width:2}
+#d1a .lbl{font:600 9.5px var(--mono);fill:#cfd7e6;pointer-events:none;text-anchor:middle}
+#d1a .tip{position:absolute;pointer-events:none;background:#0a0d13;border:1px solid #2b3446;border-radius:9px;padding:10px 12px;min-width:186px;opacity:0;transition:opacity .12s;box-shadow:0 18px 40px rgba(0,0,0,.6)}
+#d1a .tip .t1{font-size:12.5px;font-weight:600}
+#d1a .tip .t2{font:500 10px var(--mono);color:#78839a;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+#d1a .tip .big{font:600 22px/1.1 var(--mono);margin:7px 0 3px}
+#d1a .tip .row{display:flex;justify-content:space-between;font:500 11px var(--mono);color:#9aa5ba;padding:2px 0}
+#d1a .legend{display:flex;align-items:center;gap:4px;margin-top:14px}
+#d1a .legend i{width:34px;height:9px;display:block;border-radius:2px}
+#d1a .legend span{font:500 10px var(--mono);color:#6d7789;margin:0 8px}
+#d1a .rank{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1b212d;border:1px solid #1b212d;border-radius:10px;overflow:hidden;margin-top:14px}
+#d1a .rank div{background:#11151e;padding:10px 12px}
+#d1a .rank b{display:block;font:600 11px var(--mono);color:#78839a;letter-spacing:.08em}
+#d1a .rank .v{font:600 16px/1.2 var(--mono);margin-top:5px}
+#d1a .rank em{font-style:normal;font-size:11px;color:#9aa5ba}
+</style>
+<div class="root">
+  <div class="bar"><h3>Global equity performance</h3><span class="sub">24 Apr 2026 · 17:42 GMT</span>
+    <div class="seg" id="d1a-seg"><button aria-pressed="true" data-k="d">1D</button><button data-k="w">1W</button><button data-k="m">1M</button><button data-k="y">YTD</button></div>
+  </div>
+  <div class="mapwrap">
+    <svg viewBox="0 0 1000 470" style="width:100%;height:auto">
+      <g id="d1a-land">
+        <path class="land" data-r="na" d="M108,58 L300,52 L312,96 L272,128 L258,178 L232,236 L206,206 L214,150 L168,132 L128,96 Z"/>
+        <path class="land" data-r="latam" d="M236,246 L292,238 L306,282 L288,352 L262,420 L240,386 L246,318 L226,282 Z"/>
+        <path class="land" data-r="eu" d="M452,66 L556,60 L566,106 L520,142 L470,136 L444,104 Z"/>
+        <path class="land" data-r="emea" d="M462,152 L570,148 L588,214 L562,300 L518,356 L486,300 L468,224 Z"/>
+        <path class="land" data-r="apac" d="M576,56 L858,48 L880,120 L800,176 L706,184 L664,150 L598,122 Z"/>
+        <path class="land" data-r="apac" d="M660,196 L714,192 L706,258 L678,262 Z"/>
+        <path class="land" data-r="apac" d="M796,300 L900,296 L906,356 L826,374 L790,340 Z"/>
+      </g>
+      <g id="d1a-bubs"></g>
+    </svg>
+    <div class="tip" id="d1a-tip"></div>
+  </div>
+  <div class="legend"><span>−2.5%</span><i style="background:#c0392b"></i><i style="background:#e0483d"></i><i style="background:#8e6f6c"></i><i style="background:#2f3b45"></i><i style="background:#3f8f74"></i><i style="background:#0f9d6a"></i><i style="background:#17c07f"></i><span>+2.5%</span>
+    <span style="margin-left:auto">Bubble area = free-float market cap · 47 markets tracked</span></div>
+  <div class="rank" id="d1a-rank"></div>
+</div>
+<script>(function(){
+ var M=[
+  {n:"United States",i:"S&P 500",x:210,y:130,cap:58,d:0.62,w:1.85,m:3.1,y:7.4,lv:"5,612.40"},
+  {n:"Canada",i:"TSX",x:232,y:86,cap:14,d:0.28,w:0.9,m:1.4,y:5.2,lv:"22,410"},
+  {n:"Mexico",i:"IPC",x:200,y:196,cap:9,d:-0.44,w:-1.2,m:0.6,y:2.8,lv:"56,870"},
+  {n:"Brazil",i:"Bovespa",x:272,y:318,cap:12,d:1.34,w:2.6,m:-0.8,y:9.1,lv:"131,920"},
+  {n:"United Kingdom",i:"FTSE 100",x:452,y:96,cap:17,d:0.18,w:0.44,m:2.2,y:6.0,lv:"8,214.6"},
+  {n:"Germany",i:"DAX",x:492,y:104,cap:16,d:-0.36,w:1.1,m:2.9,y:8.8,lv:"18,742"},
+  {n:"France",i:"CAC 40",x:470,y:120,cap:15,d:-0.21,w:0.7,m:1.6,y:4.3,lv:"8,036"},
+  {n:"Switzerland",i:"SMI",x:504,y:126,cap:11,d:0.44,w:0.2,m:0.9,y:3.1,lv:"12,388"},
+  {n:"Nordics",i:"OMX N40",x:530,y:70,cap:9,d:0.72,w:1.5,m:2.4,y:6.6,lv:"2,614"},
+  {n:"Saudi Arabia",i:"TASI",x:566,y:190,cap:10,d:-1.12,w:-2.1,m:-3.4,y:-1.2,lv:"11,864"},
+  {n:"South Africa",i:"JSE Top 40",x:520,y:326,cap:7,d:0.94,w:1.9,m:4.2,y:11.3,lv:"75,240"},
+  {n:"India",i:"NIFTY 50",x:684,y:222,cap:20,d:1.02,w:2.3,m:3.8,y:12.6,lv:"23,840"},
+  {n:"China",i:"CSI 300",x:748,y:140,cap:24,d:-1.86,w:-3.2,m:-1.1,y:-4.7,lv:"3,486.2"},
+  {n:"Japan",i:"Nikkei 225",x:840,y:126,cap:22,d:1.48,w:2.9,m:5.1,y:14.2,lv:"39,146"},
+  {n:"South Korea",i:"KOSPI",x:806,y:148,cap:13,d:0.86,w:1.2,m:2.0,y:3.9,lv:"2,724"},
+  {n:"Australia",i:"ASX 200",x:846,y:332,cap:12,d:-0.08,w:0.3,m:1.1,y:2.2,lv:"7,842"},
+  {n:"Singapore",i:"STI",x:760,y:252,cap:7,d:0.22,w:0.8,m:1.9,y:5.5,lv:"3,412"}
+ ];
+ var K="d",tip=document.getElementById("d1a-tip"),g=document.getElementById("d1a-bubs");
+ function col(v){var s=Math.max(-1,Math.min(1,v/2.2));
+   if(s>=0) return "rgb("+Math.round(47-8*s)+","+Math.round(59+134*s)+","+Math.round(69+58*s)+")";
+   return "rgb("+Math.round(47+177*-s)+","+Math.round(59+13*-s)+","+Math.round(69-8*-s)+")";}
+ function draw(){
+   g.innerHTML="";var ns="http://www.w3.org/2000/svg";
+   M.forEach(function(m){
+     var v=m[K],r=6+Math.sqrt(m.cap)*2.6;
+     var c=document.createElementNS(ns,"circle");
+     c.setAttribute("cx",m.x);c.setAttribute("cy",m.y);c.setAttribute("r",r);
+     c.setAttribute("fill",col(v));c.setAttribute("fill-opacity",".92");
+     c.setAttribute("stroke",v>=0?"#1ddc96":"#ff7a70");c.setAttribute("stroke-width","1");
+     c.setAttribute("class","bub");c.dataset.n=m.n;
+     c.addEventListener("mousemove",function(e){
+       var b=g.ownerSVGElement.parentNode.getBoundingClientRect();
+       tip.style.opacity=1;
+       tip.style.left=Math.min(b.width-210,e.clientX-b.left+14)+"px";
+       tip.style.top=(e.clientY-b.top-20)+"px";
+       tip.innerHTML='<div class="t1">'+m.n+'</div><div class="t2">'+m.i+'</div>'+
+        '<div class="big" style="color:'+(v>=0?"#1ddc96":"#ff7a70")+'">'+(v>=0?"+":"")+v.toFixed(2)+'%</div>'+
+        '<div class="row"><span>Level</span><b style="color:#e7ecf5">'+m.lv+'</b></div>'+
+        '<div class="row"><span>YTD</span><b style="color:'+(m.y>=0?"#1ddc96":"#ff7a70")+'">'+(m.y>=0?"+":"")+m.y.toFixed(1)+'%</b></div>'+
+        '<div class="row"><span>Weight of world cap</span><b style="color:#e7ecf5">'+m.cap+'%</b></div>';
+     });
+     c.addEventListener("mouseleave",function(){tip.style.opacity=0});
+     g.appendChild(c);
+     if(m.cap>=14){var t=document.createElementNS(ns,"text");t.setAttribute("x",m.x);t.setAttribute("y",m.y+r+12);
+       t.setAttribute("class","lbl");t.textContent=(v>=0?"+":"")+v.toFixed(1);g.appendChild(t);}
+   });
+   // regional land tint
+   var reg={na:0,latam:0,eu:0,emea:0,apac:0},cnt={na:0,latam:0,eu:0,emea:0,apac:0};
+   var map={"United States":"na","Canada":"na","Mexico":"na","Brazil":"latam","United Kingdom":"eu","Germany":"eu","France":"eu","Switzerland":"eu","Nordics":"eu","Saudi Arabia":"emea","South Africa":"emea","India":"apac","China":"apac","Japan":"apac","South Korea":"apac","Australia":"apac","Singapore":"apac"};
+   M.forEach(function(m){var r=map[m.n];reg[r]+=m[K];cnt[r]++;});
+   [].forEach.call(document.querySelectorAll("#d1a-land path"),function(p){
+     var r=p.dataset.r,v=reg[r]/cnt[r];p.setAttribute("fill",col(v*0.55));p.setAttribute("fill-opacity",".55");});
+   // ranked strip
+   var s=M.slice().sort(function(a,b){return b[K]-a[K]}),html="";
+   [[s[0],"Best market"],[s[1],"Runner-up"],[s[s.length-2],"Weak"],[s[s.length-1],"Worst market"]].forEach(function(p){
+     html+='<div><b>'+p[1]+'</b><div class="v '+(p[0][K]>=0?"pos":"neg")+'">'+(p[0][K]>=0?"+":"")+p[0][K].toFixed(2)+'%</div><em>'+p[0].n+' · '+p[0].i+'</em></div>';});
+   document.getElementById("d1a-rank").innerHTML=html;
+ }
+ document.getElementById("d1a-seg").addEventListener("click",function(e){
+   var b=e.target.closest("button");if(!b)return;
+   [].forEach.call(this.children,function(x){x.setAttribute("aria-pressed",x===b)});K=b.dataset.k;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 1.b ============================ -->
+<div class="design" id="d1b">
+  <div class="dlabel"><span class="id">1.b</span><span class="nm">Tile cartogram — every market equal size, click to drill</span><span class="tag">click tile · region filter</span></div>
+  <div class="dbody">
+<style>
+#d1b .root{background:#fbfbf9;padding:22px 26px;font-family:var(--sans)}
+#d1b .top{display:flex;align-items:flex-end;gap:16px;border-bottom:1px solid #e0ded6;padding-bottom:14px}
+#d1b .top h3{font:600 20px/1 var(--serif);letter-spacing:-.01em}
+#d1b .top p{font-size:12px;color:#8a8madd}
+#d1b .top p{font-size:12px;color:#8a8a80;margin-top:6px}
+#d1b .chips{margin-left:auto;display:flex;gap:6px}
+#d1b .chips button{border:1px solid #d9d7cd;background:#fff;border-radius:6px;padding:6px 10px;font:600 11px var(--mono);color:#6d6a5f}
+#d1b .chips button.on{background:#1b1a17;border-color:#1b1a17;color:#fff}
+#d1b .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:18px}
+#d1b .cell{aspect-ratio:1/.82;border-radius:7px;padding:8px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:1px solid rgba(0,0,0,.06);transition:transform .14s,box-shadow .14s,opacity .2s}
+#d1b .cell:hover{transform:translateY(-3px);box-shadow:0 10px 20px -8px rgba(0,0,0,.4);z-index:2}
+#d1b .cell.dim{opacity:.16}
+#d1b .cell.sel{outline:2.5px solid #1b1a17;outline-offset:1px}
+#d1b .cell .cc{font:700 13px/1 var(--mono);letter-spacing:.02em}
+#d1b .cell .pc{font:600 12px/1 var(--mono);text-align:right}
+#d1b .cell .nm{font-size:9px;opacity:.72;letter-spacing:.02em}
+#d1b .panel{margin-top:18px;border:1px solid #e0ded6;border-radius:10px;background:#fff;display:grid;grid-template-columns:230px 1fr;min-height:132px}
+#d1b .panel .l{padding:16px 18px;border-right:1px solid #eeece5}
+#d1b .panel .l .flag{font-size:26px}
+#d1b .panel .l h4{font:600 17px var(--serif);margin-top:6px}
+#d1b .panel .l .lv{font:600 26px/1.1 var(--mono);margin-top:10px}
+#d1b .panel .l .ch{font:600 13px var(--mono);margin-top:3px}
+#d1b .panel .r{padding:16px 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+#d1b .panel .r div b{display:block;font:600 10px var(--mono);color:#a3a094;letter-spacing:.1em;text-transform:uppercase}
+#d1b .panel .r div span{font:600 15px var(--mono)}
+#d1b .spark{grid-column:1/-1;height:46px}
+#d1b .scale{display:flex;gap:2px;align-items:center;margin-top:14px;font:500 10px var(--mono);color:#8a8a80}
+#d1b .scale i{width:26px;height:8px}
+</style>
+<div class="root">
+  <div class="top"><div><h3>World markets, one tile per country</h3><p>Equal-area cartogram · rows approximate latitude, columns approximate longitude</p></div>
+    <div class="chips" id="d1b-chips"><button class="on" data-r="all">All</button><button data-r="Americas">Americas</button><button data-r="EMEA">EMEA</button><button data-r="APAC">APAC</button></div></div>
+  <div class="grid" id="d1b-grid"></div>
+  <div class="scale"><span style="margin-right:6px">−3%</span><i style="background:#a02c2c"></i><i style="background:#d05f52"></i><i style="background:#e8a99d"></i><i style="background:#f1efe8"></i><i style="background:#a8d0bc"></i><i style="background:#4ba883"></i><i style="background:#1d7a55"></i><span style="margin-left:6px">+3%</span><span style="margin-left:auto">Click a tile to inspect · 1-day local-currency total return</span></div>
+  <div class="panel" id="d1b-panel"></div>
+</div>
+<script>(function(){
+ var D=[
+ {c:"CAN",n:"Canada",f:"🇨🇦",r:"Americas",col:3,row:1,v:0.28,lv:"22,410",i:"S&P/TSX",ytd:5.2,pe:16.4,vol:"C$7.1bn",sp:[4,6,5,8,7,9,11,10,12,13]},
+ {c:"USA",n:"United States",f:"🇺🇸",r:"Americas",col:3,row:2,v:0.62,lv:"5,612.40",i:"S&P 500",ytd:7.4,pe:22.8,vol:"$412bn",sp:[6,7,9,8,11,13,12,15,17,19]},
+ {c:"MEX",n:"Mexico",f:"🇲🇽",r:"Americas",col:3,row:3,v:-0.44,lv:"56,870",i:"S&P/BMV IPC",ytd:2.8,pe:12.1,vol:"$0.9bn",sp:[9,8,9,7,8,6,7,6,5,5]},
+ {c:"BRA",n:"Brazil",f:"🇧🇷",r:"Americas",col:4,row:4,v:1.34,lv:"131,920",i:"Ibovespa",ytd:9.1,pe:8.9,vol:"R$22bn",sp:[5,6,5,7,8,7,9,11,12,14]},
+ {c:"CHL",n:"Chile",f:"🇨🇱",r:"Americas",col:3,row:5,v:0.51,lv:"6,482",i:"IPSA",ytd:6.4,pe:10.2,vol:"$0.2bn",sp:[6,6,7,7,8,8,9,9,10,11]},
+ {c:"GBR",n:"United Kingdom",f:"🇬🇧",r:"EMEA",col:6,row:1,v:0.18,lv:"8,214.6",i:"FTSE 100",ytd:6.0,pe:12.6,vol:"£4.2bn",sp:[8,8,9,9,10,10,11,10,11,12]},
+ {c:"NOR",n:"Norway",f:"🇳🇴",r:"EMEA",col:7,row:1,v:0.96,lv:"1,486",i:"OBX",ytd:8.2,pe:11.0,vol:"kr6bn",sp:[5,6,7,6,8,9,9,11,12,13]},
+ {c:"SWE",n:"Sweden",f:"🇸🇪",r:"EMEA",col:8,row:1,v:0.62,lv:"2,614",i:"OMXS30",ytd:6.6,pe:17.2,vol:"kr12bn",sp:[7,7,8,9,9,10,11,11,12,12]},
+ {c:"FRA",n:"France",f:"🇫🇷",r:"EMEA",col:6,row:2,v:-0.21,lv:"8,036",i:"CAC 40",ytd:4.3,pe:14.8,vol:"€5.4bn",sp:[10,10,9,10,9,9,8,9,8,8]},
+ {c:"DEU",n:"Germany",f:"🇩🇪",r:"EMEA",col:7,row:2,v:-0.36,lv:"18,742",i:"DAX 40",ytd:8.8,pe:15.1,vol:"€6.8bn",sp:[11,12,11,12,11,11,10,11,10,10]},
+ {c:"POL",n:"Poland",f:"🇵🇱",r:"EMEA",col:8,row:2,v:1.12,lv:"2,842",i:"WIG20",ytd:14.6,pe:9.4,vol:"zł1.4bn",sp:[4,5,6,7,8,9,10,12,13,15]},
+ {c:"ESP",n:"Spain",f:"🇪🇸",r:"EMEA",col:6,row:3,v:0.34,lv:"11,204",i:"IBEX 35",ytd:10.2,pe:12.0,vol:"€1.9bn",sp:[7,8,8,9,10,10,11,12,12,13]},
+ {c:"ITA",n:"Italy",f:"🇮🇹",r:"EMEA",col:7,row:3,v:0.07,lv:"34,120",i:"FTSE MIB",ytd:11.4,pe:10.6,vol:"€2.6bn",sp:[8,9,9,10,10,11,11,12,12,12]},
+ {c:"TUR",n:"Türkiye",f:"🇹🇷",r:"EMEA",col:8,row:3,v:-2.24,lv:"9,684",i:"BIST 100",ytd:-6.1,pe:6.2,vol:"₺58bn",sp:[14,13,12,13,11,10,9,8,7,6]},
+ {c:"SAU",n:"Saudi Arabia",f:"🇸🇦",r:"EMEA",col:8,row:4,v:-1.12,lv:"11,864",i:"TASI",ytd:-1.2,pe:17.8,vol:"﷼4.1bn",sp:[12,11,11,10,10,9,9,8,8,7]},
+ {c:"ZAF",n:"South Africa",f:"🇿🇦",r:"EMEA",col:7,row:5,v:0.94,lv:"75,240",i:"JSE Top 40",ytd:11.3,pe:11.4,vol:"R14bn",sp:[6,6,7,8,8,9,10,11,12,13]},
+ {c:"IND",n:"India",f:"🇮🇳",r:"APAC",col:9,row:3,v:1.02,lv:"23,840",i:"NIFTY 50",ytd:12.6,pe:23.4,vol:"₹92,000cr",sp:[7,8,9,10,11,12,13,14,15,17]},
+ {c:"CHN",n:"China",f:"🇨🇳",r:"APAC",col:10,row:2,v:-1.86,lv:"3,486.2",i:"CSI 300",ytd:-4.7,pe:12.2,vol:"¥684bn",sp:[13,12,13,11,10,11,9,8,8,7]},
+ {c:"HKG",n:"Hong Kong",f:"🇭🇰",r:"APAC",col:10,row:3,v:-1.24,lv:"17,842",i:"Hang Seng",ytd:-2.4,pe:9.1,vol:"HK$92bn",sp:[11,11,10,10,9,9,8,9,8,8]},
+ {c:"KOR",n:"South Korea",f:"🇰🇷",r:"APAC",col:11,row:2,v:0.86,lv:"2,724",i:"KOSPI",ytd:3.9,pe:13.0,vol:"₩11tn",sp:[8,8,9,9,10,10,11,11,12,13]},
+ {c:"JPN",n:"Japan",f:"🇯🇵",r:"APAC",col:12,row:2,v:1.48,lv:"39,146",i:"Nikkei 225",ytd:14.2,pe:19.6,vol:"¥4.6tn",sp:[6,7,8,10,11,12,14,15,16,18]},
+ {c:"TWN",n:"Taiwan",f:"🇹🇼",r:"APAC",col:11,row:3,v:1.72,lv:"20,486",i:"TAIEX",ytd:18.4,pe:20.2,vol:"NT$412bn",sp:[5,7,8,9,11,12,14,16,17,19]},
+ {c:"SGP",n:"Singapore",f:"🇸🇬",r:"APAC",col:10,row:4,v:0.22,lv:"3,412",i:"STI",ytd:5.5,pe:11.8,vol:"S$1.2bn",sp:[8,8,9,9,9,10,10,11,11,11]},
+ {c:"IDN",n:"Indonesia",f:"🇮🇩",r:"APAC",col:10,row:5,v:-0.62,lv:"7,140",i:"IDX Comp",ytd:1.1,pe:13.4,vol:"Rp9tn",sp:[10,10,9,9,9,8,8,8,7,7]},
+ {c:"AUS",n:"Australia",f:"🇦🇺",r:"APAC",col:11,row:5,v:-0.08,lv:"7,842",i:"ASX 200",ytd:2.2,pe:16.8,vol:"A$5.8bn",sp:[9,9,10,9,10,10,9,10,10,10]},
+ {c:"NZL",n:"New Zealand",f:"🇳🇿",r:"APAC",col:12,row:5,v:0.41,lv:"11,920",i:"NZX 50",ytd:1.8,pe:24.1,vol:"NZ$0.2bn",sp:[9,9,9,10,10,10,11,11,11,12]}
+ ];
+ function col(v){var s=Math.max(-1,Math.min(1,v/3));
+  if(s>=0)return "rgb("+Math.round(241-212*s)+","+Math.round(239-117*s)+","+Math.round(232-147*s)+")";
+  s=-s;return "rgb("+Math.round(241-81*s)+","+Math.round(239-195*s)+","+Math.round(232-188*s)+")";}
+ function ink(v){return Math.abs(v)>1.6?"#fff":"#22211c"}
+ var grid=document.getElementById("d1b-grid"),sel=D[1];
+ D.forEach(function(d){
+   var e=document.createElement("div");e.className="cell";e.style.gridColumn=d.col;e.style.gridRow=d.row;
+   e.style.background=col(d.v);e.style.color=ink(d.v);e.dataset.c=d.c;
+   e.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="cc">'+d.c+'</span><span class="pc">'+(d.v>=0?"+":"")+d.v.toFixed(2)+'</span></div><span class="nm">'+d.i+'</span>';
+   e.addEventListener("click",function(){sel=d;render();});
+   grid.appendChild(e);
+ });
+ function spark(a){var w=100,h=40,mn=Math.min.apply(null,a),mx=Math.max.apply(null,a),p="";
+   a.forEach(function(v,i){p+=(i?"L":"M")+(i*(w/(a.length-1))).toFixed(1)+","+(h-(v-mn)/(mx-mn||1)*h).toFixed(1);});
+   return '<svg class="spark" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="'+p+'" fill="none" stroke="#1b1a17" stroke-width="1.4"/><path d="'+p+'L100,40L0,40Z" fill="#1b1a17" opacity=".07"/></svg>';}
+ function render(){
+   [].forEach.call(grid.children,function(e){e.classList.toggle("sel",e.dataset.c===sel.c)});
+   document.getElementById("d1b-panel").innerHTML=
+   '<div class="l"><div class="flag">'+sel.f+'</div><h4>'+sel.n+'</h4><div class="lv">'+sel.lv+'</div>'+
+   '<div class="ch '+(sel.v>=0?"pos":"neg")+'">'+(sel.v>=0?"▲ +":"▼ ")+sel.v.toFixed(2)+'% today · '+sel.i+'</div></div>'+
+   '<div class="r"><div><b>YTD</b><span class="'+(sel.ytd>=0?"pos":"neg")+'">'+(sel.ytd>=0?"+":"")+sel.ytd.toFixed(1)+'%</span></div>'+
+   '<div><b>Fwd P/E</b><span>'+sel.pe.toFixed(1)+'</span></div><div><b>Turnover</b><span>'+sel.vol+'</span></div>'+
+   '<div><b>Region</b><span>'+sel.r+'</span></div>'+spark(sel.sp)+'</div>';
+ }
+ document.getElementById("d1b-chips").addEventListener("click",function(e){
+   var b=e.target.closest("button");if(!b)return;
+   [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});
+   var r=b.dataset.r;
+   [].forEach.call(grid.children,function(el,i){el.classList.toggle("dim",r!=="all"&&D[i].r!==r)});});
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 1.c ============================ -->
+<div class="design" id="d1c">
+  <div class="dlabel"><span class="id">1.c</span><span class="nm">Follow-the-sun radial: markets arranged by longitude &amp; session</span><span class="tag">rotate scrub · session rings</span></div>
+  <div class="dbody">
+<style>
+#d1c .root{background:linear-gradient(160deg,#151223 0%,#0c0a14 55%,#100c1c 100%);color:#efeaff;padding:24px;font-family:var(--sans);display:grid;grid-template-columns:1.15fr .85fr;gap:24px}
+#d1c h3{font-size:16px;font-weight:600}
+#d1c .sub{font:500 10.5px var(--mono);color:#8b81b3;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+#d1c .dialwrap{position:relative;margin-top:8px}
+#d1c .spoke{stroke:#2b2542;stroke-width:1}
+#d1c .ring{fill:none;stroke:#241f38}
+#d1c .mk{cursor:pointer}
+#d1c .mk:hover circle{stroke:#fff;stroke-width:2}
+#d1c .mklb{font:600 9px var(--mono);fill:#b9afe0}
+#d1c .hub{font:600 34px var(--mono);fill:#fff;text-anchor:middle}
+#d1c .hubs{font:500 10px var(--mono);fill:#8b81b3;text-anchor:middle;letter-spacing:.12em}
+#d1c .ctl{display:flex;align-items:center;gap:10px;margin-top:6px}
+#d1c input[type=range]{flex:1;accent-color:#9d7bff}
+#d1c .ctl span{font:600 11px var(--mono);color:#b9afe0;min-width:74px}
+#d1c .side{display:flex;flex-direction:column;gap:10px}
+#d1c .card{background:rgba(255,255,255,.04);border:1px solid #2b2542;border-radius:11px;padding:13px 15px}
+#d1c .card h4{font:600 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#8b81b3}
+#d1c .lst{margin-top:9px;display:flex;flex-direction:column;gap:7px}
+#d1c .lst .row{display:grid;grid-template-columns:44px 1fr 56px;align-items:center;gap:9px;font-size:12px}
+#d1c .lst .bar{height:7px;border-radius:4px;background:#241f38;position:relative;overflow:hidden}
+#d1c .lst .bar i{position:absolute;top:0;bottom:0;left:50%;display:block}
+#d1c .lst .v{text-align:right;font:600 12px var(--mono)}
+#d1c .sess{display:flex;gap:4px;margin-top:10px}
+#d1c .sess div{flex:1;text-align:center;border-radius:6px;padding:7px 2px;font:600 9.5px var(--mono);letter-spacing:.06em}
+#d1c .open{background:rgba(157,123,255,.22);color:#c9b6ff;border:1px solid #4a3d7a}
+#d1c .closed{background:rgba(255,255,255,.03);color:#6b6390;border:1px solid #241f38}
+</style>
+<div class="root">
+  <div>
+    <h3>Follow the sun</h3><div class="sub">World equity clock · 24 Apr 2026 · scrub the session</div>
+    <div class="dialwrap">
+      <svg viewBox="0 0 470 470" style="width:100%;height:auto">
+        <circle class="ring" cx="235" cy="235" r="210"/><circle class="ring" cx="235" cy="235" r="160"/><circle class="ring" cx="235" cy="235" r="110"/>
+        <g id="d1c-spokes"></g>
+        <path id="d1c-arc" fill="rgba(157,123,255,.10)" stroke="#9d7bff" stroke-opacity=".5" stroke-width="1"/>
+        <g id="d1c-mks"></g>
+        <text class="hub" id="d1c-hub" x="235" y="230">+0.31%</text>
+        <text class="hubs" x="235" y="252">WORLD (ACWI) · CAP-WEIGHTED</text>
+        <text class="hubs" id="d1c-clock" x="235" y="272" style="fill:#c9b6ff">17:42 GMT</text>
+      </svg>
+    </div>
+    <div class="ctl"><span id="d1c-t">17:42 GMT</span><input id="d1c-r" type="range" min="0" max="23" value="17"/><span style="text-align:right">drag ⟶</span></div>
+  </div>
+  <div class="side">
+    <div class="card"><h4>Sessions right now</h4>
+      <div class="sess" id="d1c-sess"></div></div>
+    <div class="card"><h4>Regional contribution to world return</h4>
+      <div class="lst" id="d1c-contrib"></div></div>
+    <div class="card" id="d1c-detail"><h4>Selected market</h4>
+      <div style="margin-top:8px"><div style="font-size:17px;font-weight:600">Japan · Nikkei 225</div>
+      <div style="font:600 27px/1.2 var(--mono);color:#7bffb5;margin-top:6px">+1.48%</div>
+      <div style="font:500 11.5px var(--mono);color:#8b81b3">39,146.20 · closed 06:00 GMT · ¥4.6tn traded</div></div></div>
+  </div>
+</div>
+<script>(function(){
+ var M=[
+  {n:"Tokyo",i:"N225",lon:139,v:1.48,o:0,c:6,cap:8},{n:"Sydney",i:"ASX200",lon:151,v:-0.08,o:0,c:6,cap:3},
+  {n:"Seoul",i:"KOSPI",lon:127,v:0.86,o:0,c:6,cap:3},{n:"Shanghai",i:"CSI300",lon:121,v:-1.86,o:1,c:7,cap:7},
+  {n:"Hong Kong",i:"HSI",lon:114,v:-1.24,o:1,c:8,cap:3},{n:"Mumbai",i:"NIFTY",lon:72,v:1.02,o:3,c:10,cap:4},
+  {n:"Dubai",i:"DFM",lon:55,v:-0.34,o:6,c:11,cap:1},{n:"Jo'burg",i:"JSE40",lon:28,v:0.94,o:7,c:15,cap:1},
+  {n:"Frankfurt",i:"DAX",lon:8,v:-0.36,o:7,c:15,cap:4},{n:"Paris",i:"CAC",lon:2,v:-0.21,o:7,c:15,cap:4},
+  {n:"London",i:"FTSE",lon:0,v:0.18,o:7,c:16,cap:5},{n:"São Paulo",i:"IBOV",lon:-46,v:1.34,o:13,c:20,cap:2},
+  {n:"New York",i:"SPX",lon:-74,v:0.62,o:13,c:20,cap:44},{n:"Toronto",i:"TSX",lon:-79,v:0.28,o:13,c:20,cap:3},
+  {n:"Mexico City",i:"IPC",lon:-99,v:-0.44,o:14,c:21,cap:1}
+ ];
+ var ns="http://www.w3.org/2000/svg",cx=235,cy=235,hour=17;
+ function ang(lon){return (lon+180)/360*Math.PI*2-Math.PI/2;}
+ var sp=document.getElementById("d1c-spokes");
+ for(var i=0;i<24;i++){var a=i/24*Math.PI*2-Math.PI/2;var l=document.createElementNS(ns,"line");
+  l.setAttribute("x1",cx+Math.cos(a)*112);l.setAttribute("y1",cy+Math.sin(a)*112);
+  l.setAttribute("x2",cx+Math.cos(a)*212);l.setAttribute("y2",cy+Math.sin(a)*212);l.setAttribute("class","spoke");sp.appendChild(l);}
+ var g=document.getElementById("d1c-mks");
+ M.forEach(function(m){
+  var a=ang(m.lon),r=126+Math.abs(m.v)*26;
+  var grp=document.createElementNS(ns,"g");grp.setAttribute("class","mk");
+  var ln=document.createElementNS(ns,"line");
+  ln.setAttribute("x1",cx+Math.cos(a)*118);ln.setAttribute("y1",cy+Math.sin(a)*118);
+  ln.setAttribute("x2",cx+Math.cos(a)*r);ln.setAttribute("y2",cy+Math.sin(a)*r);
+  ln.setAttribute("stroke",m.v>=0?"#3ddc9a":"#ff6b7a");ln.setAttribute("stroke-width","2.5");ln.setAttribute("stroke-opacity",".55");
+  var c=document.createElementNS(ns,"circle");
+  c.setAttribute("cx",cx+Math.cos(a)*r);c.setAttribute("cy",cy+Math.sin(a)*r);
+  c.setAttribute("r",4+Math.sqrt(m.cap)*2);c.setAttribute("fill",m.v>=0?"#3ddc9a":"#ff6b7a");c.setAttribute("fill-opacity",".85");
+  var t=document.createElementNS(ns,"text");
+  var tr=r+16+Math.sqrt(m.cap)*2;t.setAttribute("x",cx+Math.cos(a)*tr);t.setAttribute("y",cy+Math.sin(a)*tr+3);
+  t.setAttribute("class","mklb");t.setAttribute("text-anchor",Math.cos(a)<-0.2?"end":(Math.cos(a)>0.2?"start":"middle"));
+  t.textContent=m.i+" "+(m.v>=0?"+":"")+m.v.toFixed(2);
+  grp.appendChild(ln);grp.appendChild(c);grp.appendChild(t);
+  grp.addEventListener("click",function(){
+    document.getElementById("d1c-detail").innerHTML='<h4>Selected market</h4><div style="margin-top:8px">'+
+    '<div style="font-size:17px;font-weight:600">'+m.n+' · '+m.i+'</div>'+
+    '<div style="font:600 27px/1.2 var(--mono);color:'+(m.v>=0?"#7bffb5":"#ff9aa5")+';margin-top:6px">'+(m.v>=0?"+":"")+m.v.toFixed(2)+'%</div>'+
+    '<div style="font:500 11.5px var(--mono);color:#8b81b3">longitude '+m.lon+'° · session '+String(m.o).padStart(2,"0")+':00–'+String(m.c).padStart(2,"0")+':00 GMT · '+m.cap+'% of world cap</div></div>';});
+  g.appendChild(grp);
+ });
+ function upd(){
+  document.getElementById("d1c-t").textContent=String(hour).padStart(2,"0")+":42 GMT";
+  document.getElementById("d1c-clock").textContent=String(hour).padStart(2,"0")+":42 GMT";
+  var a0=hour/24*Math.PI*2-Math.PI/2,a1=a0+0.26,R=214,r=108;
+  document.getElementById("d1c-arc").setAttribute("d",
+   "M"+(cx+Math.cos(a0)*r)+","+(cy+Math.sin(a0)*r)+"L"+(cx+Math.cos(a0)*R)+","+(cy+Math.sin(a0)*R)+
+   "A"+R+","+R+" 0 0 1 "+(cx+Math.cos(a1)*R)+","+(cy+Math.sin(a1)*R)+
+   "L"+(cx+Math.cos(a1)*r)+","+(cy+Math.sin(a1)*r)+"A"+r+","+r+" 0 0 0 "+(cx+Math.cos(a0)*r)+","+(cy+Math.sin(a0)*r)+"Z");
+  var s="";M.slice(0,8).forEach(function(m){var open=hour>=m.o&&hour<m.c;
+   s+='<div class="'+(open?"open":"closed")+'">'+m.i+'<br>'+(open?"OPEN":"CLOSED")+'</div>';});
+  document.getElementById("d1c-sess").innerHTML=s;
+  var reg=[["Asia-Pacific",0.12,"#9d7bff"],["Europe / EMEA",-0.04,"#5fd0ff"],["Americas",0.23,"#3ddc9a"]],h="";
+  reg.forEach(function(r){var w=Math.min(48,Math.abs(r[1])*160);
+   h+='<div class="row"><span style="font:600 10px var(--mono);color:#8b81b3">'+r[0].slice(0,4).toUpperCase()+'</span>'+
+   '<div class="bar"><i style="background:'+r[2]+';'+(r[1]>=0?"left:50%;width:"+w+"%":"right:50%;width:"+w+"%")+'"></i></div>'+
+   '<span class="v" style="color:'+(r[1]>=0?"#7bffb5":"#ff9aa5")+'">'+(r[1]>=0?"+":"")+r[1].toFixed(2)+'pp</span></div>';});
+  document.getElementById("d1c-contrib").innerHTML=h;
+ }
+ document.getElementById("d1c-r").addEventListener("input",function(){hour=+this.value;upd();});
+ upd();
+})();</script>
+  </div>
+</div>
+</section>

@@ -1,0 +1,31 @@
+    </div>
+  </div>
+  <footer>
+    <span>Meridian · component design catalogue · edition one · 120 plates</span>
+    <span>6 huge · 9 big · 12 medium · 8 small · 5 tiny · 40 components × 3 directions</span>
+    <span>Sample data is indicative · 10 February 2026</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var IDX=[
+    ['HUGE',[[1,'World markets map','huge'],[2,'Sector heatmap','huge'],[3,'Yield curve','huge'],[4,'Cross-asset correlation','huge'],[7,'Sector rotation over time','huge'],[10,'Economic calendar','huge']]],
+    ['BIG',[[19,'Index performance comparison','big'],[22,'Market cap leaders','big'],[24,'52-week highs and lows','big'],[26,'Earnings calendar','big'],[30,'Analyst rating changes','big'],[33,'ETF fund flows','big'],[35,'Options skew','big'],[37,'Treasury auction results','big'],[48,'Historical analogues','big']]],
+    ['MEDIUM',[[51,'Index snapshot','med'],[53,'Currency pair snapshot','med'],[56,'Advance/decline line','med'],[59,'VIX level and history','med'],[62,'Credit spread by rating','med'],[64,'PMI by country','med'],[70,'Commodity price history','med'],[71,'Gold vs real yields','med'],[73,'Shipping and freight rates','med'],[76,'Foreign exchange reserves','med'],[84,'Shiller CAPE by market','med'],[90,'Thematic basket performance','med']]],
+    ['SMALL',[[91,'Market Pulse','sml'],[92,'Index ticker strip','sml'],[96,"Today's biggest mover",'sml'],[98,'Fear and greed dial','sml'],[100,'Sector performance bar','sml'],[106,'Next economic release','sml'],[109,'52-week range marker','sml'],[117,'Global market status strip','sml']]],
+    ['TINY',[[123,'Mini trend line','tny'],[124,'Percent change badge','tny'],[128,'52-week high/low flag','tny'],[131,'Rate-decision countdown','tny'],[134,'Data freshness note','tny']]]
+  ];
+  var out='',total=0;
+  IDX.forEach(function(g){
+    out+='<div class="cls">'+g[0]+' · '+g[1].length+' components</div><ol>';
+    g[1].forEach(function(c){total+=3;
+      out+='<li><a href="#p'+c[0]+'a"><i>'+c[0]+'</i><span>'+c[1]+' <em style="font-style:normal;color:#8C877A">['+
+        '<a href="#p'+c[0]+'a">a</a> <a href="#p'+c[0]+'b">b</a> <a href="#p'+c[0]+'c">c</a>]</em></span></a></li>';});
+    out+='</ol>';});
+  out+='<div class="cls">Total · 120 plates</div>';
+  document.getElementById('rail-list').innerHTML=out;
+})();
+</script>
+</body>
+</html>

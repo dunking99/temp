@@ -1,0 +1,283 @@
+<article class="plate" id="p3a">
+  <div class="plate-h"><div class="lbl">3.a</div><h3>Maturity Ladder<small>Yield curve — one curve at a time, scrubbed through thirteen quarters</small></h3><div class="spec">Huge · line<br>Drag the quarter rail</div></div>
+  <div class="stage st cream" data-scope>
+    <div class="b mb2">
+      <div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">US TREASURY CURVE</b><span class="badge" id="q3lab">26 Q1 · 10 Feb 2026</span><span class="badge">constant maturity</span></div>
+      <div class="r g1"><span class="pill on">Nominal</span><span class="pill">Real</span><span class="pill">Break-even</span></div>
+    </div>
+    <div class="r g3">
+      <div class="grow">
+        <div class="cv" id="q3chart" data-k="line" data-s="800x330" data-d="US curve:3.42,3.38,3.34,3.48,3.55,3.61,3.80,4.02,4.55,4.71" data-o='{"y":1,"xl":["3M","6M","1Y","2Y","3Y","5Y","7Y","10Y","20Y","30Y"],"x":1,"dots":1,"fill":1,"sw":2.2,"dp":2,"color":"#8E2C22"}'></div>
+        <div class="mt2">
+          <input id="q3rail" type="range" min="0" max="12" value="12" step="1" style="width:100%;accent-color:#8E2C22">
+          <div class="b t2"><span>23 Q1</span><span>23 Q3</span><span>24 Q1</span><span>24 Q3</span><span>25 Q1</span><span>25 Q3</span><span>26 Q1</span></div>
+        </div>
+        <div class="r g1 mt2 wrap"><span class="pill" data-q3="0">Mar 2023 · bank stress</span><span class="pill" data-q3="4">Mar 2024 · peak inversion</span><span class="pill" data-q3="8">Mar 2025 · re-steepening</span><span class="pill on" data-q3="12">Today</span></div>
+      </div>
+      <div style="width:280px">
+        <div class="card f mb2">
+          <div class="t mb1">Curve slopes</div>
+          <div class="kv"><span>2s10s</span><span class="up">+54 bp</span></div>
+          <div class="bar"><i style="width:64%;background:var(--up)"></i></div>
+          <div class="kv mt1"><span>5s30s</span><span class="up">+110 bp</span></div>
+          <div class="bar"><i style="width:78%;background:var(--up)"></i></div>
+          <div class="kv mt1"><span>3M10Y</span><span class="up">+60 bp</span></div>
+          <div class="bar"><i style="width:58%;background:var(--up)"></i></div>
+          <div class="kv mt1"><span>1s2s</span><span class="dn">+14 bp</span></div>
+          <div class="bar"><i style="width:22%;background:var(--dn)"></i></div>
+        </div>
+        <div class="card">
+          <div class="t mb1">Tenor table</div>
+          <table class="tbl">
+            <tbody id="q3tab">
+              <tr><td>3M</td><td class="r">3.42</td><td class="r dn">−2</td></tr>
+              <tr><td>6M</td><td class="r">3.38</td><td class="r dn">−2</td></tr>
+              <tr><td>1Y</td><td class="r">3.34</td><td class="r dn">−1</td></tr>
+              <tr><td>2Y</td><td class="r">3.48</td><td class="r up">+1</td></tr>
+              <tr><td>5Y</td><td class="r">3.61</td><td class="r up">+2</td></tr>
+              <tr><td>10Y</td><td class="r">4.02</td><td class="r up">+3</td></tr>
+              <tr><td>30Y</td><td class="r">4.71</td><td class="r up">+4</td></tr>
+            </tbody>
+          </table>
+          <div class="t2 mt1">Daily change in bp · 14:32 ET</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption"><span><b>Form</b> single curve + quarter scrubber</span><span><b>Interaction</b> drag rail → curve morphs across 13 quarters</span><span><b>Surface</b> chart stock</span></div>
+</article>
+
+<article class="plate" id="p3b">
+  <div class="plate-h"><div class="lbl">3.b</div><h3>Curve of Curves<small>Yield curve as a fan of history, with the inversion record underneath</small></h3><div class="spec">Huge · spaghetti + area<br>Hover any vintage</div></div>
+  <div class="stage st slate">
+    <div class="b mb2"><div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">TREASURY CURVE · VINTAGES</b><span class="badge">eight curves · 2019 → today</span></div>
+      <div class="r g1"><span class="pill on">All</span><span class="pill">Post-2022</span><span class="pill">Today only</span></div></div>
+    <div class="cv" data-k="line" data-s="1180x280" data-d="Mar 2019:2.42,2.44,2.45,2.50,2.52,2.53,2.60,2.72,2.95,3.02|Mar 2020:0.95,0.88,0.72,0.42,0.44,0.58,0.82,0.98,1.55,1.72|Mar 2021:0.02,0.05,0.08,0.14,0.32,0.85,1.28,1.62,2.18,2.32|Mar 2022:0.52,0.78,1.25,1.74,2.02,2.28,2.42,2.34,2.58,2.52|Mar 2023:4.70,5.05,4.95,4.35,4.05,3.85,3.80,3.80,4.15,4.05|Mar 2024:5.40,5.30,5.05,4.60,4.45,4.35,4.35,4.30,4.55,4.40|Mar 2025:4.35,4.25,3.95,3.45,3.45,3.60,3.85,4.00,4.45,4.60|Today:3.42,3.38,3.34,3.48,3.55,3.61,3.80,4.02,4.55,4.71" data-o='{"y":1,"x":1,"xl":["3M","6M","1Y","2Y","3Y","5Y","7Y","10Y","20Y","30Y"],"dots":0,"sw":1.7,"dp":2}'></div>
+    <div class="r g4 mt3">
+      <div class="grow">
+        <div class="t mb1">2s10s spread — months of inversion shaded</div>
+        <div class="cv" data-k="line" data-s="740x150" data-d="2s10s:0.22,0.18,0.10,-0.05,-0.20,-0.45,-0.78,-1.05,-1.08,-0.92,-0.74,-0.58,-0.41,-0.30,-0.18,-0.06,0.08,0.14,0.22,0.30,0.38,0.46,0.54" data-o='{"y":1,"fill":1,"dots":0,"sw":2,"dp":1,"color":"#7FB2E5","zero0":1,"xl":["2019","2020","2021","2022","2023","2024","2025","2026"],"x":0}'></div>
+        <div class="b t2"><span>Longest inversion since 1978: 26 months (Jul 2022 → Oct 2024)</span><span>Now +54 bp</span></div>
+      </div>
+      <div style="width:320px">
+        <div class="t mb1">Vintage readout</div>
+        <div class="kv"><span>2020-03 · pandemic low</span><span>2s10s +56 bp</span></div>
+        <div class="kv"><span>2023-03 · bank stress</span><span class="dn">2s10s −108 bp</span></div>
+        <div class="kv"><span>2024-03 · peak inversion</span><span class="dn">2s10s −92 bp</span></div>
+        <div class="kv"><span>2025-03 · bull steepening</span><span class="up">2s10s +55 bp</span></div>
+        <div class="kv"><span>Today</span><span class="up">2s10s +54 bp</span></div>
+        <div class="hair2 mt2 t2">Front end has come in 120 bp from the 2023 peak while 30s have held above 4.50% — the classic re-steepening profile that has led every easing cycle since 1990.</div>
+      </div>
+    </div>
+  </div>
+  <div class="caption"><span><b>Form</b> eight-curve fan + spread record</span><span><b>Interaction</b> hover vintage → tooltip with every tenor</span><span><b>Tone</b> night desk</span></div>
+</article>
+
+<article class="plate" id="p3c">
+  <div class="plate-h"><div class="lbl">3.c</div><h3>Yield Surface<small>Yield curve as a maturity × quarter surface — hover to pull the curve out of it</small></h3><div class="spec">Huge · heat surface<br>Hover cell → curve redraws</div></div>
+  <div class="stage st ink">
+    <div class="b mb2"><div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">TERM STRUCTURE SURFACE</b><span class="badge">13 quarters · 10 tenors</span><span class="badge up">2s10s +54 bp</span></div>
+      <div class="r g1"><span class="pill on">Yield level</span><span class="pill">Δ vs today</span></div></div>
+    <div class="r g3">
+      <div class="grow" id="ysurf"></div>
+      <div style="width:340px">
+        <div class="t mb1" id="yslab">26 Q1 · current curve</div>
+        <div class="cv" id="ycurve" data-k="line" data-s="330x180" data-d="3.42,3.38,3.34,3.48,3.55,3.61,3.80,4.02,4.55,4.71" data-o='{"y":1,"fill":1,"sw":2,"dp":2,"dots":1,"xl":["3M","1Y","2Y","5Y","10Y","30Y"],"x":0,"color":"#7DFF9E"}'></div>
+        <div class="card mt2">
+          <div class="kv"><span>Front end (1Y)</span><span id="yfe">3.34%</span></div>
+          <div class="kv"><span>Belly (5Y)</span><span id="ybe">3.61%</span></div>
+          <div class="kv"><span>Long end (30Y)</span><span id="yle">4.71%</span></div>
+          <div class="kv"><span>2s10s</span><span id="ysp" class="up">+54 bp</span></div>
+          <div class="kv"><span>Shape</span><span id="ysh">upward sloping</span></div>
+        </div>
+        <div class="t2 mt2">Colour = yield level (2.5% pale → 5.6% bright). Row label = maturity, column = quarter end. Hover any cell to extract the curve at that date.</div>
+      </div>
+    </div>
+    <div class="b mt2 t2"><span>Deep blue band across 2023–24 = the inversion ridge, where bills yielded more than bonds</span><span>Source: Meridian · constant maturity</span></div>
+  </div>
+  <div class="caption"><span><b>Form</b> 10 × 13 heat surface</span><span><b>Interaction</b> hover a cell → curve, slopes and shape re-read</span><span><b>Tone</b> phosphor terminal</span></div>
+</article>
+
+<article class="plate" id="p4a">
+  <div class="plate-h"><div class="lbl">4.a</div><h3>Correlation Lattice<small>Cross-asset correlation — every pair at once, three lookbacks</small></h3><div class="spec">Huge · matrix<br>Hover cell · window switch</div></div>
+  <div class="stage st cream" data-tabs="c4">
+    <div class="b mb2"><div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">60-DAY ROLLING CORRELATION</b><span class="badge">8 assets · 28 pairs</span></div>
+      <div class="r g1"><button class="pill" data-t="s">20D</button><button class="pill on" data-t="m">60D</button><button class="pill" data-t="y">1Y</button></div></div>
+    <div class="r g3">
+      <div class="grow" data-w="c4">
+        <div class="pane" data-p="s"><div class="cv" data-k="matrix" data-s="620x400" data-d="1,.91,-.44,.02,-.36,.28,.51,.66|.91,1,-.52,-.08,-.31,.19,.58,.61|-.44,-.52,1,.41,.06,-.28,-.24,-.33|.02,-.08,.41,1,-.61,.24,.36,.10|-.36,-.31,.06,-.61,1,-.30,-.42,-.22|.28,.19,-.28,.24,-.30,1,.31,.44|.51,.58,-.24,.36,-.42,.31,1,.55|.66,.61,-.33,.10,-.22,.44,.55,1" data-o='{"labels":["SPX","NDX","UST10Y","GOLD","DXY","WTI","BTC","HYG"],"lw":78}'></div></div>
+        <div class="pane on" data-p="m"><div class="cv" data-k="matrix" data-s="620x400" data-d="1,.94,-.32,.12,-.28,.22,.58,.74|.94,1,-.38,.06,-.24,.14,.63,.68|-.32,-.38,1,.34,.12,-.16,-.19,-.28|.12,.06,.34,1,-.52,.18,.31,.16|-.28,-.24,.12,-.52,1,-.22,-.30,-.19|.22,.14,-.16,.18,-.22,1,.24,.38|.58,.63,-.19,.31,-.30,.24,1,.49|.74,.68,-.28,.16,-.19,.38,.49,1" data-o='{"labels":["SPX","NDX","UST10Y","GOLD","DXY","WTI","BTC","HYG"],"lw":78}'></div></div>
+        <div class="pane" data-p="y"><div class="cv" data-k="matrix" data-s="620x400" data-d="1,.90,-.18,.24,-.12,.30,.62,.79|.90,1,-.24,.16,-.08,.20,.68,.72|-.18,-.24,1,.20,.04,-.10,-.12,-.20|.24,.16,.20,1,-.48,.26,.38,.22|-.12,-.08,.04,-.48,1,-.18,-.24,-.14|.30,.20,-.10,.26,-.18,1,.34,.44|.62,.68,-.12,.38,-.24,.34,1,.57|.79,.72,-.20,.22,-.14,.44,.57,1" data-o='{"labels":["SPX","NDX","UST10Y","GOLD","DXY","WTI","BTC","HYG"],"lw":78}'></div></div>
+      </div>
+      <div style="width:330px">
+        <div class="card f mb2">
+          <div class="t mb1">What changed</div>
+          <div class="kv"><span>SPX / UST 10Y</span><span class="dn">−0.32 · was +0.24 (1Y)</span></div>
+          <div class="kv"><span>Gold / DXY</span><span class="dn">−0.52 · strongest inverse</span></div>
+          <div class="kv"><span>BTC / NDX</span><span class="up">+0.63 · high-beta tech proxy</span></div>
+          <div class="kv"><span>HYG / SPX</span><span class="up">+0.74 · credit confirms equities</span></div>
+          <div class="kv"><span>Median pair</span><span>+0.18</span></div>
+        </div>
+        <div class="card">
+          <div class="t mb1">Read</div>
+          <p class="t2" style="line-height:1.8">Rates are no longer the diversifier they were in 2021: with the curve un-inverted and the front end anchored, duration has re-coupled to credit but de-coupled from equity beta. Gold is doing the defensive work instead — its −0.52 to the dollar is the cleanest hedge on the board.</p>
+          <div class="r g1 mt2 wrap"><span class="badge up">+0.5 to +1.0 · 6 pairs</span><span class="badge">−0.5 to +0.5 · 18</span><span class="badge dn">below −0.5 · 4</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption"><span><b>Form</b> 8 × 8 lattice</span><span><b>Interaction</b> window tabs swap the whole lattice</span><span><b>Surface</b> chart stock</span></div>
+</article>
+
+<article class="plate" id="p4b">
+  <div class="plate-h"><div class="lbl">4.b</div><h3>Rolling Pairs<small>Cross-asset correlation as a time series — pick a pair, watch the regime turn</small></h3><div class="spec">Huge · area + bands<br>Pair chips rewrite the chart</div></div>
+  <div class="stage st night">
+    <div class="b mb2"><div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">ROLLING 60-DAY CORRELATION</b><span class="badge">2019 → 2026</span></div>
+      <div class="r g1" data-revg><button class="pill on" data-rev="#c4b" data-dv="SPX / UST 10Y:0.32,0.28,0.10,-0.42,-0.86,-1.02,-0.74,-0.38,-0.12,0.18,0.42,0.36,0.22,0.04,-0.18,-0.36,-0.28,-0.14,0.06,-0.10,-0.22,-0.32,-0.32">SPX ⁄ UST 10Y</button><button class="pill" data-rev="#c4b" data-dv="Gold / DXY:-0.22,-0.30,-0.48,-0.52,-0.40,-0.28,-0.36,-0.55,-0.62,-0.48,-0.35,-0.42,-0.58,-0.66,-0.52,-0.40,-0.38,-0.44,-0.50,-0.56,-0.48,-0.54,-0.52">Gold ⁄ DXY</button><button class="pill" data-rev="#c4b" data-dv="BTC / NDX:0.10,0.24,0.35,0.52,0.68,0.72,0.60,0.55,0.48,0.62,0.70,0.66,0.58,0.50,0.44,0.52,0.60,0.58,0.54,0.60,0.66,0.62,0.63">BTC ⁄ NDX</button><button class="pill" data-rev="#c4b" data-dv="HYG / SPX:0.72,0.78,0.84,0.88,0.80,0.70,0.62,0.68,0.76,0.82,0.86,0.80,0.74,0.70,0.66,0.72,0.78,0.80,0.76,0.72,0.70,0.74,0.74">HYG ⁄ SPX</button><button class="pill" data-rev="#c4b" data-dv="WTI / DXY:-0.10,-0.18,-0.30,-0.24,-0.12,-0.36,-0.48,-0.40,-0.28,-0.16,-0.22,-0.34,-0.42,-0.30,-0.18,-0.10,-0.24,-0.32,-0.28,-0.20,-0.26,-0.24,-0.22">WTI ⁄ DXY</button></div></div>
+    <div class="cv" id="c4b" data-k="line" data-s="1180x300" data-d="SPX / UST 10Y:0.32,0.28,0.10,-0.42,-0.86,-1.02,-0.74,-0.38,-0.12,0.18,0.42,0.36,0.22,0.04,-0.18,-0.36,-0.28,-0.14,0.06,-0.10,-0.22,-0.32,-0.32" data-o='{"y":1,"fill":1,"sw":2.2,"dp":2,"dots":0,"zero0":1,"xl":["2019","2020","2021","2022","2023","2024","2025","2026"],"x":0,"color":"#B7A4F5"}'></div>
+    <div class="r g3 mt3">
+      <div class="grow">
+        <div class="t mb1">Regime bands</div>
+        <div class="r g2 wrap">
+          <div class="card grow"><div class="t">Mar 2020 · shock</div><div class="big mt1" style="font-size:22px">−1.02</div><div class="t2">everything liquidated together — correlation collapsed to one factor</div></div>
+          <div class="card grow"><div class="t">2022 · inflation shock</div><div class="big mt1" style="font-size:22px">−0.86</div><div class="t2">stocks and bonds fell in lockstep at the front end; the hedge failed</div></div>
+          <div class="card grow"><div class="t">2025–26 · normalising</div><div class="big mt1" style="font-size:22px">−0.32</div><div class="t2">duration is a partial hedge again, gold carries the rest</div></div>
+        </div>
+      </div>
+      <div style="width:300px">
+        <div class="card f">
+          <div class="t mb1">Pair stats · SPX ⁄ UST 10Y</div>
+          <div class="kv"><span>Current</span><span>−0.32</span></div>
+          <div class="kv"><span>1Y median</span><span>−0.18</span></div>
+          <div class="kv"><span>1Y range</span><span>−0.36 → +0.06</span></div>
+          <div class="kv"><span>Percentile (5y)</span><span>31st</span></div>
+          <div class="kv"><span>Stress beta</span><span>−0.71</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption"><span><b>Form</b> rolling correlation area with zero rule</span><span><b>Interaction</b> five pair chips rewrite the series</span><span><b>Tone</b> violet night</span></div>
+</article>
+
+<article class="plate" id="p4c">
+  <div class="plate-h"><div class="lbl">4.c</div><h3>Correlation Web<small>Cross-asset correlation as a constellation — link weight is the relationship</small></h3><div class="spec">Huge · network<br>Hover node → isolate its links</div></div>
+  <div class="stage st sand">
+    <div class="b mb2"><div class="c g2"><b class="n" style="font-size:12px;letter-spacing:.18em">ASSET CONSTELLATION</b><span class="badge">node size = 60-day realised vol</span><span class="badge">link = |corr| ≥ 0.30</span></div>
+      <div class="r g1"><span class="pill on">60D</span><span class="pill">20D</span><span class="pill">1Y</span></div></div>
+    <div class="r g4">
+      <svg id="cweb" viewBox="0 0 760 430" style="width:760px;max-width:100%">
+        <g stroke-width="0" fill="none">
+          <line class="wg" data-a="SPX" data-b="NDX" x1="330" y1="180" x2="470" y2="140" stroke="#2C7A58" stroke-width="9" opacity=".62"/>
+          <line class="wg" data-a="SPX" data-b="HYG" x1="330" y1="180" x2="250" y2="330" stroke="#2C7A58" stroke-width="8" opacity=".58"/>
+          <line class="wg" data-a="NDX" data-b="BTC" x1="470" y1="140" x2="620" y2="220" stroke="#2C7A58" stroke-width="7" opacity=".55"/>
+          <line class="wg" data-a="SPX" data-b="BTC" x1="330" y1="180" x2="620" y2="220" stroke="#2C7A58" stroke-width="6" opacity=".45"/>
+          <line class="wg" data-a="SPX" data-b="COPP" x1="330" y1="180" x2="430" y2="380" stroke="#2C7A58" stroke-width="5" opacity=".45"/>
+          <line class="wg" data-a="HYG" data-b="NDX" x1="250" y1="330" x2="470" y2="140" stroke="#2C7A58" stroke-width="6" opacity=".42"/>
+          <line class="wg" data-a="WTI" data-b="COPP" x1="600" y1="360" x2="430" y2="380" stroke="#2C7A58" stroke-width="6" opacity=".5"/>
+          <line class="wg" data-a="GOLD" data-b="UST" x1="150" y1="140" x2="150" y2="290" stroke="#2C7A58" stroke-width="4" opacity=".4"/>
+          <line class="wg" data-a="BTC" data-b="GOLD" x1="620" y1="220" x2="150" y2="140" stroke="#2C7A58" stroke-width="4" opacity=".35"/>
+          <line class="wg" data-a="GOLD" data-b="DXY" x1="150" y1="140" x2="330" y2="70" stroke="#B2452C" stroke-width="6" opacity=".55"/>
+          <line class="wg" data-a="SPX" data-b="UST" x1="330" y1="180" x2="150" y2="290" stroke="#B2452C" stroke-width="4" opacity=".45"/>
+          <line class="wg" data-a="DXY" data-b="NDX" x1="330" y1="70" x2="470" y2="140" stroke="#B2452C" stroke-width="3.5" opacity=".4"/>
+          <line class="wg" data-a="DXY" data-b="WTI" x1="330" y1="70" x2="600" y2="360" stroke="#B2452C" stroke-width="3.5" opacity=".38"/>
+          <line class="wg" data-a="DXY" data-b="BTC" x1="330" y1="70" x2="620" y2="220" stroke="#B2452C" stroke-width="4" opacity=".4"/>
+          <line class="wg" data-a="DXY" data-b="COPP" x1="330" y1="70" x2="430" y2="380" stroke="#B2452C" stroke-width="4.5" opacity=".42"/>
+          <line class="wg" data-a="UST" data-b="NDX" x1="150" y1="290" x2="470" y2="140" stroke="#B2452C" stroke-width="4" opacity=".42"/>
+          <line class="wg" data-a="WTI" data-b="SPX" x1="600" y1="360" x2="330" y2="180" stroke="#2C7A58" stroke-width="3.5" opacity=".38"/>
+          <line class="wg" data-a="GOLD" data-b="SPX" x1="150" y1="140" x2="330" y2="180" stroke="#2C7A58" stroke-width="3" opacity=".35"/>
+        </g>
+        <g class="wn" font-family="IBM Plex Mono, monospace" text-anchor="middle">
+          <g data-n="SPX"><circle cx="330" cy="180" r="34" fill="#7A5C2E" opacity=".9"/><text x="330" y="185" font-size="13" fill="#F7F0E2">SPX</text></g>
+          <g data-n="NDX"><circle cx="470" cy="140" r="30" fill="#7A5C2E" opacity=".9"/><text x="470" y="145" font-size="12" fill="#F7F0E2">NDX</text></g>
+          <g data-n="BTC"><circle cx="620" cy="220" r="40" fill="#B2452C" opacity=".9"/><text x="620" y="225" font-size="12" fill="#F7F0E2">BTC</text></g>
+          <g data-n="HYG"><circle cx="250" cy="330" r="22" fill="#3B7A4E" opacity=".9"/><text x="250" y="334" font-size="11" fill="#F7F0E2">HYG</text></g>
+          <g data-n="GOLD"><circle cx="150" cy="140" r="26" fill="#3B7A4E" opacity=".9"/><text x="150" y="145" font-size="11" fill="#F7F0E2">GOLD</text></g>
+          <g data-n="DXY"><circle cx="330" cy="70" r="19" fill="#3B7A4E" opacity=".9"/><text x="330" y="74" font-size="11" fill="#F7F0E2">DXY</text></g>
+          <g data-n="UST"><circle cx="150" cy="290" r="16" fill="#3B7A4E" opacity=".9"/><text x="150" y="294" font-size="11" fill="#F7F0E2">UST</text></g>
+          <g data-n="COPP"><circle cx="430" cy="380" r="18" fill="#7A5C2E" opacity=".9"/><text x="430" y="384" font-size="11" fill="#F7F0E2">COPP</text></g>
+          <g data-n="WTI"><circle cx="600" cy="360" r="27" fill="#7A5C2E" opacity=".9"/><text x="600" y="364" font-size="11" fill="#F7F0E2">WTI</text></g>
+        </g>
+      </svg>
+      <div class="grow">
+        <div class="card f mb2"><div class="t mb1">Hovered node</div><div class="ser" style="font-size:24px" id="cwebn">—</div><div class="t2 mt1" id="cwebd">Hover any node to isolate its links. Green links move together, red links move apart; thickness is the strength of the relationship.</div></div>
+        <div class="t mb1">Link key</div>
+        <div class="kv"><span>Thick green</span><span class="up">corr ≥ +0.60</span></div>
+        <div class="kv"><span>Thin green</span><span class="up">+0.30 → +0.60</span></div>
+        <div class="kv"><span>Red</span><span class="dn">below −0.25</span></div>
+        <div class="kv"><span>No link</span><span>|corr| &lt; 0.30</span></div>
+        <div class="hair2 mt2 t2">Equity beta (SPX, NDX, HYG, BTC) forms one dense cluster. Gold and Treasuries sit outside it — the only two assets still offering a genuine second opinion on the market.</div>
+      </div>
+    </div>
+  </div>
+  <div class="caption"><span><b>Form</b> force-free constellation</span><span><b>Interaction</b> hover node → links isolate, panel re-reads</span><span><b>Surface</b> warm sand</span></div>
+</article>
+
+<script>
+(function(){
+  /* 3.a — quarter scrubber */
+  var QS=["4.70,5.05,4.95,4.35,4.05,3.85,3.80,3.80,4.15,4.05","5.30,5.45,5.35,4.90,4.55,4.25,4.15,4.05,4.35,4.20","5.50,5.55,5.40,5.00,4.75,4.55,4.50,4.40,4.65,4.45","5.45,5.35,5.05,4.35,4.15,4.05,4.10,4.10,4.45,4.30","5.40,5.30,5.05,4.60,4.45,4.35,4.35,4.30,4.55,4.40","5.45,5.35,5.20,4.75,4.60,4.45,4.45,4.35,4.55,4.45","5.15,5.05,4.60,3.95,3.85,3.85,3.95,4.05,4.35,4.35","4.65,4.55,4.15,3.55,3.50,3.55,3.75,3.90,4.30,4.40","4.35,4.25,3.95,3.45,3.45,3.60,3.85,4.00,4.45,4.60","4.05,3.95,3.75,3.35,3.40,3.62,3.92,4.10,4.55,4.70","3.85,3.75,3.65,3.30,3.42,3.68,3.98,4.15,4.62,4.75","3.65,3.60,3.55,3.40,3.55,3.75,4.05,4.20,4.68,4.80","3.42,3.38,3.34,3.48,3.55,3.61,3.80,4.02,4.55,4.71"];
+  var LB=["23 Q1 · 31 Mar 2023","23 Q2 · 30 Jun 2023","23 Q3 · 29 Sep 2023","23 Q4 · 29 Dec 2023","24 Q1 · 28 Mar 2024","24 Q2 · 28 Jun 2024","24 Q3 · 30 Sep 2024","24 Q4 · 31 Dec 2024","25 Q1 · 31 Mar 2025","25 Q2 · 30 Jun 2025","25 Q3 · 30 Sep 2025","25 Q4 · 31 Dec 2025","26 Q1 · 10 Feb 2026"];
+  var TEN=["3M","6M","1Y","2Y","3Y","5Y","7Y","10Y","20Y","30Y"];
+  var rail=document.getElementById('q3rail'),ch=document.getElementById('q3chart'),lab=document.getElementById('q3lab'),tab=document.getElementById('q3tab');
+  function setQ(i){
+    ch.dataset.d="US curve:"+QS[i];ch.dataset.done='';window.MDK.draw(ch);
+    lab.textContent=LB[i];
+    var v=QS[i].split(',').map(Number),rows="";
+    [0,2,3,5,7,9].forEach(function(k){rows+='<tr><td>'+TEN[k]+'</td><td class="r">'+v[k].toFixed(2)+'</td><td class="r">'+(i>0?((v[k]-QS[i-1].split(',')[k]*100>0?'+':'')+Math.round(v[k]*100-QS[i-1].split(',')[k]*100)):'—')+'</td></tr>';});
+    tab.innerHTML=rows;
+    document.querySelectorAll('[data-q3]').forEach(function(b){b.classList.toggle('on',+b.getAttribute('data-q3')===i);});
+  }
+  rail.addEventListener('input',function(){setQ(+rail.value);});
+  document.querySelectorAll('[data-q3]').forEach(function(b){b.addEventListener('click',function(){rail.value=b.getAttribute('data-q3');setQ(+rail.value);});});
+
+  /* 3.c — yield surface */
+  var ROWS=["3M","6M","1Y","2Y","3Y","5Y","7Y","10Y","20Y","30Y"],
+      COLS=["23Q1","23Q2","23Q3","23Q4","24Q1","24Q2","24Q3","24Q4","25Q1","25Q2","25Q3","25Q4","26Q1"],
+      V=[[4.70,5.30,5.50,5.45,5.40,5.45,5.15,4.65,4.35,4.05,3.85,3.65,3.42],
+         [5.05,5.45,5.55,5.35,5.30,5.35,5.05,4.55,4.25,3.95,3.75,3.60,3.38],
+         [4.95,5.35,5.40,5.05,5.05,5.20,4.60,4.15,3.95,3.75,3.65,3.55,3.34],
+         [4.35,4.90,5.00,4.35,4.60,4.75,3.95,3.55,3.45,3.35,3.30,3.40,3.48],
+         [4.05,4.55,4.75,4.15,4.45,4.60,3.85,3.50,3.45,3.40,3.42,3.55,3.55],
+         [3.85,4.25,4.55,4.05,4.35,4.45,3.85,3.55,3.60,3.62,3.68,3.75,3.61],
+         [3.80,4.15,4.50,4.10,4.35,4.45,3.95,3.75,3.85,3.92,3.98,4.05,3.80],
+         [3.80,4.05,4.40,4.10,4.30,4.35,4.05,3.90,4.00,4.10,4.15,4.20,4.02],
+         [4.15,4.35,4.65,4.45,4.55,4.55,4.35,4.30,4.45,4.55,4.62,4.68,4.55],
+         [4.05,4.20,4.45,4.30,4.40,4.45,4.35,4.40,4.60,4.70,4.75,4.80,4.71]];
+  function ycol(v){var t=Math.max(0,Math.min(1,(v-2.4)/3.2));return 'rgba('+(30+(125-30)*t).toFixed(0)+','+(60+(255-60)*t).toFixed(0)+','+(80+(158-80)*t).toFixed(0)+','+(.18+.8*t).toFixed(2)+')';}
+  var host=document.getElementById('ysurf'),html='<div style="display:grid;grid-template-columns:52px repeat(13,1fr);gap:2px">';
+  html+='<div></div>'+COLS.map(function(c){return '<div class="t" style="font-size:8.5px;text-align:center">'+c+'</div>';}).join('');
+  for(var i=0;i<10;i++){html+='<div class="t" style="font-size:9.5px;display:flex;align-items:center">'+ROWS[i]+'</div>';
+    for(var j=0;j<13;j++){
+      var curve=[];for(var k=0;k<10;k++)curve.push(V[k][j]);
+      html+='<div class="yc" style="height:34px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;background:'+ycol(V[i][j])+';cursor:crosshair;color:#DCE8DC"'+
+        ' data-mk-d="ycurve:'+curve.join(',')+'" data-mk-lab="'+COLS[j]+' · extracted curve" data-mk-fe="'+curve[2].toFixed(2)+'%" data-mk-be="'+curve[5].toFixed(2)+'%" data-mk-le="'+curve[9].toFixed(2)+'%" data-mk-sp="'+(curve[7]-curve[3]>=0?'+':'\u2212')+Math.abs(Math.round((curve[7]-curve[3])*100))+' bp" data-mk-sh="'+(curve[7]-curve[3]<-0.02?'inverted':(curve[7]-curve[3]<0.15?'flat':'upward sloping'))+'">'+V[i][j].toFixed(2)+'</div>';}}
+  html+='</div>';
+  host.innerHTML=html;
+  host.querySelectorAll('.yc').forEach(function(c){c.addEventListener('mouseenter',function(){
+    document.getElementById('yslab').textContent=c.getAttribute('data-mk-lab');
+    document.getElementById('yfe').textContent=c.getAttribute('data-mk-fe');
+    document.getElementById('ybe').textContent=c.getAttribute('data-mk-be');
+    document.getElementById('yle').textContent=c.getAttribute('data-mk-le');
+    var sp=document.getElementById('ysp');sp.textContent=c.getAttribute('data-mk-sp');
+    sp.className=sp.textContent.indexOf('−')===0?'dn':'up';
+    document.getElementById('ysh').textContent=c.getAttribute('data-mk-sh');
+    var cv=document.getElementById('ycurve');cv.dataset.d=c.getAttribute('data-mk-d').replace('ycurve:','');cv.dataset.done='';window.MDK.draw(cv);});});
+
+  /* 4.c — constellation isolate */
+  var web=document.getElementById('cweb');
+  web.querySelectorAll('.wn g').forEach(function(g){
+    g.style.cursor='pointer';
+    g.addEventListener('mouseenter',function(){
+      var n=g.getAttribute('data-n'),links=[];
+      web.querySelectorAll('.wg').forEach(function(e){
+        var hit=e.getAttribute('data-a')===n||e.getAttribute('data-b')===n;
+        e.style.opacity=hit?e.getAttribute('stroke')&&e.getAttribute('stroke')==='#2C7A58'?'.85':'.85':'.06';
+        if(hit)links.push(e.getAttribute('data-a')+' ⁄ '+e.getAttribute('data-b')+' · '+(parseFloat(e.getAttribute('stroke-width'))/15).toFixed(2));});
+      web.querySelectorAll('.wn g').forEach(function(o){o.style.opacity=(o===g||links.some(function(l){return l.indexOf(o.getAttribute('data-n'))>-1;}))?1:.2;});
+      document.getElementById('cwebn').textContent=n;
+      document.getElementById('cwebd').textContent=links.join('  ·  ');});
+    g.addEventListener('mouseleave',function(){
+      web.querySelectorAll('.wg').forEach(function(e){e.style.opacity='';});
+      web.querySelectorAll('.wn g').forEach(function(o){o.style.opacity='';});});});
+})();
+</script>

@@ -1,0 +1,479 @@
+<section class="comp" id="c33">
+  <div class="comp-head"><span class="num">33</span><h2>ETF fund flows</h2><span class="sz big">Big</span>
+    <span class="desc">Where money is moving into and out of across ETF categories.</span></div>
+
+<!-- ============================ 33.a ============================ -->
+<div class="design" id="d33a">
+  <div class="dlabel"><span class="id">33.a</span><span class="nm">Diverging flow ranking with cumulative trace</span><span class="tag">period toggle · click category · % of AUM</span></div>
+  <div class="dbody">
+<style>
+#d33a .root{background:#fff;padding:20px 24px 22px;font-family:var(--sans)}
+#d33a .hd{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+#d33a .hd h3{font-size:16px;font-weight:650}
+#d33a .hd .t{font:500 11px var(--mono);color:#98a0b3}
+#d33a .hd .sw{margin-left:auto;display:flex;gap:6px;align-items:center}
+#d33a .hd .sw button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 11px;font:600 11px var(--mono);color:#697086}
+#d33a .hd .sw button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d33a .hd label{font:500 11px var(--mono);color:#697086;display:flex;gap:6px;align-items:center}
+#d33a .body2{display:grid;grid-template-columns:1fr 300px;gap:22px}
+#d33a .rowf{display:grid;grid-template-columns:150px 1fr 74px;gap:12px;align-items:center;padding:5px 0;cursor:pointer;border-radius:6px}
+#d33a .rowf:hover{background:#f7f9fc}
+#d33a .rowf.sel{background:#f0f4ff}
+#d33a .rowf .nm{font-size:12.5px}
+#d33a .rowf .nm small{display:block;font:500 9.5px var(--mono);color:#98a0b3}
+#d33a .track2{position:relative;height:22px;background:#fafbfc;border-radius:4px}
+#d33a .track2::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:#d6dae2}
+#d33a .track2 i{position:absolute;top:3px;bottom:3px;border-radius:3px;transition:width .4s}
+#d33a .rowf .v{font:600 12.5px var(--mono);text-align:right}
+#d33a .panel3{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfd}
+#d33a .panel3 h4{font-size:14px;font-weight:600}
+#d33a .panel3 .sub{font:500 10.5px var(--mono);color:#98a0b3;margin-top:3px}
+#d33a .panel3 .kv{display:flex;justify-content:space-between;font:500 12px var(--mono);color:#697086;border-top:1px solid #eef0f4;padding:7px 0}
+#d33a .panel3 .kv b{color:#11141c}
+#d33a .tops{margin-top:12px}
+#d33a .tops div{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px dashed #eef0f4}
+#d33a .axl2{display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#b0b7c5;margin-top:6px}
+</style>
+<div class="root">
+  <div class="hd"><h3>ETF flows by category</h3><span class="t">US-listed · $ millions · estimated net creations</span>
+    <div class="sw" id="d33a-sw"><button data-p="1w" class="on">1 week</button><button data-p="1m">1 month</button><button data-p="ytd">YTD</button>
+      <label style="margin-left:8px"><input type="checkbox" id="d33a-pct"> as % of AUM</label></div></div>
+  <div class="body2">
+    <div><div id="d33a-rows"></div><div class="axl2" id="d33a-ax"></div></div>
+    <div class="panel3" id="d33a-p"></div>
+  </div>
+</div>
+<script>(function(){
+ var C=[
+  {n:"US Large Cap Blend",s:"SPY · VOO · IVV",aum:1842000,f:{"1w":8420,"1m":24800,ytd:96400},ret:7.4,top:[["VOO","+4,210"],["IVV","+2,860"],["SPY","−1,240"]]},
+  {n:"US Tech Sector",s:"QQQ · XLK · VGT",aum:486000,f:{"1w":4180,"1m":12600,ytd:38200},ret:12.8,top:[["QQQ","+2,140"],["XLK","+1,180"],["SMH","+620"]]},
+  {n:"Gold & Precious Metals",s:"GLD · IAU · SGOL",aum:142000,f:{"1w":3260,"1m":9840,ytd:21600},ret:18.6,top:[["GLD","+1,860"],["IAU","+920"],["SGOL","+280"]]},
+  {n:"Short-Term Treasuries",s:"SGOV · BIL · SHV",aum:298000,f:{"1w":2840,"1m":-4200,ytd:18400},ret:2.1,top:[["SGOV","+1,940"],["BIL","+640"],["SHV","+260"]]},
+  {n:"Japan Equity",s:"EWJ · DXJ · BBJP",aum:68000,f:{"1w":1640,"1m":4200,ytd:11800},ret:14.2,top:[["DXJ","+820"],["EWJ","+520"],["BBJP","+300"]]},
+  {n:"Investment Grade Credit",s:"LQD · VCIT · IGSB",aum:212000,f:{"1w":920,"1m":3100,ytd:14600},ret:3.2,top:[["LQD","+480"],["VCIT","+280"],["IGSB","+160"]]},
+  {n:"Bitcoin Spot",s:"IBIT · FBTC · ARKB",aum:96000,f:{"1w":-1240,"1m":-6800,ytd:12400},ret:-8.4,top:[["IBIT","−640"],["FBTC","−380"],["ARKB","−220"]]},
+  {n:"US Small Cap",s:"IWM · VB · IJR",aum:184000,f:{"1w":-1860,"1m":-5400,ytd:-8200},ret:1.2,top:[["IWM","−1,120"],["IJR","−480"],["VB","−260"]]},
+  {n:"Energy Sector",s:"XLE · VDE · XOP",aum:78000,f:{"1w":-2420,"1m":-6200,ytd:-9600},ret:-4.8,top:[["XLE","−1,480"],["XOP","−540"],["VDE","−400"]]},
+  {n:"China Equity",s:"FXI · MCHI · KWEB",aum:42000,f:{"1w":-3180,"1m":-8400,ytd:-14200},ret:-4.7,top:[["FXI","−1,620"],["KWEB","−980"],["MCHI","−580"]]},
+  {n:"High Yield Credit",s:"HYG · JNK · USHY",aum:96000,f:{"1w":-3640,"1m":-9200,ytd:-6400},ret:2.4,top:[["HYG","−2,180"],["JNK","−940"],["USHY","−520"]]},
+  {n:"Long Treasuries 20y+",s:"TLT · VGLT · EDV",aum:64000,f:{"1w":-4280,"1m":-11400,ytd:-18600},ret:-2.6,top:[["TLT","−3,240"],["VGLT","−620"],["EDV","−420"]]}
+ ];
+ var per="1w",pct=false,sel=0;
+ function render(){
+  var vals=C.map(function(c){return pct?c.f[per]/c.aum*100:c.f[per]});
+  var mx=Math.max.apply(null,vals.map(Math.abs));
+  var order=C.map(function(c,i){return i}).sort(function(a,b){return vals[b]-vals[a]});
+  document.getElementById("d33a-rows").innerHTML=order.map(function(i){
+   var c=C[i],v=vals[i],w=Math.abs(v)/mx*49;
+   return '<div class="rowf'+(i===sel?" sel":"")+'" data-i="'+i+'"><div class="nm">'+c.n+'<small>'+c.s+'</small></div>'+
+    '<div class="track2"><i style="'+(v>=0?"left:50%":"right:50%")+';width:'+w+'%;background:'+(v>=0?"linear-gradient(90deg,#0f9d6a,#25c48c)":"linear-gradient(90deg,#e0483d,#f0776c)")+'"></i></div>'+
+    '<div class="v '+(v>=0?"pos":"neg")+'">'+(v>=0?"+":"")+(pct?v.toFixed(2)+"%":(v/1000).toFixed(2)+"bn")+'</div></div>';}).join("");
+  document.getElementById("d33a-ax").innerHTML='<span>'+(pct?"−"+(mx).toFixed(1)+"%":"−$"+(mx/1000).toFixed(1)+"bn")+'</span><span>net zero</span><span>'+(pct?"+"+(mx).toFixed(1)+"%":"+$"+(mx/1000).toFixed(1)+"bn")+'</span>';
+  var c=C[sel],f=c.f[per];
+  document.getElementById("d33a-p").innerHTML='<h4>'+c.n+'</h4><div class="sub">'+c.s+'</div>'+
+   '<div style="font:600 30px var(--mono);margin:12px 0 2px;color:'+(f>=0?"#0f9d6a":"#e0483d")+'">'+(f>=0?"+$":"−$")+Math.abs(f/1000).toFixed(2)+'bn</div>'+
+   '<div class="sub">net flow, '+({"1w":"past week","1m":"past month",ytd:"year to date"}[per])+'</div>'+
+   '<div class="kv" style="margin-top:12px"><span>Category AUM</span><b>$'+(c.aum/1000).toFixed(0)+'bn</b></div>'+
+   '<div class="kv"><span>Flow as % of AUM</span><b>'+(f/c.aum*100).toFixed(2)+'%</b></div>'+
+   '<div class="kv"><span>Category YTD return</span><b style="color:'+(c.ret>=0?"#0f9d6a":"#e0483d")+'">'+(c.ret>=0?"+":"")+c.ret+'%</b></div>'+
+   '<div class="kv"><span>Flow vs return</span><b>'+((f>0)===(c.ret>0)?"confirming":"divergent")+'</b></div>'+
+   '<div class="tops"><div style="font:600 9.5px var(--mono);letter-spacing:.12em;color:#98a0b3;border:0">LARGEST CONTRIBUTORS ($m)</div>'+
+   c.top.map(function(t){return '<div><span class="mn">'+t[0]+'</span><b class="mn" style="color:'+(t[1][0]==="+"?"#0f9d6a":"#e0483d")+'">'+t[1]+'</b></div>';}).join("")+'</div>';
+  [].forEach.call(document.querySelectorAll("#d33a .rowf"),function(r){
+   r.addEventListener("click",function(){sel=+r.dataset.i;render();});});
+ }
+ document.getElementById("d33a-sw").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.querySelectorAll("button"),function(x){x.classList.toggle("on",x===b)});per=b.dataset.p;render();});
+ document.getElementById("d33a-pct").addEventListener("change",function(){pct=this.checked;render();});
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 33.b ============================ -->
+<div class="design" id="d33b">
+  <div class="dlabel"><span class="id">33.b</span><span class="nm">Sankey — asset class to destination, one week of flow</span><span class="tag">ribbon hover · node highlight</span></div>
+  <div class="dbody">
+<style>
+#d33b .root{background:#0f1218;color:#e4e9f1;padding:20px 24px 22px;font-family:var(--sans)}
+#d33b .hd{display:flex;align-items:baseline;gap:14px}
+#d33b .hd h3{font-size:15px;font-weight:600}
+#d33b .hd .s{font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#5d6678}
+#d33b .hd .tot{margin-left:auto;font:600 13px var(--mono)}
+#d33b .sk{margin-top:10px;position:relative}
+#d33b .rib{transition:opacity .16s;cursor:pointer}
+#d33b .nd{cursor:pointer}
+#d33b .ndl{font:600 11px var(--sans);fill:#c9d1de}
+#d33b .ndv{font:500 10px var(--mono);fill:#6b footer}
+#d33b .ndv{font:500 10px var(--mono);fill:#6b7688}
+#d33b .tipS{position:absolute;background:#1a1f29;border:1px solid #2b3240;border-radius:9px;padding:9px 11px;font:500 11.5px var(--mono);opacity:0;pointer-events:none;transition:opacity .1s;z-index:6}
+#d33b .lgd{display:flex;gap:18px;margin-top:12px;font:500 10.5px var(--mono);color:#5d6678}
+#d33b .lgd i{display:inline-block;width:18px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+</style>
+<div class="root">
+  <div class="hd"><h3>Where last week's ETF money went</h3><span class="s">width = $ net flow · 5 sessions to 24 Apr</span>
+    <span class="tot">Net +$12.6bn into US-listed ETFs</span></div>
+  <div class="sk"><svg id="d33b-svg" viewBox="0 0 960 400" style="width:100%;height:auto"></svg><div class="tipS" id="d33b-tip"></div></div>
+  <div class="lgd"><span><i style="background:#3b62f6"></i>Equity</span><span><i style="background:#e0a23d"></i>Fixed income</span>
+    <span><i style="background:#c9832f"></i>Commodity</span><span><i style="background:#8b5fd6"></i>Digital assets</span>
+    <span style="margin-left:auto">Outflow ribbons render below the axis</span></div>
+</div>
+<script>(function(){
+ var L=[{n:"Equity",v:14.9,c:"#3b62f6"},{n:"Fixed income",v:-4.2,c:"#e0a23d"},{n:"Commodity",v:3.6,c:"#c9832f"},{n:"Digital assets",v:-1.7,c:"#8b5fd6"}];
+ var R=[
+  {n:"US large cap",v:8.4,p:0},{n:"US tech",v:4.2,p:0},{n:"Japan",v:1.6,p:0},{n:"Europe",v:0.9,p:0},{n:"China",v:-3.2,p:0},{n:"US small cap",v:-1.9,p:0},
+  {n:"Short Treasuries",v:2.8,p:1},{n:"IG credit",v:0.9,p:1},{n:"High yield",v:-3.6,p:1},{n:"Long Treasuries",v:-4.3,p:1},
+  {n:"Gold",v:3.3,p:2},{n:"Broad commodity",v:0.3,p:2},{n:"Bitcoin spot",v:-1.2,p:3},{n:"Ether spot",v:-0.5,p:3}
+ ];
+ var W=960,H=400,LX=200,RX=700,pad=8;
+ var totalAbs=R.reduce(function(a,r){return a+Math.abs(r.v)},0);
+ var scale=(H-60-pad*(R.length-1))/totalAbs;
+ var s="",ry=30;
+ var lpos={};
+ var ly=30;
+ L.forEach(function(l,i){
+  var kids=R.filter(function(r){return r.p===i});
+  var h=kids.reduce(function(a,r){return a+Math.abs(r.v)*scale},0)+pad*(kids.length-1);
+  lpos[i]={y:ly,h:h,cur:ly};ly+=h+22;});
+ R.forEach(function(r,i){
+  var lp=lpos[r.p],h=Math.abs(r.v)*scale;
+  var y0=lp.cur,y1=ry;lp.cur+=h+pad;
+  var c=L[r.p].c,neg=r.v<0;
+  var p="M"+LX+","+y0+"C"+((LX+RX)/2)+","+y0+" "+((LX+RX)/2)+","+y1+" "+RX+","+y1+
+        "L"+RX+","+(y1+h)+"C"+((LX+RX)/2)+","+(y1+h)+" "+((LX+RX)/2)+","+(y0+h)+" "+LX+","+(y0+h)+"Z";
+  s+='<path class="rib" data-i="'+i+'" d="'+p+'" fill="'+c+'" fill-opacity="'+(neg?0.16:0.42)+'" stroke="'+c+'" stroke-opacity="'+(neg?0.3:0.5)+'" stroke-width="0.6"'+(neg?' stroke-dasharray="4 3"':'')+'/>';
+  s+='<rect class="nd" x="'+RX+'" y="'+y1+'" width="12" height="'+h+'" fill="'+c+'" fill-opacity="'+(neg?0.35:0.9)+'"/>';
+  s+='<text class="ndl" x="'+(RX+20)+'" y="'+(y1+h/2+1)+'">'+r.n+'</text>';
+  s+='<text class="ndv" x="'+(RX+20)+'" y="'+(y1+h/2+14)+'" fill="'+(r.v>=0?"#3ddc9a":"#ff7a70")+'">'+(r.v>=0?"+":"")+r.v.toFixed(1)+'bn</text>';
+  ry+=h+pad;
+ });
+ L.forEach(function(l,i){
+  var lp=lpos[i];
+  s+='<rect class="nd" x="'+(LX-12)+'" y="'+lp.y+'" width="12" height="'+lp.h+'" fill="'+l.c+'"/>';
+  s+='<text class="ndl" x="'+(LX-22)+'" y="'+(lp.y+lp.h/2)+'" text-anchor="end">'+l.n+'</text>';
+  s+='<text class="ndv" x="'+(LX-22)+'" y="'+(lp.y+lp.h/2+14)+'" text-anchor="end" fill="'+(l.v>=0?"#3ddc9a":"#ff7a70")+'">'+(l.v>=0?"+":"")+l.v.toFixed(1)+'bn net</text>';
+ });
+ document.getElementById("d33b-svg").innerHTML=s;
+ var tip=document.getElementById("d33b-tip");
+ [].forEach.call(document.querySelectorAll("#d33b .rib"),function(p){
+  p.addEventListener("mousemove",function(e){
+   var box=document.querySelector("#d33b .sk").getBoundingClientRect(),r=R[+p.dataset.i];
+   tip.style.opacity=1;tip.style.left=(e.clientX-box.left+14)+"px";tip.style.top=(e.clientY-box.top-30)+"px";
+   tip.innerHTML=L[r.p].n+' → '+r.n+'<br><b style="color:'+(r.v>=0?"#3ddc9a":"#ff7a70")+';font-size:14px">'+(r.v>=0?"+$":"−$")+Math.abs(r.v).toFixed(1)+'bn</b>';
+   [].forEach.call(document.querySelectorAll("#d33b .rib"),function(q){q.style.opacity=q===p?1:.22;});});
+  p.addEventListener("mouseleave",function(){tip.style.opacity=0;
+   [].forEach.call(document.querySelectorAll("#d33b .rib"),function(q){q.style.opacity=1});});});
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 33.c ============================ -->
+<div class="design" id="d33c">
+  <div class="dlabel"><span class="id">33.c</span><span class="nm">Flow-vs-performance quadrant with 8-week flow strips</span><span class="tag">quadrant labels · hover · strip scrub</span></div>
+  <div class="dbody">
+<style>
+#d33c .root{background:#f9f9f6;padding:22px 26px;font-family:var(--sans);display:grid;grid-template-columns:1.25fr 1fr;gap:24px}
+#d33c h3{font:600 19px var(--serif)}
+#d33c .sub2{font-size:12px;color:#8b8779;margin-top:4px}
+#d33c .quad{position:relative;margin-top:14px;border:1px solid #e4e1d6;border-radius:12px;background:#fff;aspect-ratio:1/0.82}
+#d33c .quad .lbl{position:absolute;font:600 9px var(--mono);letter-spacing:.12em;color:#b6b1a2}
+#d33c .pt{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer;transition:transform .12s}
+#d33c .pt:hover{transform:translate(-50%,-50%) scale(1.25);z-index:4}
+#d33c .pt span{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:3px;font:600 9px var(--mono);color:#6f6b5e;white-space:nowrap}
+#d33c .strips h4{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#a8a396;margin-bottom:10px}
+#d33c .strip{display:grid;grid-template-columns:132px 1fr 66px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #eeebe1}
+#d33c .strip .n2{font-size:12px}
+#d33c .strip .bars2{display:flex;gap:2px;height:26px;align-items:center}
+#d33c .strip .bars2 i{flex:1;border-radius:2px;position:relative}
+#d33c .strip .bars2 i:hover::after{content:attr(data-v);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);background:#2b2820;color:#fff;font:500 9.5px var(--mono);padding:3px 6px;border-radius:4px;white-space:nowrap}
+#d33c .strip .tot2{font:600 12px var(--mono);text-align:right}
+#d33c .callout{margin-top:14px;background:#2b2820;color:#f2efe6;border-radius:11px;padding:13px 15px;font-size:12.5px;line-height:1.6}
+#d33c .callout b{color:#fff}
+</style>
+<div class="root">
+  <div>
+    <h3>Are flows chasing performance?</h3>
+    <div class="sub2">Horizontal: 1-month category return · Vertical: 1-month net flow as % of AUM · bubble = AUM</div>
+    <div class="quad" id="d33c-q"></div>
+  </div>
+  <div class="strips">
+    <h4>Eight weeks of net flow ($bn per week)</h4>
+    <div id="d33c-strips"></div>
+    <div class="callout">Money is still <b>following price</b> in equities — the top-right quadrant holds 61% of tracked AUM. The outlier is <b>long Treasuries</b>: negative returns and persistent outflows for seven straight weeks, the longest streak since 2023.</div>
+  </div>
+</div>
+<script>(function(){
+ var D=[
+  {n:"US large cap",r:3.1,f:1.35,aum:1842,w:[2.1,1.4,-0.6,2.8,3.2,1.9,4.1,8.4]},
+  {n:"US tech",r:4.8,f:2.59,aum:486,w:[1.2,0.8,-0.4,1.6,2.4,1.1,2.8,4.2]},
+  {n:"Gold",r:6.2,f:6.93,aum:142,w:[0.4,0.9,1.2,0.8,1.6,2.1,2.8,3.3]},
+  {n:"Japan",r:5.1,f:6.18,aum:68,w:[0.2,0.4,0.3,0.6,0.9,0.8,1.2,1.6]},
+  {n:"Short Treasuries",r:0.4,f:-1.41,aum:298,w:[3.2,1.8,-2.1,-1.4,0.6,-0.8,1.4,2.8]},
+  {n:"IG credit",r:0.9,f:1.46,aum:212,w:[0.6,0.4,0.2,0.5,0.3,0.6,0.7,0.9]},
+  {n:"US small cap",r:0.4,f:-2.93,aum:184,w:[-0.4,-0.8,-1.2,-0.6,-0.9,-1.4,-0.8,-1.9]},
+  {n:"High yield",r:0.6,f:-9.58,aum:96,w:[-0.8,-1.2,-0.6,-1.8,-2.1,-1.4,-2.6,-3.6]},
+  {n:"Energy",r:-4.8,f:-7.95,aum:78,w:[-0.6,-1.1,-0.8,-1.4,-0.9,-1.6,-1.2,-2.4]},
+  {n:"China",r:-1.1,f:-20.0,aum:42,w:[-1.2,-0.8,-1.6,-2.1,-1.4,-2.8,-2.2,-3.2]},
+  {n:"Bitcoin spot",r:-8.4,f:-7.08,aum:96,w:[1.4,0.8,-0.6,-1.8,-2.4,-1.2,-0.8,-1.2]},
+  {n:"Long Treasuries",r:-2.6,f:-17.8,aum:64,w:[-1.2,-1.8,-2.4,-1.6,-2.8,-2.1,-3.4,-4.3]}
+ ];
+ var q=document.getElementById("d33c-q");
+ var X=function(r){return 50+r*5.2},Y=function(f){return 50-f*2.0};
+ q.innerHTML='<div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#eae7db"></div>'+
+  '<div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#eae7db"></div>'+
+  '<span class="lbl" style="right:10px;top:10px">INFLOW · GAINING</span><span class="lbl" style="left:10px;top:10px">INFLOW · FALLING</span>'+
+  '<span class="lbl" style="left:10px;bottom:10px">OUTFLOW · FALLING</span><span class="lbl" style="right:10px;bottom:10px">OUTFLOW · GAINING</span>'+
+  D.map(function(d,i){
+   var sz=10+Math.sqrt(d.aum)*0.9,pos=d.f>=0;
+   return '<div class="pt" data-i="'+i+'" title="'+d.n+': '+d.f.toFixed(1)+'% of AUM, '+d.r+'% return" style="left:'+Math.max(6,Math.min(94,X(d.r)))+'%;top:'+Math.max(6,Math.min(92,Y(d.f)))+'%;width:'+sz+'px;height:'+sz+'px;background:'+(pos?"rgba(46,143,104,.32)":"rgba(192,72,60,.3)")+';border:1.5px solid '+(pos?"#2e8f68":"#c0483c")+'"><span>'+d.n+'</span></div>';}).join("");
+ var mx=4.4;
+ document.getElementById("d33c-strips").innerHTML=D.slice(0,9).map(function(d){
+  var tot=d.w.reduce(function(a,b){return a+b},0);
+  return '<div class="strip"><span class="n2">'+d.n+'</span><div class="bars2">'+
+   d.w.map(function(v,i){
+    var h=Math.max(3,Math.abs(v)/mx*24);
+    return '<i data-v="wk'+(i+1)+' '+(v>=0?"+":"")+v.toFixed(1)+'bn" style="height:'+h+'px;background:'+(v>=0?"#2e8f68":"#c0483c")+';opacity:'+(0.4+i*0.075)+'"></i>';}).join("")+
+   '</div><span class="tot2" style="color:'+(tot>=0?"#2e8f68":"#c0483c")+'">'+(tot>=0?"+":"")+tot.toFixed(1)+'</span></div>';}).join("");
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c38">
+  <div class="comp-head"><span class="num">38</span><h2>Central bank policy rates</h2><span class="sz big">Big</span>
+    <span class="desc">Current interest rates and expectations across major central banks.</span></div>
+
+<!-- ============================ 38.a ============================ -->
+<div class="design" id="d38a">
+  <div class="dlabel"><span class="id">38.a</span><span class="nm">Policy board with implied path ladders</span><span class="tag">row hover · path cells · sort</span></div>
+  <div class="dbody">
+<style>
+#d38a .root{background:#fff;font-family:var(--sans);padding:18px 22px 20px}
+#d38a .hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+#d38a .hd h3{font-size:16px;font-weight:650}
+#d38a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d38a table{width:100%;border-collapse:collapse}
+#d38a th{font:600 9.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#98a0b3;text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)}
+#d38a th:first-child,#d38a th:nth-child(2){text-align:left}
+#d38a td{padding:11px 10px;border-bottom:1px solid #f2f4f7;text-align:right;font-size:13px}
+#d38a td:first-child,#d38a td:nth-child(2){text-align:left}
+#d38a tr:hover td{background:#fafbfd}
+#d38a .cb{display:flex;align-items:center;gap:9px}
+#d38a .cb b{font-size:13.5px}
+#d38a .cb small{display:block;font:500 10px var(--mono);color:#98a0b3;margin-top:1px}
+#d38a .rate{font:600 17px var(--mono)}
+#d38a .chip{font:600 10px var(--mono);padding:3px 7px;border-radius:5px;display:inline-block}
+#d38a .ladder{display:flex;gap:3px;justify-content:flex-end}
+#d38a .ladder i{width:15px;height:26px;border-radius:3px;display:grid;place-items:center;font:600 8px var(--mono);color:#fff;position:relative}
+#d38a .ladder i:hover::after{content:attr(data-l);position:absolute;bottom:30px;right:0;background:#11141c;color:#fff;font:500 9.5px var(--mono);padding:4px 7px;border-radius:5px;white-space:nowrap;z-index:5}
+#d38a .foot2{display:flex;gap:20px;margin-top:10px;font:500 10.5px var(--mono);color:#98a0b3}
+</style>
+<div class="root">
+  <div class="hd"><h3>Policy rates &amp; market-implied path</h3><span class="s">OIS-implied · as of 24 Apr 2026 · 12 months forward</span></div>
+  <table id="d38a-t"></table>
+  <div class="foot2"><span>■ cut expected</span><span>■ hold</span><span>■ hike expected</span><span>Each cell = one scheduled meeting</span></div>
+</div>
+<script>(function(){
+ var CB=[
+  {f:"🇺🇸",n:"Federal Reserve",r:"Fed funds target",rate:"4.25–4.50",chg:"−25bp",last:"18 Mar 2026",next:"29 Apr",path:[0,-1,0,-1,0,-1,0,0],y1:3.62,real:1.42},
+  {f:"🇪🇺",n:"European Central Bank",r:"Deposit facility",rate:"2.25",chg:"−25bp",last:"23 Apr 2026",next:"11 Jun",path:[0,-1,0,0,-1,0,0,0],y1:1.88,real:-0.22},
+  {f:"🇬🇧",n:"Bank of England",r:"Bank Rate",rate:"4.25",chg:"−25bp",last:"12 Mar 2026",next:"30 Apr",path:[-1,0,-1,0,0,-1,0,0],y1:3.44,real:0.94},
+  {f:"🇯🇵",n:"Bank of Japan",r:"Policy balance rate",rate:"0.75",chg:"+25bp",last:"22 Jan 2026",next:"24 Apr",path:[0,0,1,0,0,1,0,0],y1:1.28,real:-1.32},
+  {f:"🇨🇭",n:"Swiss National Bank",r:"Policy rate",rate:"0.25",chg:"−25bp",last:"19 Mar 2026",next:"18 Jun",path:[0,0,0,0,0,0,0,0],y1:0.22,real:-0.38},
+  {f:"🇨🇦",n:"Bank of Canada",r:"Overnight rate",rate:"2.75",chg:"hold",last:"16 Apr 2026",next:"3 Jun",path:[0,-1,0,0,0,0,0,0],y1:2.48,real:0.58},
+  {f:"🇦🇺",n:"Reserve Bank of Australia",r:"Cash rate",rate:"3.85",chg:"−25bp",last:"7 Apr 2026",next:"6 May",path:[0,-1,0,-1,0,0,0,0],y1:3.32,real:0.92},
+  {f:"🇧🇷",n:"Banco Central do Brasil",r:"Selic",rate:"12.25",chg:"−50bp",last:"18 Mar 2026",next:"6 May",path:[-1,-1,0,-1,-1,0,0,0],y1:10.40,real:7.85}
+ ];
+ function ladder(p){
+  var d=["29 Apr","11 Jun","30 Jul","17 Sep","29 Oct","10 Dec","28 Jan","11 Mar"];
+  return '<div class="ladder">'+p.map(function(v,i){
+   var c=v<0?"#3b82c4":v>0?"#c0483c":"#dfe3ea",t=v<0?"−":v>0?"+":"";
+   return '<i data-l="'+d[i]+' · '+(v<0?"25bp cut priced":v>0?"25bp hike priced":"no change priced")+'" style="background:'+c+';color:'+(v?"#fff":"#98a0b3")+'">'+(t||"·")+'</i>';}).join("")+'</div>';}
+ document.getElementById("d38a-t").innerHTML=
+  '<tr><th>Central bank</th><th>Instrument</th><th>Current</th><th>Last move</th><th>Next meeting</th><th>Implied path (8 meetings)</th><th>Rate in 12m</th><th>Real rate</th></tr>'+
+  CB.map(function(c){
+   var cc=c.chg.indexOf("−")===0?"background:#eaf2fb;color:#2f6ea8":c.chg.indexOf("+")===0?"background:#fdecea;color:#b1352b":"background:#f2f4f7;color:#697086";
+   var d=parseFloat(c.y1)-parseFloat(c.rate);
+   return '<tr><td><div class="cb"><span style="font-size:17px">'+c.f+'</span><div><b>'+c.n+'</b><small>'+c.last+'</small></div></div></td>'+
+    '<td style="color:#697086;font-size:12px">'+c.r+'</td>'+
+    '<td><span class="rate">'+c.rate+'%</span></td>'+
+    '<td><span class="chip" style="'+cc+'">'+c.chg+'</span></td>'+
+    '<td class="mn" style="color:#11141c">'+c.next+'</td>'+
+    '<td>'+ladder(c.path)+'</td>'+
+    '<td class="mn" style="color:'+(d<0?"#2f6ea8":d>0?"#b1352b":"#697086")+'">'+c.y1.toFixed(2)+'% <small style="color:#98a0b3">('+(d>=0?"+":"")+(d*100).toFixed(0)+'bp)</small></td>'+
+    '<td class="mn '+(c.real>=0?"pos":"neg")+'">'+(c.real>=0?"+":"")+c.real.toFixed(2)+'%</td></tr>';}).join("");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 38.b ============================ -->
+<div class="design" id="d38b">
+  <div class="dlabel"><span class="id">38.b</span><span class="nm">Rate history with forward path fan</span><span class="tag">toggle banks · hover date · forward shading</span></div>
+  <div class="dbody">
+<style>
+#d38b .root{background:#101419;color:#e4e9f0;padding:20px 24px 22px;font-family:var(--sans)}
+#d38b .hd{display:flex;align-items:center;gap:12px}
+#d38b .hd h3{font-size:15px;font-weight:600}
+#d38b .hd .s{font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#5d6678}
+#d38b .keys2{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+#d38b .keys2 button{display:flex;align-items:center;gap:6px;background:#181d25;border:1px solid #242b36;color:#b9c2d0;border-radius:7px;padding:6px 10px;font:600 11px var(--mono)}
+#d38b .keys2 button.off{opacity:.35}
+#d38b .keys2 i{width:14px;height:3px;border-radius:2px}
+#d38b .cw{position:relative;margin-top:12px}
+#d38b .tip3{position:absolute;background:#1a1f28;border:1px solid #2b3240;border-radius:9px;padding:9px 11px;font:500 11.5px var(--mono);pointer-events:none;opacity:0;transition:opacity .1s}
+#d38b .tip3 .l2{display:flex;justify-content:space-between;gap:14px;padding:2px 0}
+#d38b .cards4{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+#d38b .cards4 div{background:#181d25;border:1px solid #242b36;border-radius:10px;padding:10px 11px}
+#d38b .cards4 b{font:500 9px var(--mono);letter-spacing:.1em;color:#5d6678;display:block}
+#d38b .cards4 span{font:600 16px var(--mono);display:block;margin-top:4px}
+#d38b .cards4 em{font-style:normal;font:500 10px var(--mono);color:#7c8798}
+</style>
+<div class="root">
+  <div class="hd"><h3>Policy rate paths, 2022 → 2027</h3><span class="s">solid = realised · dashed = OIS forward</span>
+    <div class="keys2" id="d38b-k"></div></div>
+  <div class="cw"><svg id="d38b-svg" viewBox="0 0 960 330" style="width:100%;height:auto"></svg><div class="tip3" id="d38b-tip"></div></div>
+  <div class="cards4">
+    <div><b>FED · APR 2027</b><span style="color:#5b8cff">3.12%</span><em>−138bp priced</em></div>
+    <div><b>ECB · APR 2027</b><span style="color:#ffb44f">1.75%</span><em>−50bp priced</em></div>
+    <div><b>BOE · APR 2027</b><span style="color:#6ee7c8">3.25%</span><em>−100bp priced</em></div>
+    <div><b>BOJ · APR 2027</b><span style="color:#ff7d9c">1.50%</span><em>+75bp priced</em></div>
+    <div><b>G4 AVERAGE</b><span>2.41%</span><em>from 2.78% today</em></div>
+  </div>
+</div>
+<script>(function(){
+ var CB=[
+  {id:"fed",n:"Fed",c:"#5b8cff",h:[0.25,0.5,1.75,3.25,4.5,5.5,5.5,5.5,5.25,4.75,4.5,4.375],f:[4.375,4.25,4.0,3.875,3.625,3.375,3.25,3.12]},
+  {id:"ecb",n:"ECB",c:"#ffb44f",h:[-0.5,-0.5,0.75,2.0,3.0,4.0,4.0,3.75,3.25,2.75,2.5,2.25],f:[2.25,2.25,2.0,2.0,1.875,1.875,1.75,1.75]},
+  {id:"boe",n:"BoE",c:"#6ee7c8",h:[0.25,1.0,2.25,3.5,4.25,5.25,5.25,5.0,4.75,4.5,4.25,4.25],f:[4.0,4.0,3.75,3.75,3.5,3.5,3.25,3.25]},
+  {id:"boj",n:"BoJ",c:"#ff7d9c",h:[-0.1,-0.1,-0.1,-0.1,-0.1,-0.1,0.1,0.25,0.25,0.5,0.75,0.75],f:[0.75,0.75,1.0,1.0,1.25,1.25,1.5,1.5]}
+ ];
+ var on={fed:1,ecb:1,boe:1,boj:1};
+ var W=960,H=330,L=44,R=70,T=16,B=30,nh=12,nf=8,N=nh+nf-1;
+ var X=function(i){return L+i*(W-L-R)/N},Y=function(v){return T+(6.0-v)/6.6*(H-T-B)};
+ document.getElementById("d38b-k").innerHTML=CB.map(function(c){
+  return '<button data-id="'+c.id+'"><i style="background:'+c.c+'"></i>'+c.n+'</button>';}).join("");
+ function draw(hi){
+  var s="";
+  for(var v=0;v<=6;v++) s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#1a2029"/>'+
+   '<text x="'+(L-8)+'" y="'+(Y(v)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#5d6678">'+v+'%</text>';
+  s+='<rect x="'+X(nh-1)+'" y="'+T+'" width="'+(W-R-X(nh-1))+'" height="'+(H-T-B)+'" fill="#5b8cff" opacity=".05"/>';
+  s+='<line x1="'+X(nh-1)+'" y1="'+T+'" x2="'+X(nh-1)+'" y2="'+(H-B)+'" stroke="#39445a" stroke-dasharray="3 3"/>';
+  s+='<text x="'+(X(nh-1)+7)+'" y="'+(T+12)+'" font-size="9.5" font-family="ui-monospace" fill="#7c8798">TODAY · forwards →</text>';
+  ["2022","2023","2024","2025","2026","2027"].forEach(function(y,i){
+   s+='<text x="'+X(i*2.9+0.5)+'" y="'+(H-10)+'" font-size="9.5" font-family="ui-monospace" fill="#5d6678">'+y+'</text>';});
+  CB.forEach(function(c){if(!on[c.id])return;
+   var p="";c.h.forEach(function(v,i){p+=(i?"L":"M")+X(i)+","+Y(v)+"L"+X(Math.min(N,i+1))+","+Y(v);});
+   s+='<path d="'+p+'" fill="none" stroke="'+c.c+'" stroke-width="'+(hi===c.id?3.4:2.1)+'" stroke-opacity="'+(hi&&hi!==c.id?.3:1)+'"/>';
+   var q="M"+X(nh-1)+","+Y(c.h[nh-1]);
+   c.f.forEach(function(v,i){q+="L"+X(nh-1+i)+","+Y(v)+"L"+X(nh+i)+","+Y(v);});
+   s+='<path d="'+q+'" fill="none" stroke="'+c.c+'" stroke-width="'+(hi===c.id?2.6:1.7)+'" stroke-dasharray="5 4" stroke-opacity="'+(hi&&hi!==c.id?.2:.8)+'"/>';
+   s+='<text x="'+(W-R+8)+'" y="'+(Y(c.f[nf-1])+4)+'" font-size="11" font-family="ui-monospace" fill="'+c.c+'">'+c.n+' '+c.f[nf-1].toFixed(2)+'</text>';});
+  document.getElementById("d38b-svg").innerHTML=s;
+ }
+ document.getElementById("d38b-k").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;on[b.dataset.id]=!on[b.dataset.id];b.classList.toggle("off");draw();});
+ [].forEach.call(document.querySelectorAll("#d38b-k button"),function(b){
+  b.addEventListener("mouseenter",function(){draw(b.dataset.id)});
+  b.addEventListener("mouseleave",function(){draw()});});
+ var tip=document.getElementById("d38b-tip");
+ document.getElementById("d38b-svg").addEventListener("mousemove",function(e){
+  var r=this.getBoundingClientRect(),i=Math.round(((e.clientX-r.left)/r.width*W-L)/((W-L-R)/N));
+  i=Math.max(0,Math.min(N,i));
+  var yrs=["Q1 22","Q3 22","Q1 23","Q3 23","Q1 24","Q3 24","Q1 25","Q3 25","Q1 26","Q3 26","Q1 27","Q3 27"];
+  tip.style.opacity=1;tip.style.left=Math.min(r.width-170,(X(i)/W*r.width)+12)+"px";tip.style.top="14px";
+  tip.innerHTML='<b>'+(i<nh?"realised":"implied")+' · point '+(i+1)+'</b>'+CB.filter(function(c){return on[c.id]}).map(function(c){
+   var v=i<nh?c.h[i]:c.f[i-nh+1]||c.f[nf-1];
+   return '<div class="l2"><span style="color:'+c.c+'">'+c.n+'</span><b>'+v.toFixed(2)+'%</b></div>';}).join("");});
+ document.getElementById("d38b-svg").addEventListener("mouseleave",function(){tip.style.opacity=0});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 38.c ============================ -->
+<div class="design" id="d38c">
+  <div class="dlabel"><span class="id">38.c</span><span class="nm">Bank cards with stance dials and next-meeting odds</span><span class="tag">card flip · odds bars · stance dial</span></div>
+  <div class="dbody">
+<style>
+#d38c .root{background:#f4f4f1;padding:22px 26px;font-family:var(--sans)}
+#d38c .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+#d38c .hd h3{font:600 19px var(--serif)}
+#d38c .hd p{font-size:12px;color:#8b8779}
+#d38c .hd .glob{margin-left:auto;display:flex;gap:16px;font:500 11px var(--mono);color:#8b8779}
+#d38c .hd .glob b{color:#26241d;font-size:13px}
+#d38c .cards5{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#d38c .cd2{background:#fff;border:1px solid #e3e0d5;border-radius:13px;padding:15px 16px;position:relative;overflow:hidden;cursor:pointer}
+#d38c .cd2:hover{border-color:#c9c4b4}
+#d38c .cd2 .top2{display:flex;align-items:center;gap:9px}
+#d38c .cd2 .fl2{font-size:22px}
+#d38c .cd2 .nm3{font-size:13.5px;font-weight:600}
+#d38c .cd2 .nm3 small{display:block;font:500 10px var(--mono);color:#a29d8e;margin-top:2px}
+#d38c .cd2 .stance{margin-left:auto;font:600 9.5px var(--mono);padding:4px 8px;border-radius:999px;letter-spacing:.06em}
+#d38c .cd2 .rt2{display:flex;align-items:baseline;gap:8px;margin-top:12px}
+#d38c .cd2 .rt2 .big3{font:600 30px var(--mono);letter-spacing:-.02em}
+#d38c .cd2 .rt2 .dl2{font:500 11px var(--mono);color:#8b8779}
+#d38c .cd2 .dial2{margin-top:10px}
+#d38c .cd2 .odds{margin-top:12px;border-top:1px solid #f0ede4;padding-top:10px}
+#d38c .cd2 .odds h5{font:600 9px var(--mono);letter-spacing:.12em;color:#a29d8e}
+#d38c .cd2 .ob{display:flex;align-items:center;gap:8px;margin-top:7px;font:500 10.5px var(--mono);color:#6f6b5e}
+#d38c .cd2 .ob .bar3{flex:1;height:14px;background:#f2f0e8;border-radius:3px;overflow:hidden}
+#d38c .cd2 .ob .bar3 i{display:block;height:100%;border-radius:3px}
+#d38c .cd2 .back{display:none;margin-top:11px;border-top:1px dashed #e3e0d5;padding-top:10px;font-size:12px;color:#5f5c52;line-height:1.55}
+#d38c .cd2.op .back{display:block}
+#d38c .cd2 .kvs{display:flex;gap:14px;margin-top:8px;font:500 10.5px var(--mono);color:#8b8779}
+#d38c .cd2 .kvs b{display:block;color:#26241d;font-size:12px}
+</style>
+<div class="root">
+  <div class="hd"><div><h3>The policy board</h3><p>Click a card for the statement read-through</p></div>
+    <div class="glob"><span>G10 average rate <b>2.94%</b></span><span>Banks easing <b>7 of 10</b></span><span>Next 30 days <b>5 decisions</b></span></div></div>
+  <div class="cards5" id="d38c-c"></div>
+</div>
+<script>(function(){
+ var CB=[
+  {f:"🇺🇸",n:"Federal Reserve",i:"Fed funds target range",r:4.375,disp:"4.25–4.50%",st:["EASING","#e8f1fa","#2f6ea8"],last:"−25bp · 18 Mar",next:"29 Apr 2026",
+   odds:[["Hold",78,"#8b8779"],["Cut 25bp",22,"#2f6ea8"],["Hike",0,"#c0483c"]],peak:5.5,trough:0.25,
+   txt:"The March statement retained ‘modestly restrictive’ but Powell flagged that the bar for a June cut is ‘a couple of good inflation prints’. The committee's median dot shows two cuts in 2026.",
+   kv:[["Inflation","2.7%"],["Unemployment","4.1%"],["Real rate","+1.42%"]]},
+  {f:"🇪🇺",n:"European Central Bank",i:"Deposit facility rate",r:2.25,disp:"2.25%",st:["EASING","#e8f1fa","#2f6ea8"],last:"−25bp · 23 Apr",next:"11 Jun 2026",
+   odds:[["Hold",54,"#8b8779"],["Cut 25bp",46,"#2f6ea8"],["Hike",0,"#c0483c"]],peak:4.0,trough:-0.5,
+   txt:"Lagarde dropped ‘sufficiently restrictive’ from the statement and declined to pre-commit. Services inflation at 3.1% remains the hawks' anchor argument.",
+   kv:[["Inflation","2.3%"],["Unemployment","6.3%"],["Real rate","−0.22%"]]},
+  {f:"🇬🇧",n:"Bank of England",i:"Bank Rate",r:4.25,disp:"4.25%",st:["EASING","#e8f1fa","#2f6ea8"],last:"−25bp · 12 Mar",next:"30 Apr 2026",
+   odds:[["Hold",18,"#8b8779"],["Cut 25bp",82,"#2f6ea8"],["Hike",0,"#c0483c"]],peak:5.25,trough:0.1,
+   txt:"The MPC split 6–3 in March with two members voting for a larger move. Wage growth has cooled to 4.6%, giving the committee room.",
+   kv:[["Inflation","3.1%"],["Unemployment","4.4%"],["Real rate","+0.94%"]]},
+  {f:"🇯🇵",n:"Bank of Japan",i:"Policy balance rate",r:0.75,disp:"0.75%",st:["TIGHTENING","#fdece9","#b1352b"],last:"+25bp · 22 Jan",next:"24 Apr 2026",
+   odds:[["Hold",88,"#8b8779"],["Hike 25bp",12,"#c0483c"],["Cut",0,"#2f6ea8"]],peak:0.75,trough:-0.1,
+   txt:"Ueda has guided toward a ‘gradual’ normalisation. The quarterly outlook report is the swing factor — a 2027 core CPI forecast above 2% would open July.",
+   kv:[["Inflation","2.1%"],["Unemployment","2.5%"],["Real rate","−1.32%"]]},
+  {f:"🇨🇦",n:"Bank of Canada",i:"Overnight rate target",r:2.75,disp:"2.75%",st:["ON HOLD","#f2f0e8","#6f6b5e"],last:"hold · 16 Apr",next:"3 Jun 2026",
+   odds:[["Hold",66,"#8b8779"],["Cut 25bp",34,"#2f6ea8"],["Hike",0,"#c0483c"]],peak:5.0,trough:0.25,
+   txt:"Macklem judged policy ‘close to neutral’. Housing re-acceleration is the main argument against further easing.",
+   kv:[["Inflation","2.2%"],["Unemployment","6.6%"],["Real rate","+0.58%"]]},
+  {f:"🇦🇺",n:"Reserve Bank of Australia",i:"Cash rate target",r:3.85,disp:"3.85%",st:["EASING","#e8f1fa","#2f6ea8"],last:"−25bp · 7 Apr",next:"6 May 2026",
+   odds:[["Hold",62,"#8b8779"],["Cut 25bp",38,"#2f6ea8"],["Hike",0,"#c0483c"]],peak:4.35,trough:0.1,
+   txt:"Trimmed-mean CPI has returned to the 2–3% band. The board removed its tightening bias in February and now describes policy as ‘still mildly restrictive’.",
+   kv:[["Inflation","2.9%"],["Unemployment","4.2%"],["Real rate","+0.92%"]]}
+ ];
+ document.getElementById("d38c-c").innerHTML=CB.map(function(c){
+  var pos=(c.r-c.trough)/(c.peak-c.trough);
+  var a=Math.PI+Math.max(0,Math.min(1,pos))*Math.PI;
+  return '<div class="cd2"><div class="top2"><span class="fl2">'+c.f+'</span><div class="nm3">'+c.n+'<small>'+c.i+'</small></div>'+
+   '<span class="stance" style="background:'+c.st[1]+';color:'+c.st[2]+'">'+c.st[0]+'</span></div>'+
+   '<div class="rt2"><span class="big3">'+c.disp+'</span><span class="dl2">'+c.last+' · next '+c.next+'</span></div>'+
+   '<svg class="dial2" viewBox="0 0 240 42" height="42" width="100%">'+
+    '<line x1="16" y1="30" x2="224" y2="30" stroke="#ece9df" stroke-width="7" stroke-linecap="round"/>'+
+    '<line x1="16" y1="30" x2="'+(16+208*Math.max(0,Math.min(1,pos)))+'" y2="30" stroke="'+c.st[2]+'" stroke-width="7" stroke-linecap="round"/>'+
+    '<circle cx="'+(16+208*Math.max(0,Math.min(1,pos)))+'" cy="30" r="6" fill="#fff" stroke="'+c.st[2]+'" stroke-width="3"/>'+
+    '<text x="16" y="14" font-size="8.5" font-family="ui-monospace" fill="#a29d8e">cycle low '+c.trough+'%</text>'+
+    '<text x="224" y="14" font-size="8.5" font-family="ui-monospace" fill="#a29d8e" text-anchor="end">cycle peak '+c.peak+'%</text></svg>'+
+   '<div class="odds"><h5>MARKET-IMPLIED ODDS · '+c.next.toUpperCase()+'</h5>'+
+    c.odds.map(function(o){return '<div class="ob"><span style="width:62px">'+o[0]+'</span><div class="bar3"><i style="width:'+o[1]+'%;background:'+o[2]+'"></i></div><span style="width:34px;text-align:right">'+o[1]+'%</span></div>';}).join("")+'</div>'+
+   '<div class="back"><p>'+c.txt+'</p><div class="kvs">'+c.kv.map(function(k){return '<span>'+k[0]+'<b>'+k[1]+'</b></span>';}).join("")+'</div></div></div>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d38c .cd2"),function(c){
+  c.addEventListener("click",function(){c.classList.toggle("op")});});
+})();</script>
+  </div>
+</div>
+</section>

@@ -1,0 +1,326 @@
+<section class="comp" id="c109">
+  <div class="comp-head"><span class="num">109</span><h2>52-week range marker</h2><span class="sz small">Small</span>
+    <span class="desc">Where an index or asset sits within its year's range.</span></div>
+
+<!-- ============================ 109.a ============================ -->
+<div class="design" id="d109a">
+  <div class="dlabel"><span class="id">109.a</span><span class="nm">Horizontal rail with percentile and moving-average ticks</span><span class="tag">hover rail · asset switch</span></div>
+  <div class="dbody">
+<style>
+#d109a .wrapx{padding:22px;background:#f5f6f8;display:flex;justify-content:center}
+#d109a .cd5{width:430px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-family:var(--sans)}
+#d109a .tp5{display:flex;align-items:baseline;gap:9px}
+#d109a .tp5 b{font-size:13.5px;font-weight:650}
+#d109a .tp5 .px10{margin-left:auto;font:600 19px var(--mono)}
+#d109a .sw2{display:flex;gap:4px;margin-top:10px}
+#d109a .sw2 button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 9px;font:600 10px var(--mono);color:#697086}
+#d109a .sw2 button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d109a .rail7{position:relative;height:42px;margin-top:14px}
+#d109a .rail7 .bg4{position:absolute;left:0;right:0;top:16px;height:10px;border-radius:5px;background:linear-gradient(90deg,#f2f4f7,#e3e8f0)}
+#d109a .rail7 .fill{position:absolute;top:16px;height:10px;border-radius:5px;left:0;background:linear-gradient(90deg,#bcd3f7,#3b62f6)}
+#d109a .rail7 .mk6{position:absolute;top:9px;width:4px;height:24px;border-radius:2px;background:#11141c;transform:translateX(-50%)}
+#d109a .rail7 .mk6 span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font:600 10px var(--mono);white-space:nowrap}
+#d109a .rail7 .ma{position:absolute;top:13px;width:2px;height:16px;background:#98a0b3;transform:translateX(-50%)}
+#d109a .rail7 .ma em{position:absolute;top:18px;left:50%;transform:translateX(-50%);font:500 8.5px var(--mono);color:#98a0b3;font-style:normal}
+#d109a .ends2{display:flex;justify-content:space-between;font:500 10.5px var(--mono);color:#98a0b3;margin-top:8px}
+#d109a .ends2 b{display:block;color:#11141c;font-size:12px}
+#d109a .kv7{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:12px}
+#d109a .kv7 div{background:#fff;padding:8px 10px}
+#d109a .kv7 b{font:500 8.5px var(--mono);letter-spacing:.08em;color:#98a0b3;display:block}
+#d109a .kv7 span{font:600 13px var(--mono);display:block;margin-top:2px}
+</style>
+<div class="wrapx"><div class="cd5">
+  <div class="tp5"><b id="d109a-n">S&amp;P 500</b><span style="font:500 10px var(--mono);color:#98a0b3" id="d109a-t">SPX · 52-week range</span><span class="px10" id="d109a-p">5,612.40</span></div>
+  <div class="sw2" id="d109a-s"></div>
+  <div class="rail7" id="d109a-r"></div>
+  <div class="ends2" id="d109a-e"></div>
+  <div class="kv7" id="d109a-k"></div>
+</div></div>
+<script>(function(){
+ var A=[
+  {n:"S&P 500",t:"SPX",px:5612.40,lo:4918.20,hi:5621.84,ma50:5486,ma200:5284,lod:"05 Aug 2025",hid:"today"},
+  {n:"Gold",t:"XAU/USD",px:2468.40,lo:1986.20,hi:2528.60,ma50:2412,ma200:2284,lod:"14 Oct 2025",hid:"02 Apr 2026"},
+  {n:"WTI crude",t:"CL1",px:70.84,lo:66.20,hi:89.40,ma50:74.2,ma200:78.6,lod:"18 Mar 2026",hid:"12 Jul 2025"},
+  {n:"US 10Y yield",t:"USGG10YR",px:4.11,lo:3.62,hi:4.78,ma50:4.22,ma200:4.34,lod:"08 Dec 2025",hid:"22 May 2025"}
+ ];
+ var sel=0;
+ function render(){
+  var a=A[sel],pct=(a.px-a.lo)/(a.hi-a.lo)*100;
+  document.getElementById("d109a-s").innerHTML=A.map(function(x,i){
+   return '<button class="'+(i===sel?"on":"")+'" data-i="'+i+'">'+x.t+'</button>';}).join("");
+  document.getElementById("d109a-n").textContent=a.n;
+  document.getElementById("d109a-t").textContent=a.t+" · 52-week range";
+  document.getElementById("d109a-p").textContent=a.px.toLocaleString();
+  var P=function(v){return Math.max(0,Math.min(100,(v-a.lo)/(a.hi-a.lo)*100));};
+  document.getElementById("d109a-r").innerHTML='<div class="bg4"></div><div class="fill" style="width:'+pct+'%"></div>'+
+   '<div class="ma" style="left:'+P(a.ma200)+'%"><em>200d</em></div>'+
+   '<div class="ma" style="left:'+P(a.ma50)+'%"><em>50d</em></div>'+
+   '<div class="mk6" style="left:'+pct+'%"><span>'+pct.toFixed(0)+'% of range</span></div>';
+  document.getElementById("d109a-e").innerHTML='<span>52w low<b>'+a.lo.toLocaleString()+'</b>'+a.lod+'</span>'+
+   '<span style="text-align:right">52w high<b>'+a.hi.toLocaleString()+'</b>'+a.hid+'</span>';
+  document.getElementById("d109a-k").innerHTML=
+   '<div><b>FROM HIGH</b><span class="'+((a.px/a.hi-1)<0?"neg":"pos")+'">'+((a.px/a.hi-1)*100).toFixed(1)+'%</span></div>'+
+   '<div><b>FROM LOW</b><span class="pos">+'+((a.px/a.lo-1)*100).toFixed(1)+'%</span></div>'+
+   '<div><b>RANGE WIDTH</b><span>'+((a.hi/a.lo-1)*100).toFixed(0)+'%</span></div>';
+  [].forEach.call(document.querySelectorAll("#d109a-s button"),function(b){
+   b.addEventListener("click",function(){sel=+b.dataset.i;render();});});
+ }
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 109.b ============================ -->
+<div class="design" id="d109b">
+  <div class="dlabel"><span class="id">109.b</span><span class="nm">Vertical column with time-spent histogram</span><span class="tag">histogram hover</span></div>
+  <div class="dbody">
+<style>
+#d109b .wrapx{padding:22px;background:#0d1015;display:flex;justify-content:center}
+#d109b .vv3{width:320px;background:#151a22;border:1px solid #222936;border-radius:12px;padding:15px 17px;font-family:var(--sans);color:#e2e8f1;display:grid;grid-template-columns:132px 1fr;gap:16px}
+#d109b .colm{position:relative;height:210px}
+#d109b .colm .track4{position:absolute;left:38px;top:0;bottom:0;width:16px;border-radius:8px;background:linear-gradient(#18c281,#3a4454 55%,#ff5b52)}
+#d109b .colm .now5{position:absolute;left:26px;width:40px;height:3px;background:#fff;border-radius:2px}
+#d109b .colm .now5 span{position:absolute;left:46px;top:-8px;font:700 12px var(--mono);white-space:nowrap}
+#d109b .colm .lbl10{position:absolute;left:0;font:500 9px var(--mono);color:#5f6a7e;width:34px;text-align:right}
+#d109b .hist4{display:flex;flex-direction:column-reverse;justify-content:space-between;height:210px}
+#d109b .hist4 .hr2{display:flex;align-items:center;gap:6px;height:12%}
+#d109b .hist4 .hr2 i{height:9px;border-radius:2px;background:#2b3444}
+#d109b .hist4 .hr2:hover i{background:#3b62f6}
+#d109b .hist4 .hr2 span{font:500 9px var(--mono);color:#5f6a7e}
+#d109b .ttl3{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;border-bottom:1px solid #222936;padding-bottom:10px}
+#d109b .ttl3 b{font-size:13px;font-weight:600}
+#d109b .ttl3 span{font:500 10px var(--mono);color:#5f6a7e;margin-left:auto}
+#d109b .ftx{grid-column:1/-1;font:500 10.5px var(--mono);color:#7b8598;border-top:1px solid #222936;padding-top:10px}
+#d109b .ftx b{color:#e2e8f1}
+</style>
+<div class="wrapx"><div class="vv3">
+  <div class="ttl3"><b>NASDAQ 100</b><span>52-week positioning</span></div>
+  <div class="colm">
+    <div class="track4"></div>
+    <div class="lbl10" style="top:-5px">20,120</div>
+    <div class="lbl10" style="bottom:-5px">14,486</div>
+    <div class="lbl10" style="top:48%">17,300</div>
+    <div class="now5" style="top:6%"><span>19,842</span></div>
+  </div>
+  <div class="hist4" id="d109b-h"></div>
+  <div class="ftx">Trading in the <b>top 6%</b> of its annual range · 1.4% below the record high · <b>38 sessions</b> spent in this decile</div>
+</div></div>
+<script>(function(){
+ var bins=[[ "14.5–15.1k",6],["15.1–15.7k",14],["15.7–16.3k",22],["16.3–17.0k",31],["17.0–17.6k",46],
+  ["17.6–18.2k",38],["18.2–18.9k",29],["18.9–19.5k",26],["19.5–20.1k",38]];
+ var mx=Math.max.apply(null,bins.map(function(b){return b[1]}));
+ document.getElementById("d109b-h").innerHTML=bins.map(function(b){
+  return '<div class="hr2" title="'+b[0]+' · '+b[1]+' sessions"><i style="width:'+(b[1]/mx*72)+'%"></i><span>'+b[1]+'d</span></div>';}).join("");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 109.c ============================ -->
+<div class="design" id="d109c">
+  <div class="dlabel"><span class="id">109.c</span><span class="nm">Multi-row range table for a watchlist</span><span class="tag">row hover · sorted by position</span></div>
+  <div class="dbody">
+<style>
+#d109c .root{background:#fdfcf9;padding:16px 20px;font-family:var(--sans)}
+#d109c .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+#d109c .hd h3{font:600 15px var(--serif)}
+#d109c .hd span{font-size:11.5px;color:#8d8778}
+#d109c .rw3{display:grid;grid-template-columns:120px 84px 1fr 60px;gap:12px;align-items:center;padding:9px 4px;border-bottom:1px solid #eeeae0}
+#d109c .rw3:hover{background:#fff}
+#d109c .rw3 .nm14{font-size:12.5px;font-weight:600}
+#d109c .rw3 .nm14 small{display:block;font:500 9.5px var(--mono);color:#a9a294;margin-top:1px}
+#d109c .rw3 .px11{font:600 13px var(--mono);text-align:right}
+#d109c .rr2{position:relative;height:22px}
+#d109c .rr2 .ln3{position:absolute;left:0;right:0;top:10px;height:3px;background:#eae6db;border-radius:2px}
+#d109c .rr2 .fl7{position:absolute;top:10px;height:3px;border-radius:2px;left:0}
+#d109c .rr2 .dt4{position:absolute;top:5.5px;width:12px;height:12px;border-radius:50%;transform:translateX(-50%);border:2.5px solid #fdfcf9}
+#d109c .rr2 .lo2,#d109c .rr2 .hi2{position:absolute;top:1px;font:500 9px var(--mono);color:#a9a294}
+#d109c .rr2 .lo2{left:0}#d109c .rr2 .hi2{right:0}
+#d109c .pct2{font:600 12px var(--mono);text-align:right}
+</style>
+<div class="root">
+  <div class="hd"><h3>Where things sit in their year</h3><span>dot = today · bar = 52-week range</span></div>
+  <div id="d109c-r"></div>
+</div>
+<script>(function(){
+ var A=[
+  {n:"S&P 500",t:"SPX",px:"5,612",lo:4918,hi:5622,v:5612},
+  {n:"Nikkei 225",t:"NKY",px:"39,146",lo:31240,hi:39420,v:39146},
+  {n:"Gold",t:"XAU",px:"2,468",lo:1986,hi:2529,v:2468},
+  {n:"Euro Stoxx 50",t:"SX5E",px:"5,249",lo:4462,hi:5312,v:5249},
+  {n:"US 10Y yield",t:"UST10",px:"4.11%",lo:3.62,hi:4.78,v:4.11},
+  {n:"Bitcoin",t:"BTC",px:"64,280",lo:49200,hi:98400,v:64280},
+  {n:"WTI crude",t:"CL1",px:"$70.84",lo:66.2,hi:89.4,v:70.84},
+  {n:"CSI 300",t:"SHSZ300",px:"3,486",lo:3182,hi:4124,v:3486}
+ ];
+ A.sort(function(a,b){return (b.v-b.lo)/(b.hi-b.lo)-(a.v-a.lo)/(a.hi-a.lo)});
+ document.getElementById("d109c-r").innerHTML=A.map(function(a){
+  var p=(a.v-a.lo)/(a.hi-a.lo)*100;
+  var c=p>80?"#2e7d5b":p>45?"#8a7d2f":"#b4453a";
+  return '<div class="rw3"><div class="nm14">'+a.n+'<small>'+a.t+'</small></div>'+
+   '<div class="px11">'+a.px+'</div>'+
+   '<div class="rr2"><div class="ln3"></div><div class="fl7" style="width:'+p+'%;background:'+c+'"></div>'+
+   '<div class="dt4" style="left:'+p+'%;background:'+c+'"></div>'+
+   '<span class="lo2">'+a.lo.toLocaleString()+'</span><span class="hi2">'+a.hi.toLocaleString()+'</span></div>'+
+   '<div class="pct2" style="color:'+c+'">'+p.toFixed(0)+'%</div></div>';}).join("");
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c113">
+  <div class="comp-head"><span class="num">113</span><h2>Rate-change probability</h2><span class="sz small">Small</span>
+    <span class="desc">The market-implied chance of a central bank rate move at its next meeting.</span></div>
+
+<!-- ============================ 113.a ============================ -->
+<div class="design" id="d113a">
+  <div class="dlabel"><span class="id">113.a</span><span class="nm">Outcome bars with a week-ago comparison</span><span class="tag">bank switch · delta ghosts</span></div>
+  <div class="dbody">
+<style>
+#d113a .wrapx{padding:22px;background:#f5f6f8;display:flex;justify-content:center}
+#d113a .cd6{width:420px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-family:var(--sans)}
+#d113a .tp6{display:flex;align-items:center;gap:9px}
+#d113a .tp6 b{font-size:13px;font-weight:650}
+#d113a .tp6 .dtx{margin-left:auto;font:500 10.5px var(--mono);color:#98a0b3}
+#d113a .sel3{display:flex;gap:4px;margin-top:10px}
+#d113a .sel3 button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 9px;font:600 10px var(--mono);color:#697086}
+#d113a .sel3 button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d113a .ob2{display:grid;grid-template-columns:86px 1fr 48px;gap:10px;align-items:center;margin-top:10px;font-size:12px}
+#d113a .ob2 .tr5{position:relative;height:20px;background:#f3f5f8;border-radius:4px;overflow:hidden}
+#d113a .ob2 .tr5 i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+#d113a .ob2 .tr5 em{position:absolute;top:-2px;bottom:-2px;width:2px;background:#98a0b3}
+#d113a .ob2 .pv{font:600 12.5px var(--mono);text-align:right}
+#d113a .ft5{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:11.5px;color:#697086;line-height:1.5}
+#d113a .ft5 b{color:#11141c}
+</style>
+<div class="wrapx"><div class="cd6">
+  <div class="tp6"><b id="d113a-b">Federal Reserve</b><span class="dtx" id="d113a-d">29 April 2026 · 8 days away</span></div>
+  <div class="sel3" id="d113a-s"></div>
+  <div id="d113a-o"></div>
+  <div class="ft5" id="d113a-f"></div>
+</div></div>
+<script>(function(){
+ var CB=[
+  {t:"FED",n:"Federal Reserve",d:"29 April 2026 · 8 days away",cur:"4.25–4.50%",
+   o:[["Cut 50bp",1,0,"#2f6ea8"],["Cut 25bp",21,14,"#4a8bc2"],["Hold",78,86,"#98a0b3"],["Hike 25bp",0,0,"#c0392b"]],
+   f:"A hold is the base case. The market prices <b>1.9 cuts</b> by December, up from 1.6 a week ago; tomorrow's core PCE print is the swing factor."},
+  {t:"ECB",n:"European Central Bank",d:"11 June 2026 · 48 days away",cur:"2.25%",
+   o:[["Cut 50bp",2,1,"#2f6ea8"],["Cut 25bp",46,38,"#4a8bc2"],["Hold",52,61,"#98a0b3"],["Hike 25bp",0,0,"#c0392b"]],
+   f:"Roughly a coin flip. Lagarde declined to pre-commit at the April meeting; the June staff projections carry the decision."},
+  {t:"BOE",n:"Bank of England",d:"30 April 2026 · 9 days away",cur:"4.25%",
+   o:[["Cut 50bp",0,0,"#2f6ea8"],["Cut 25bp",82,74,"#4a8bc2"],["Hold",18,26,"#98a0b3"],["Hike 25bp",0,0,"#c0392b"]],
+   f:"A cut is close to fully priced. The interest is in the vote split — three MPC members backed a larger move in March."},
+  {t:"BOJ",n:"Bank of Japan",d:"24 April 2026 · today",cur:"0.75%",
+   o:[["Cut 25bp",0,0,"#2f6ea8"],["Hold",88,92,"#98a0b3"],["Hike 25bp",12,8,"#c0392b"],["Hike 50bp",0,0,"#8e2d24"]],
+   f:"Hold expected. The quarterly outlook report and any change to the JGB taper schedule are what the yen will trade on."}
+ ];
+ var sel=0;
+ function render(){
+  var c=CB[sel];
+  document.getElementById("d113a-s").innerHTML=CB.map(function(x,i){
+   return '<button class="'+(i===sel?"on":"")+'" data-i="'+i+'">'+x.t+'</button>';}).join("");
+  document.getElementById("d113a-b").textContent=c.n;
+  document.getElementById("d113a-d").textContent=c.d+" · currently "+c.cur;
+  document.getElementById("d113a-o").innerHTML=c.o.map(function(o){
+   var d=o[1]-o[2];
+   return '<div class="ob2"><span>'+o[0]+'</span>'+
+    '<div class="tr5"><i style="width:'+o[1]+'%;background:'+o[3]+'"></i><em style="left:'+o[2]+'%"></em></div>'+
+    '<span class="pv">'+o[1]+'%</span></div>'+
+    (Math.abs(d)>0?'<div style="font:500 9.5px var(--mono);color:'+(d>0?"#0f9d6a":"#e0483d")+';margin:-4px 0 0 96px">'+(d>0?"+":"")+d+'pp vs one week ago</div>':'');}).join("");
+  document.getElementById("d113a-f").innerHTML=c.f;
+  [].forEach.call(document.querySelectorAll("#d113a-s button"),function(b){
+   b.addEventListener("click",function(){sel=+b.dataset.i;render();});});
+ }
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 113.b ============================ -->
+<div class="design" id="d113b">
+  <div class="dlabel"><span class="id">113.b</span><span class="nm">Split-ring probability with countdown</span><span class="tag">live countdown · ring</span></div>
+  <div class="dbody">
+<style>
+#d113b .wrapx{padding:22px;background:#0c0f15;display:flex;justify-content:center}
+#d113b .rg2{width:300px;background:#141922;border:1px solid #212836;border-radius:13px;padding:16px;font-family:var(--sans);color:#e2e8f1;text-align:center;position:relative}
+#d113b .rg2 .kb{font:600 9px var(--mono);letter-spacing:.16em;color:#5f6a7e}
+#d113b .rg2 .bk2{font-size:14px;font-weight:600;margin-top:5px}
+#d113b .rg2 .ctr4{position:absolute;left:0;right:0;top:114px}
+#d113b .rg2 .ctr4 .p12{font:700 36px var(--mono);letter-spacing:-.03em}
+#d113b .rg2 .ctr4 .w4{font:600 9px var(--mono);letter-spacing:.12em;color:#8b95a8}
+#d113b .rg2 .lg7{display:flex;justify-content:center;gap:12px;font:500 10px var(--mono);color:#8b95a8;margin-top:6px}
+#d113b .rg2 .lg7 i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+#d113b .rg2 .cdz{margin-top:12px;border-top:1px solid #212836;padding-top:11px}
+#d113b .rg2 .cdz .cl4{font:600 22px var(--mono);color:#ffd166}
+#d113b .rg2 .cdz .dt5{font:500 10px var(--mono);color:#5f6a7e;margin-top:3px}
+</style>
+<div class="wrapx"><div class="rg2">
+  <div class="kb">NEXT DECISION</div>
+  <div class="bk2">🇺🇸 Federal Reserve · FOMC</div>
+  <svg viewBox="0 0 170 170" width="170" height="170" style="margin:8px auto 0">
+    <circle cx="85" cy="85" r="66" fill="none" stroke="#1c2230" stroke-width="15"/>
+    <circle cx="85" cy="85" r="66" fill="none" stroke="#5f6a7e" stroke-width="15" stroke-dasharray="323 415" transform="rotate(-90 85 85)"/>
+    <circle cx="85" cy="85" r="66" fill="none" stroke="#4a8bc2" stroke-width="15" stroke-dasharray="87 415" stroke-dashoffset="-325" transform="rotate(-90 85 85)"/>
+  </svg>
+  <div class="ctr4"><div class="p12">78%</div><div class="w4">HOLD</div></div>
+  <div class="lg7"><span><i style="background:#5f6a7e"></i>hold 78%</span><span><i style="background:#4a8bc2"></i>cut 25bp 21%</span><span><i style="background:#2f3a4c"></i>other 1%</span></div>
+  <div class="cdz"><div class="cl4" id="d113b-c">8d 14:21:08</div><div class="dt5">until 29 Apr 2026, 14:00 ET · current target 4.25–4.50%</div></div>
+</div></div>
+<script>(function(){
+ var s=8*86400+14*3600+21*60+8,el=document.getElementById("d113b-c");
+ setInterval(function(){s--;
+  var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;
+  el.textContent=d+"d "+String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(x).padStart(2,"0");},1000);
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 113.c ============================ -->
+<div class="design" id="d113c">
+  <div class="dlabel"><span class="id">113.c</span><span class="nm">Meeting × outcome heat grid for the next year</span><span class="tag">cell hover · cumulative row</span></div>
+  <div class="dbody">
+<style>
+#d113c .root{background:#fff;padding:16px 20px;font-family:var(--sans)}
+#d113c .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+#d113c .hd h3{font-size:14px;font-weight:650}
+#d113c .hd span{font:500 10.5px var(--mono);color:#98a0b3}
+#d113c .gd2{display:grid;grid-template-columns:96px repeat(8,1fr);gap:3px;align-items:center}
+#d113c .gd2 .hx2{font:600 9px var(--mono);color:#98a0b3;text-align:center;padding-bottom:3px}
+#d113c .gd2 .rl8{font:500 10.5px var(--mono);color:#4b5364}
+#d113c .gd2 .cc5{padding:7px 2px;border-radius:4px;text-align:center;font:600 10.5px var(--mono);cursor:pointer}
+#d113c .gd2 .cc5:hover{outline:2px solid #11141c}
+#d113c .cum{display:grid;grid-template-columns:96px repeat(8,1fr);gap:3px;margin-top:6px;border-top:1px solid var(--line);padding-top:7px}
+#d113c .cum .rl8{font:500 10.5px var(--mono);color:#4b5364}
+#d113c .cum div{text-align:center;font:600 11px var(--mono)}
+#d113c .rdx{margin-top:10px;background:#f7f9fc;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:11.5px;color:#4b5364;min-height:34px;line-height:1.5}
+#d113c .rdx b{color:#11141c}
+</style>
+<div class="root">
+  <div class="hd"><h3>Fed meeting probabilities</h3><span>OIS-implied · next eight FOMC dates</span></div>
+  <div class="gd2" id="d113c-g"></div>
+  <div class="cum" id="d113c-c"></div>
+  <div class="rdx" id="d113c-r">Hover a cell for the implied probability and the rate it would imply.</div>
+</div>
+<script>(function(){
+ var M=["29 Apr","17 Jun","29 Jul","16 Sep","28 Oct","9 Dec","27 Jan","17 Mar"];
+ var ROWS=[
+  {n:"Hike 25bp",v:[0,0,0,0,1,1,2,3],c:[192,57,43]},
+  {n:"Hold",v:[78,54,42,31,26,22,20,18],c:[120,130,148]},
+  {n:"Cut 25bp",v:[21,42,46,44,38,32,28,24],c:[74,139,194]},
+  {n:"Cut 50bp+",v:[1,4,12,25,35,45,50,55],c:[47,110,168]}
+ ];
+ var cum=[-0.06,-0.32,-0.58,-0.86,-1.12,-1.38,-1.52,-1.68];
+ document.getElementById("d113c-g").innerHTML='<div></div>'+M.map(function(m){return '<div class="hx2">'+m+'</div>'}).join("")+
+  ROWS.map(function(r){
+   return '<div class="rl8">'+r.n+'</div>'+r.v.map(function(v,i){
+    var a=v/100;
+    return '<div class="cc5" data-r="'+r.n+'" data-m="'+i+'" data-v="'+v+'" style="background:rgba('+r.c.join(",")+','+(0.08+a*0.8).toFixed(2)+');color:'+(a>0.45?"#fff":"#39404f")+'">'+(v>0?v:"·")+'</div>';}).join("");}).join("");
+ document.getElementById("d113c-c").innerHTML='<div class="rl8">Implied rate</div>'+cum.map(function(c){
+  return '<div style="color:#2f6ea8">'+(4.375+c).toFixed(2)+'%</div>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d113c .cc5"),function(c){
+  c.addEventListener("mouseenter",function(){
+   document.getElementById("d113c-r").innerHTML='<b>'+M[+c.dataset.m]+'</b> — the market assigns a <b>'+c.dataset.v+'%</b> probability to "'+c.dataset.r+
+    '". Cumulative pricing puts the effective rate at <b>'+(4.375+cum[+c.dataset.m]).toFixed(2)+'%</b> after that meeting, versus 4.38% today.';});});
+})();</script>
+  </div>
+</div>
+</section>

@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #e6dfd2;
+  color: #1c1915;
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #e7c4a4;
+  color: #1c1915;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b5aa98 transparent;
+}
+
+button, input, select {
+  font-family: inherit;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.specimen-scroll {
+  scrollbar-color: #8a7d68 transparent;
+}

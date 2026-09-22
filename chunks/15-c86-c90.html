@@ -1,0 +1,417 @@
+<section class="comp" id="c86">
+  <div class="comp-head"><span class="num">86</span><h2>Retail sentiment survey</h2><span class="sz med">Medium</span>
+    <span class="desc">How individual investors say they feel about the market.</span></div>
+
+<!-- ============================ 86.a ============================ -->
+<div class="design" id="d86a">
+  <div class="dlabel"><span class="id">86.a</span><span class="nm">Bull/bear/neutral stacked history with spread line</span><span class="tag">hover week · spread toggle</span></div>
+  <div class="dbody">
+<style>
+#d86a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d86a .hd{display:flex;align-items:center;gap:12px}
+#d86a .hd h3{font-size:15px;font-weight:650}
+#d86a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d86a .hd label{margin-left:auto;font:500 11px var(--mono);color:#697086;display:flex;gap:6px;align-items:center}
+#d86a .now3{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+#d86a .now3 div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+#d86a .now3 b{font:500 9px var(--mono);letter-spacing:.1em;color:#98a0b3;display:block}
+#d86a .now3 span{font:600 20px var(--mono);display:block;margin-top:3px}
+#d86a .now3 em{font-style:normal;font:500 10px var(--mono);color:#98a0b3}
+#d86a .rdw{margin-top:10px;font:500 11.5px var(--mono);color:#697086;min-height:18px}
+</style>
+<div class="root">
+  <div class="hd"><h3>AAII investor sentiment survey</h3><span class="s">weekly poll of individual investors · 104 weeks</span>
+    <label><input type="checkbox" id="d86a-sp" checked> show bull–bear spread</label></div>
+  <svg id="d86a-svg" viewBox="0 0 940 240" style="width:100%;height:auto;margin-top:10px"></svg>
+  <div class="rdw" id="d86a-rd">Latest week: 42.6% bullish · 26.8% neutral · 30.6% bearish</div>
+  <div class="now3">
+    <div><b>BULLISH</b><span class="pos">42.6%</span><em>vs 37.5% historical average</em></div>
+    <div><b>NEUTRAL</b><span>26.8%</span><em>vs 31.5% average</em></div>
+    <div><b>BEARISH</b><span class="neg">30.6%</span><em>vs 31.0% average</em></div>
+    <div><b>BULL–BEAR SPREAD</b><span>+12.0</span><em>78th percentile · mildly frothy</em></div>
+  </div>
+</div>
+<script>(function(){
+ var N=104,W=940,H=240,L=44,R=46,T=14,B=24,showSp=true;
+ var D=[];
+ for(var i=0;i<N;i++){
+  var bull=37+Math.sin(i/9)*11+Math.sin(i/26)*8+Math.sin(i/3.1)*3;
+  var bear=62-bull+Math.sin(i/7)*6-20;
+  bear=Math.max(14,Math.min(58,bear));
+  var neu=100-bull-bear;
+  D.push({b:bull,n:neu,r:bear});}
+ D[N-1]={b:42.6,n:26.8,r:30.6};
+ var X=function(i){return L+i*(W-L-R)/(N-1)},Y=function(v){return T+(100-v)/100*(H-T-B)};
+ function draw(hi){
+  var s="";
+  function band(from,to,col,op){
+   var top="",bot="";
+   D.forEach(function(d,i){
+    var a=from(d),b=to(d);
+    top+=(i?"L":"M")+X(i).toFixed(1)+","+Y(b).toFixed(1);});
+   for(var i=D.length-1;i>=0;i--)bot+="L"+X(i).toFixed(1)+","+Y(from(D[i])).toFixed(1);
+   s+='<path d="'+top+bot+'Z" fill="'+col+'" opacity="'+op+'"/>';}
+  band(function(){return 0},function(d){return d.b},"#0f9d6a",.62);
+  band(function(d){return d.b},function(d){return d.b+d.n},"#c8cdd8",.62);
+  band(function(d){return d.b+d.n},function(){return 100},"#e0483d",.62);
+  [25,50,75].forEach(function(g){s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="rgba(255,255,255,.55)"/>'+
+   '<text x="'+(L-7)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+g+'%</text>';});
+  if(showSp){
+   var p="";D.forEach(function(d,i){p+=(i?"L":"M")+X(i).toFixed(1)+","+Y(50+(d.b-d.r)*0.8).toFixed(1);});
+   s+='<path d="'+p+'" fill="none" stroke="#11141c" stroke-width="2"/>';
+   s+='<line x1="'+L+'" y1="'+Y(50)+'" x2="'+(W-R)+'" y2="'+Y(50)+'" stroke="#11141c" stroke-dasharray="3 3" opacity=".4"/>';
+   s+='<text x="'+(W-R+6)+'" y="'+(Y(50+12*0.8)+4)+'" font-size="10" font-family="ui-monospace" fill="#11141c">spread</text>';}
+  ["bullish","neutral","bearish"].forEach(function(t,i){
+   s+='<text x="'+(L+8)+'" y="'+(T+14+i*16)+'" font-size="10" font-family="ui-monospace" fill="#fff" opacity=".9">'+t+'</text>';});
+  if(hi!==undefined){s+='<line x1="'+X(hi)+'" y1="'+T+'" x2="'+X(hi)+'" y2="'+(H-B)+'" stroke="#11141c"/>';}
+  document.getElementById("d86a-svg").innerHTML=s;
+ }
+ document.getElementById("d86a-svg").addEventListener("mousemove",function(e){
+  var r=this.getBoundingClientRect(),i=Math.round(((e.clientX-r.left)/r.width*W-L)/((W-L-R)/(N-1)));
+  i=Math.max(0,Math.min(N-1,i));draw(i);
+  var d=D[i];
+  document.getElementById("d86a-rd").innerHTML='Week −'+(N-1-i)+': <b style="color:#0f9d6a">'+d.b.toFixed(1)+'% bullish</b> · '+
+   d.n.toFixed(1)+'% neutral · <b style="color:#e0483d">'+d.r.toFixed(1)+'% bearish</b> · spread '+(d.b-d.r>=0?"+":"")+(d.b-d.r).toFixed(1);});
+ document.getElementById("d86a-sp").addEventListener("change",function(){showSp=this.checked;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 86.b ============================ -->
+<div class="design" id="d86b">
+  <div class="dlabel"><span class="id">86.b</span><span class="nm">Survey dial with contrarian lookup table</span><span class="tag">dial · historical analogue rows</span></div>
+  <div class="dbody">
+<style>
+#d86b .root{background:#101116;color:#e4e7ee;padding:20px 24px;font-family:var(--sans);display:grid;grid-template-columns:250px 1fr;gap:26px}
+#d86b .gz2{text-align:center}
+#d86b .gz2 .ttl{font:600 9.5px var(--mono);letter-spacing:.16em;color:#616a7d}
+#d86b .gz2 .num2{font:700 40px var(--mono);margin-top:4px}
+#d86b .gz2 .wd{font:600 11px var(--mono);letter-spacing:.14em;margin-top:2px}
+#d86b .gz2 .mix2{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:14px}
+#d86b .gz2 .lg6{display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#616a7d;margin-top:6px}
+#d86b .rightc h3{font-size:15px;font-weight:600}
+#d86b .rightc .s{font:500 10px var(--mono);letter-spacing:.12em;color:#616a7d;text-transform:uppercase;margin-top:3px}
+#d86b table{width:100%;border-collapse:collapse;margin-top:12px}
+#d86b th{font:600 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#616a7d;text-align:right;padding:7px 8px;border-bottom:1px solid #1e222c}
+#d86b th:first-child{text-align:left}
+#d86b td{padding:8px;border-bottom:1px solid #191d26;font-size:12.5px;text-align:right}
+#d86b td:first-child{text-align:left}
+#d86b tr:hover td{background:#161a22}
+#d86b .cnote{margin-top:12px;background:#171b23;border:1px solid #232834;border-radius:10px;padding:12px 14px;font-size:12px;color:#97a0b2;line-height:1.55}
+#d86b .cnote b{color:#e4e7ee}
+</style>
+<div class="root">
+  <div class="gz2">
+    <div class="ttl">BULL − BEAR SPREAD</div>
+    <svg viewBox="0 0 210 140" width="210" height="140">
+      <path d="M22,118 A84,84 0 0 1 188,118" fill="none" stroke="#1b1f29" stroke-width="16" stroke-linecap="round"/>
+      <path d="M22,118 A84,84 0 0 1 188,118" fill="none" stroke="url(#d86bg)" stroke-width="16" stroke-linecap="round" opacity=".85"/>
+      <defs><linearGradient id="d86bg" x1="0" x2="1"><stop offset="0" stop-color="#e0483d"/><stop offset=".5" stop-color="#6b7383"/><stop offset="1" stop-color="#18c281"/></linearGradient></defs>
+      <line x1="105" y1="118" x2="141" y2="46" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="105" cy="118" r="8" fill="#e4e7ee"/>
+      <text x="22" y="134" font-size="8.5" font-family="ui-monospace" fill="#616a7d">−40</text>
+      <text x="170" y="134" font-size="8.5" font-family="ui-monospace" fill="#616a7d">+40</text></svg>
+    <div class="num2" style="color:#18c281">+12.0</div>
+    <div class="wd" style="color:#18c281">MILDLY BULLISH</div>
+    <div class="mix2"><i style="flex:42.6;background:#18c281"></i><i style="flex:26.8;background:#4a5263"></i><i style="flex:30.6;background:#e0483d"></i></div>
+    <div class="lg6"><span>42.6% bull</span><span>26.8% neu</span><span>30.6% bear</span></div>
+  </div>
+  <div class="rightc">
+    <h3>What happened last time retail felt like this</h3>
+    <div class="s">weeks since 2000 with a bull–bear spread between +8 and +16</div>
+    <table>
+      <tr><th>Episode</th><th>Spread</th><th>S&amp;P next 1m</th><th>Next 3m</th><th>Next 12m</th></tr>
+      <tr><td>14 Feb 2026</td><td class="mn">+14.2</td><td class="mn pos">+1.8%</td><td class="mn pos">+4.2%</td><td class="mn">—</td></tr>
+      <tr><td>08 Nov 2025</td><td class="mn">+11.4</td><td class="mn neg">−2.1%</td><td class="mn pos">+3.6%</td><td class="mn pos">+12.4%</td></tr>
+      <tr><td>22 Mar 2025</td><td class="mn">+9.6</td><td class="mn pos">+2.4%</td><td class="mn pos">+6.1%</td><td class="mn pos">+18.2%</td></tr>
+      <tr><td>19 Jan 2024</td><td class="mn">+15.8</td><td class="mn pos">+3.1%</td><td class="mn neg">−1.4%</td><td class="mn pos">+21.6%</td></tr>
+      <tr><td>02 Jun 2023</td><td class="mn">+13.2</td><td class="mn pos">+2.8%</td><td class="mn neg">−3.2%</td><td class="mn pos">+19.8%</td></tr>
+      <tr style="background:#161a22"><td><b>Median of 148 weeks</b></td><td class="mn">+12.1</td><td class="mn pos">+1.1%</td><td class="mn pos">+2.4%</td><td class="mn pos">+9.6%</td></tr>
+    </table>
+    <div class="cnote">The survey is a weak contrarian indicator at these levels. The signal has historically only mattered at the extremes: spreads above <b>+30</b> have preceded a negative next-month return 64% of the time, and spreads below <b>−25</b> have been followed by a median three-month gain of <b>+7.4%</b>.</div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ============================ 86.c ============================ -->
+<div class="design" id="d86c">
+  <div class="dlabel"><span class="id">86.c</span><span class="nm">Five sentiment sources, one distribution rail each</span><span class="tag">source hover · z-score rail</span></div>
+  <div class="dbody">
+<style>
+#d86c .root{background:#faf9f5;padding:20px 24px;font-family:var(--sans)}
+#d86c .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+#d86c .hd h3{font:600 18px var(--serif)}
+#d86c .hd p{font-size:12px;color:#8d8778}
+#d86c .r12{display:grid;grid-template-columns:190px 1fr 74px 84px;gap:14px;align-items:center;padding:12px 4px;border-bottom:1px solid #eae6db}
+#d86c .r12:hover{background:#fff}
+#d86c .r12 .nm8{font-size:13px;font-weight:600}
+#d86c .r12 .nm8 small{display:block;font:500 10px var(--mono);color:#a9a294;margin-top:2px}
+#d86c .rail4{position:relative;height:34px}
+#d86c .rail4 .bg2{position:absolute;left:0;right:0;top:13px;height:8px;border-radius:4px;background:linear-gradient(90deg,#b4453a,#e0d9c4,#2e7d5b)}
+#d86c .rail4 .zn{position:absolute;top:8px;bottom:8px;width:1px;background:rgba(0,0,0,.14)}
+#d86c .rail4 .mk2{position:absolute;top:5px;width:4px;height:24px;border-radius:2px;background:#26241d}
+#d86c .rail4 .mk3{position:absolute;top:9px;width:2px;height:16px;border-radius:1px;background:rgba(38,36,29,.35)}
+#d86c .rail4 .tx{position:absolute;top:-2px;font:600 9px var(--mono);color:#26241d;transform:translateX(-50%)}
+#d86c .v11{font:600 15px var(--mono);text-align:right}
+#d86c .chip4{font:600 9.5px var(--mono);padding:4px 8px;border-radius:5px;text-align:center}
+#d86c .axl3{display:grid;grid-template-columns:190px 1fr 74px 84px;gap:14px;font:500 9.5px var(--mono);color:#a9a294;margin-top:6px}
+#d86c .axl3 .sp4{display:flex;justify-content:space-between}
+#d86c .summ{margin-top:14px;background:#26241d;color:#f4f1e8;border-radius:11px;padding:13px 15px;font-size:12.5px;line-height:1.6}
+#d86c .summ b{color:#fff}
+</style>
+<div class="root">
+  <div class="hd"><div><h3>Retail mood, five ways</h3><p>Each rail shows the latest reading against its own five-year distribution · faint tick = one month ago</p></div></div>
+  <div id="d86c-rows"></div>
+  <div class="axl3"><span></span><div class="sp4"><span>−2σ bearish</span><span>average</span><span>+2σ bullish</span></div><span></span><span></span></div>
+  <div class="summ">Four of five retail gauges now sit above their five-year average. The outlier is <b>cash allocation</b>, still elevated at 17.4% of self-directed portfolios — retail investors are talking bullish but have not fully committed the money.</div>
+</div>
+<script>(function(){
+ var S=[
+  {n:"AAII bull−bear spread",s:"weekly survey · 118k responses",v:"+12.0",z:0.8,z0:0.2,st:["BULLISH","#e8f4ee","#2e7d5b"]},
+  {n:"Retail net buying",s:"single-stock flow, $bn/day",v:"$1.42bn",z:1.4,z0:0.9,st:["VERY BULLISH","#e8f4ee","#1d6b48"]},
+  {n:"Call option share",s:"% of retail option volume",v:"68.4%",z:1.1,z0:0.6,st:["BULLISH","#e8f4ee","#2e7d5b"]},
+  {n:"Cash allocation",s:"% of self-directed portfolios",v:"17.4%",z:-0.6,z0:-0.2,st:["CAUTIOUS","#fdf2e8","#a86b1f"]},
+  {n:"Social sentiment index",s:"NLP score across 4.2m posts",v:"61 / 100",z:0.5,z0:-0.4,st:["MILDLY BULLISH","#f2f4ee","#5c6b4a"]}
+ ];
+ document.getElementById("d86c-rows").innerHTML=S.map(function(s){
+  var P=function(z){return (z+2.6)/5.2*100;};
+  return '<div class="r12"><div class="nm8">'+s.n+'<small>'+s.s+'</small></div>'+
+   '<div class="rail4"><div class="bg2"></div>'+
+   [-2,-1,0,1,2].map(function(z){return '<div class="zn" style="left:'+P(z)+'%"></div>';}).join("")+
+   '<div class="mk3" style="left:'+P(s.z0)+'%"></div>'+
+   '<div class="mk2" style="left:'+P(s.z)+'%"></div>'+
+   '<div class="tx" style="left:'+P(s.z)+'%">'+(s.z>=0?"+":"")+s.z.toFixed(1)+'σ</div></div>'+
+   '<div class="v11">'+s.v+'</div>'+
+   '<div class="chip4" style="background:'+s.st[1]+';color:'+s.st[2]+'">'+s.st[0]+'</div></div>';}).join("");
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c90">
+  <div class="comp-head"><span class="num">90</span><h2>Thematic basket performance</h2><span class="sz med">Medium</span>
+    <span class="desc">How a group of stocks tied to a single theme (for example AI, clean energy) has performed.</span></div>
+
+<!-- ============================ 90.a ============================ -->
+<div class="design" id="d90a">
+  <div class="dlabel"><span class="id">90.a</span><span class="nm">Theme selector with rebased line and constituent table</span><span class="tag">theme switch · member hover</span></div>
+  <div class="dbody">
+<style>
+#d90a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d90a .themes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+#d90a .themes button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;font:600 11px var(--mono);color:#697086}
+#d90a .themes button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d90a .split{display:grid;grid-template-columns:1fr 330px;gap:20px}
+#d90a .hdr2{display:flex;align-items:baseline;gap:12px}
+#d90a .hdr2 h3{font-size:16px;font-weight:650}
+#d90a .hdr2 .rt4{font:600 22px var(--mono);margin-left:auto}
+#d90a .hdr2 .sub6{font:500 11px var(--mono);color:#98a0b3}
+#d90a .stats6{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+#d90a .stats6 div{border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+#d90a .stats6 b{font:500 8.5px var(--mono);letter-spacing:.1em;color:#98a0b3;display:block}
+#d90a .stats6 span{font:600 14px var(--mono);display:block;margin-top:3px}
+#d90a table{width:100%;border-collapse:collapse}
+#d90a th{font:600 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#98a0b3;text-align:right;padding:7px 6px;border-bottom:1px solid var(--line)}
+#d90a th:first-child{text-align:left}
+#d90a td{padding:7px 6px;border-bottom:1px solid #f4f6f8;font-size:12.5px;text-align:right}
+#d90a td:first-child{text-align:left}
+#d90a tr:hover td{background:#fafbfd}
+</style>
+<div class="root">
+  <div class="themes" id="d90a-t"></div>
+  <div class="split">
+    <div>
+      <div class="hdr2"><h3 id="d90a-h">Artificial intelligence</h3><span class="sub6" id="d90a-s"></span><span class="rt4" id="d90a-r"></span></div>
+      <svg id="d90a-svg" viewBox="0 0 580 230" style="width:100%;height:auto;margin-top:8px"></svg>
+      <div class="stats6" id="d90a-k"></div>
+    </div>
+    <div><table id="d90a-tb"></table></div>
+  </div>
+</div>
+<script>(function(){
+ var T=[
+  {id:"ai",n:"Artificial intelligence",ytd:24.6,y1:62.4,vol:28.4,n2:24,dd:-18.2,c:"#3b62f6",
+   m:[["NVDA","NVIDIA",42.6,8.4],["AVGO","Broadcom",28.2,6.2],["MSFT","Microsoft",12.4,7.8],["SMCI","Super Micro",86.4,2.1],
+      ["AMD","AMD",18.6,4.2],["MU","Micron",34.2,3.1],["ARM","Arm Holdings",22.8,2.8],["VRT","Vertiv",41.2,1.9]]},
+  {id:"ce",n:"Clean energy",ytd:-8.4,y1:-16.2,vol:34.2,n2:31,dd:-42.6,c:"#0f9d6a",
+   m:[["ENPH","Enphase",-28.4,4.1],["FSLR","First Solar",12.6,6.8],["NEE","NextEra",8.2,9.4],["PLUG","Plug Power",-46.2,0.8],
+      ["VWS","Vestas",-14.6,3.2],["ORSTED","Ørsted",-22.8,2.4],["RUN","Sunrun",-38.4,0.6],["BEP","Brookfield Ren",6.4,3.8]]},
+  {id:"def",n:"Defence &amp; security",ytd:18.2,y1:34.6,vol:18.6,n2:18,dd:-9.4,c:"#8a6d2f",
+   m:[["RTX","RTX Corp",16.2,9.8],["LMT","Lockheed Martin",12.4,8.6],["RHM","Rheinmetall",48.6,4.2],["BA.L","BAE Systems",26.4,5.1],
+      ["GD","General Dynamics",9.8,6.2],["NOC","Northrop",11.2,5.8],["LDO","Leonardo",38.2,2.4],["SAAB","Saab AB",42.8,1.8]]},
+  {id:"obs","x":1,n:"Obesity &amp; GLP-1",ytd:6.4,y1:22.8,vol:26.2,n2:12,dd:-24.8,c:"#b4453a",
+   m:[["LLY","Eli Lilly",14.2,32.4],["NOVO","Novo Nordisk",-8.6,28.2],["VKTX","Viking Thera",42.6,3.1],["AMGN","Amgen",6.2,12.4],
+      ["ZLDPF","Zealand Pharma",28.4,2.8],["HIMS","Hims & Hers",64.2,1.9],["TMO","Thermo Fisher",4.2,8.6],["WST","West Pharma",-12.4,3.4]]},
+  {id:"qc",n:"Quantum computing",ytd:46.8,y1:118.4,vol:62.4,n2:9,dd:-54.2,c:"#8b5fd6",
+   m:[["IONQ","IonQ",84.2,18.4],["RGTI","Rigetti",126.4,12.6],["QBTS","D-Wave",98.6,9.8],["IBM","IBM",12.4,24.2],
+      ["GOOGL","Alphabet",14.2,22.6],["HON","Honeywell",6.8,8.4],["QUBT","Quantum Comp",142.8,2.4],["ARQQ","Arqit",-32.4,1.6]]}
+ ];
+ var sel=0;
+ function render(){
+  var t=T[sel];
+  document.getElementById("d90a-t").innerHTML=T.map(function(x,i){
+   return '<button class="'+(i===sel?"on":"")+'" data-i="'+i+'">'+x.n+'</button>';}).join("");
+  document.getElementById("d90a-h").innerHTML=t.n;
+  document.getElementById("d90a-s").textContent=t.n2+" constituents · equal weighted · rebased to 100";
+  document.getElementById("d90a-r").innerHTML='<span class="'+(t.ytd>=0?"pos":"neg")+'">'+(t.ytd>=0?"+":"")+t.ytd.toFixed(1)+'% YTD</span>';
+  var W=580,H=230,L=40,R=42,T2=12,B=22,N=120;
+  var th=[],bm=[],v=100,b=100;
+  for(var i=0;i<N;i++){
+   v+= t.ytd/N + Math.sin(i/7+sel)*t.vol*0.06 + Math.sin(i/19+sel)*t.vol*0.08;
+   b+= 7.4/N + Math.sin(i/9)*0.35;
+   th.push(v);bm.push(b);}
+  th[N-1]=100+t.ytd;
+  var all=th.concat(bm),mn=Math.min.apply(null,all)-2,mx=Math.max.apply(null,all)+2;
+  var X=function(i){return L+i*(W-L-R)/(N-1)},Y=function(x){return T2+(mx-x)/(mx-mn)*(H-T2-B)};
+  var s="";
+  for(var g=0;g<=4;g++){var gv=mn+(mx-mn)*g/4;
+   s+='<line x1="'+L+'" y1="'+Y(gv)+'" x2="'+(W-R)+'" y2="'+Y(gv)+'" stroke="#f0f2f5"/>'+
+   '<text x="'+(L-6)+'" y="'+(Y(gv)+3)+'" text-anchor="end" font-size="9" font-family="ui-monospace" fill="#98a0b3">'+gv.toFixed(0)+'</text>';}
+  var pb="";bm.forEach(function(x,i){pb+=(i?"L":"M")+X(i).toFixed(1)+","+Y(x).toFixed(1);});
+  s+='<path d="'+pb+'" fill="none" stroke="#c0c6d2" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  var pt="";th.forEach(function(x,i){pt+=(i?"L":"M")+X(i).toFixed(1)+","+Y(x).toFixed(1);});
+  s+='<path d="'+pt+'L'+X(N-1)+','+(H-B)+'L'+L+','+(H-B)+'Z" fill="'+t.c+'" opacity=".08"/>';
+  s+='<path d="'+pt+'" fill="none" stroke="'+t.c+'" stroke-width="2.2"/>';
+  s+='<text x="'+(W-R+5)+'" y="'+(Y(th[N-1])+4)+'" font-size="10" font-family="ui-monospace" fill="'+t.c+'">'+th[N-1].toFixed(0)+'</text>';
+  s+='<text x="'+(W-R+5)+'" y="'+(Y(bm[N-1])+4)+'" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">SPX</text>';
+  document.getElementById("d90a-svg").innerHTML=s;
+  document.getElementById("d90a-k").innerHTML=
+   '<div><b>1 YEAR</b><span class="'+(t.y1>=0?"pos":"neg")+'">'+(t.y1>=0?"+":"")+t.y1.toFixed(1)+'%</span></div>'+
+   '<div><b>VS S&amp;P 500</b><span class="'+(t.ytd-7.4>=0?"pos":"neg")+'">'+(t.ytd-7.4>=0?"+":"")+(t.ytd-7.4).toFixed(1)+'pp</span></div>'+
+   '<div><b>ANN. VOL</b><span>'+t.vol.toFixed(1)+'%</span></div>'+
+   '<div><b>MAX DRAWDOWN</b><span class="neg">'+t.dd.toFixed(1)+'%</span></div>';
+  document.getElementById("d90a-tb").innerHTML='<tr><th>Constituent</th><th>YTD</th><th>Weight</th></tr>'+
+   t.m.map(function(m){
+    return '<tr><td><b class="mn">'+m[0]+'</b> <span style="color:#98a0b3;font-size:11px">'+m[1]+'</span></td>'+
+     '<td class="mn '+(m[2]>=0?"pos":"neg")+'">'+(m[2]>=0?"+":"")+m[2].toFixed(1)+'%</td>'+
+     '<td class="mn" style="color:#697086">'+m[3].toFixed(1)+'%</td></tr>';}).join("");
+  [].forEach.call(document.querySelectorAll("#d90a-t button"),function(b2){
+   b2.addEventListener("click",function(){sel=+b2.dataset.i;render();});});
+ }
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 90.b ============================ -->
+<div class="design" id="d90b">
+  <div class="dlabel"><span class="id">90.b</span><span class="nm">Theme cards with flow bars and expandable holdings</span><span class="tag">expand card · sort by horizon</span></div>
+  <div class="dbody">
+<style>
+#d90b .root{background:#0d1014;color:#e3e8f0;padding:18px 22px 20px;font-family:var(--sans)}
+#d90b .hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+#d90b .hd h3{font-size:15px;font-weight:600}
+#d90b .hd .sr{margin-left:auto;display:flex;gap:5px}
+#d90b .hd .sr button{background:#161a21;border:1px solid #222831;color:#97a0b0;border-radius:6px;padding:5px 10px;font:600 10px var(--mono)}
+#d90b .hd .sr button.on{background:#e3e8f0;color:#0d1014;border-color:#e3e8f0}
+#d90b .cards6{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#d90b .cd3{background:#141820;border:1px solid #1f242e;border-radius:12px;padding:13px 14px;cursor:pointer}
+#d90b .cd3:hover{border-color:#2d3542}
+#d90b .cd3 .tt{display:flex;align-items:baseline;gap:8px}
+#d90b .cd3 .tt b{font-size:13.5px}
+#d90b .cd3 .tt span{margin-left:auto;font:600 15px var(--mono)}
+#d90b .cd3 .mt{font:500 10px var(--mono);color:#5f6878;margin-top:3px}
+#d90b .cd3 .sp5{margin-top:9px}
+#d90b .cd3 .flows{display:flex;align-items:center;gap:8px;margin-top:9px;font:500 10px var(--mono);color:#7b8494}
+#d90b .cd3 .flows .fb{flex:1;height:14px;background:#191e27;border-radius:3px;position:relative}
+#d90b .cd3 .flows .fb::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#2b3240}
+#d90b .cd3 .flows .fb i{position:absolute;top:2px;bottom:2px;border-radius:2px}
+#d90b .cd3 .hold{display:none;margin-top:10px;border-top:1px dashed #262d38;padding-top:9px}
+#d90b .cd3.op .hold{display:block}
+#d90b .cd3 .hold div{display:flex;justify-content:space-between;font:500 11px var(--mono);color:#8b94a6;padding:3px 0}
+#d90b .cd3 .hold div b{color:#e3e8f0}
+</style>
+<div class="root">
+  <div class="hd"><h3>Thematic baskets</h3><span style="font:500 10px var(--mono);color:#5f6878;letter-spacing:.1em">EQUAL-WEIGHTED · NET OF NOTHING · CLICK TO EXPAND</span>
+    <div class="sr" id="d90b-sr"><button data-k="w">1W</button><button data-k="m">1M</button><button class="on" data-k="ytd">YTD</button><button data-k="y1">1Y</button></div></div>
+  <div class="cards6" id="d90b-c"></div>
+</div>
+<script>(function(){
+ var T=[
+  {n:"Artificial intelligence",n2:24,w:1.8,m:4.2,ytd:24.6,y1:62.4,flow:2.4,c:"#5b8cff",sp:[4,6,5,9,8,12,11,15,14,18],h:[["NVDA",8.4],["AVGO",6.2],["MSFT",7.8],["AMD",4.2]]},
+  {n:"Quantum computing",n2:9,w:-2.4,m:8.6,ytd:46.8,y1:118.4,flow:0.6,c:"#b48bff",sp:[3,5,4,8,7,12,16,14,22,26],h:[["IONQ",18.4],["RGTI",12.6],["IBM",24.2],["QBTS",9.8]]},
+  {n:"Defence & security",n2:18,w:0.9,m:3.1,ytd:18.2,y1:34.6,flow:1.2,c:"#e8b04a",sp:[6,7,8,9,10,11,12,13,14,15],h:[["RTX",9.8],["LMT",8.6],["RHM",4.2],["BA.L",5.1]]},
+  {n:"Obesity & GLP-1",n2:12,w:-1.2,m:-2.4,ytd:6.4,y1:22.8,flow:-0.8,c:"#ff7d9c",sp:[12,14,13,11,12,10,11,9,10,10],h:[["LLY",32.4],["NOVO",28.2],["AMGN",12.4],["VKTX",3.1]]},
+  {n:"Clean energy",n2:31,w:-3.1,m:-6.2,ytd:-8.4,y1:-16.2,flow:-1.6,c:"#4ade9b",sp:[14,13,12,11,10,9,8,8,7,6],h:[["FSLR",6.8],["NEE",9.4],["ENPH",4.1],["BEP",3.8]]},
+  {n:"Space economy",n2:14,w:2.6,m:6.8,ytd:14.2,y1:28.4,flow:0.4,c:"#7fd4ff",sp:[6,7,6,8,9,8,11,10,12,13],h:[["RKLB",14.2],["ASTS",9.6],["LMT",12.4],["IRDM",6.8]]}
+ ];
+ var k="ytd";
+ function spark(sp,c){var w=200,h=36,mn=Math.min.apply(null,sp),mx=Math.max.apply(null,sp),p="";
+  sp.forEach(function(v,i){p+=(i?"L":"M")+(i*w/(sp.length-1)).toFixed(1)+","+(h-(v-mn)/(mx-mn||1)*(h-4)-2).toFixed(1);});
+  return '<svg viewBox="0 0 '+w+' '+h+'" height="36" preserveAspectRatio="none" style="width:100%"><path d="'+p+'L'+w+','+h+'L0,'+h+'Z" fill="'+c+'" opacity=".12"/><path d="'+p+'" fill="none" stroke="'+c+'" stroke-width="1.8"/></svg>';}
+ function render(){
+  var arr=T.slice().sort(function(a,b){return b[k]-a[k]});
+  document.getElementById("d90b-c").innerHTML=arr.map(function(t){
+   var v=t[k];
+   return '<div class="cd3"><div class="tt"><b>'+t.n+'</b><span style="color:'+(v>=0?"#18c281":"#ff5b52")+'">'+(v>=0?"+":"")+v.toFixed(1)+'%</span></div>'+
+    '<div class="mt">'+t.n2+' holdings · '+({w:"1 week",m:"1 month",ytd:"year to date",y1:"1 year"}[k])+'</div>'+
+    '<div class="sp5">'+spark(t.sp,t.c)+'</div>'+
+    '<div class="flows"><span style="width:52px">ETF flow</span><div class="fb"><i style="'+(t.flow>=0?"left:50%":"right:50%")+';width:'+Math.min(46,Math.abs(t.flow)*18)+'%;background:'+(t.flow>=0?"#18c281":"#ff5b52")+'"></i></div>'+
+    '<span style="color:'+(t.flow>=0?"#18c281":"#ff5b52")+'">'+(t.flow>=0?"+":"")+t.flow.toFixed(1)+'bn</span></div>'+
+    '<div class="hold">'+t.h.map(function(h){return '<div><span>'+h[0]+'</span><b>'+h[1].toFixed(1)+'% weight</b></div>';}).join("")+'</div></div>';}).join("");
+  [].forEach.call(document.querySelectorAll("#d90b .cd3"),function(c){
+   c.addEventListener("click",function(){c.classList.toggle("op")});});
+ }
+ document.getElementById("d90b-sr").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});k=b.dataset.k;render();});
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 90.c ============================ -->
+<div class="design" id="d90c">
+  <div class="dlabel"><span class="id">90.c</span><span class="nm">Horizon matrix with drawdown tape and hype-check note</span><span class="tag">cell hover · theme detail</span></div>
+  <div class="dbody">
+<style>
+#d90c .root{background:#fdfcf9;padding:20px 24px;font-family:var(--sans)}
+#d90c .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+#d90c .hd h3{font:600 18px var(--serif)}
+#d90c .hd p{font-size:12px;color:#8d8778}
+#d90c .mx{display:grid;grid-template-columns:180px repeat(5,1fr) 150px;gap:4px;align-items:center}
+#d90c .mx .hh3{font:600 9px var(--mono);letter-spacing:.1em;color:#a9a294;text-align:center;padding-bottom:4px}
+#d90c .mx .th2{font-size:12.5px;font-weight:600}
+#d90c .mx .cell3{padding:9px 4px;border-radius:5px;text-align:center;font:600 12px var(--mono);cursor:pointer}
+#d90c .mx .cell3:hover{outline:2px solid #26241d}
+#d90c .dd{position:relative;height:26px;background:#f2efe6;border-radius:4px;overflow:hidden}
+#d90c .dd i{position:absolute;right:0;top:0;bottom:0;background:linear-gradient(90deg,#e8c0b4,#c0563c)}
+#d90c .dd span{position:absolute;left:6px;top:5px;font:600 10px var(--mono);color:#26241d}
+#d90c .note5{margin-top:14px;background:#fff;border:1px solid #e6e2d6;border-radius:11px;padding:13px 15px;font-size:12.5px;color:#6d6759;line-height:1.6;min-height:58px}
+#d90c .note5 b{color:#26241d}
+</style>
+<div class="root">
+  <div class="hd"><div><h3>Themes across five horizons</h3><p>Colour intensity = size of return · right column shows the worst peak-to-trough fall in the past two years</p></div></div>
+  <div class="mx" id="d90c-m"></div>
+  <div class="note5" id="d90c-n">Hover any cell for the detail behind the number.</div>
+</div>
+<script>(function(){
+ var H=["1 WEEK","1 MONTH","YTD","1 YEAR","3 YEARS"];
+ var T=[
+  {n:"Artificial intelligence",v:[1.8,4.2,24.6,62.4,214.6],dd:-18.2,x:"Driven almost entirely by the semiconductor supply chain; the software half of the basket is up just 9% year to date."},
+  {n:"Quantum computing",v:[-2.4,8.6,46.8,118.4,186.2],dd:-54.2,x:"Nine holdings, three of them under $3bn market cap. The basket has had two drawdowns greater than 40% in 24 months."},
+  {n:"Defence & security",v:[0.9,3.1,18.2,34.6,96.4],dd:-9.4,x:"European names have done the heavy lifting as NATO budgets re-rate; the US primes have lagged by 22pp."},
+  {n:"Obesity & GLP-1",v:[-1.2,-2.4,6.4,22.8,148.2],dd:-24.8,x:"Two stocks are 60% of the basket. Supply constraints have eased, shifting the debate to pricing and reimbursement."},
+  {n:"Clean energy",v:[-3.1,-6.2,-8.4,-16.2,-42.6],dd:-62.4,x:"Higher-for-longer rates remain the binding constraint — the basket's correlation to the 10-year yield is −0.72."},
+  {n:"Space economy",v:[2.6,6.8,14.2,28.4,64.8],dd:-31.6,x:"Launch cadence and defence contracts have supported the group; commercial satellite broadband remains loss-making."},
+  {n:"Cybersecurity",v:[0.4,2.1,11.6,24.2,78.4],dd:-16.8,x:"The steadiest thematic on this board — the only one with a drawdown shallower than 20% and positive returns in every horizon."}
+ ];
+ function col(v){var s=Math.max(-1,Math.min(1,v/60));
+  if(s>=0)return "rgba(46,125,91,"+(0.08+s*0.72).toFixed(2)+")";
+  return "rgba(180,69,58,"+(0.08+(-s)*0.72).toFixed(2)+")";}
+ var mxdd=-64;
+ document.getElementById("d90c-m").innerHTML='<div></div>'+H.map(function(h){return '<div class="hh3">'+h+'</div>'}).join("")+'<div class="hh3">MAX DRAWDOWN 2Y</div>'+
+  T.map(function(t,ti){
+   return '<div class="th2">'+t.n+'</div>'+t.v.map(function(v,i){
+    return '<div class="cell3" data-t="'+ti+'" data-i="'+i+'" style="background:'+col(v)+';color:'+(Math.abs(v)>35?"#fff":"#26241d")+'">'+(v>=0?"+":"")+v.toFixed(1)+'</div>';}).join("")+
+   '<div class="dd"><i style="width:'+(t.dd/mxdd*100)+'%"></i><span>'+t.dd.toFixed(1)+'%</span></div>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d90c .cell3"),function(c){
+  c.addEventListener("mouseenter",function(){
+   var t=T[+c.dataset.t],i=+c.dataset.i;
+   document.getElementById("d90c-n").innerHTML='<b>'+t.n+' · '+H[i].toLowerCase()+'</b> — <b style="color:'+(t.v[i]>=0?"#2e7d5b":"#b4453a")+'">'+(t.v[i]>=0?"+":"")+t.v[i].toFixed(1)+'%</b>. '+t.x;});});
+})();</script>
+  </div>
+</div>
+</section>

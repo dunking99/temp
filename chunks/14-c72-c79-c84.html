@@ -1,0 +1,662 @@
+<section class="comp" id="c72">
+  <div class="comp-head"><span class="num">72</span><h2>Oil price drivers</h2><span class="sz med">Medium</span>
+    <span class="desc">Supply, demand and inventory context behind the current oil price.</span></div>
+
+<!-- ============================ 72.a ============================ -->
+<div class="design" id="d72a">
+  <div class="dlabel"><span class="id">72.a</span><span class="nm">Balance chart with inventory band and tabbed drivers</span><span class="tag">tabs · hover quarter · band</span></div>
+  <div class="dbody">
+<style>
+#d72a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d72a .hd{display:flex;align-items:baseline;gap:12px}
+#d72a .hd h3{font-size:15px;font-weight:650}
+#d72a .hd .px5{font:600 26px var(--mono);margin-left:6px}
+#d72a .hd .ch9{font:600 13px var(--mono)}
+#d72a .hd .s{margin-left:auto;font:500 11px var(--mono);color:#98a0b3}
+#d72a .tabs3{display:flex;gap:18px;border-bottom:1px solid var(--line);margin:12px 0 0}
+#d72a .tabs3 button{background:none;border:0;padding:0 0 9px;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#98a0b3}
+#d72a .tabs3 button.on{color:#11141c;box-shadow:inset 0 -2px 0 #11141c}
+#d72a .pane{padding-top:12px}
+#d72a .kpis2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+#d72a .kpis2 div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+#d72a .kpis2 b{font:500 9px var(--mono);letter-spacing:.1em;color:#98a0b3;display:block}
+#d72a .kpis2 span{font:600 17px var(--mono);display:block;margin-top:3px}
+#d72a .kpis2 em{font-style:normal;font:500 10px var(--mono);color:#98a0b3}
+</style>
+<div class="root">
+  <div class="hd"><h3>WTI crude</h3><span class="px5">$70.84</span><span class="ch9 neg">▼ −$1.24 (−1.72%)</span>
+    <span class="s">Brent $74.62 · spread $3.78</span></div>
+  <div class="tabs3" id="d72a-tabs"><button class="on" data-t="bal">Supply / demand balance</button><button data-t="inv">Inventories</button><button data-t="pos">Positioning &amp; spare capacity</button></div>
+  <div class="pane"><svg id="d72a-svg" viewBox="0 0 940 240" style="width:100%;height:auto"></svg></div>
+  <div class="kpis2" id="d72a-k"></div>
+</div>
+<script>(function(){
+ var Q=["Q1 25","Q2 25","Q3 25","Q4 25","Q1 26","Q2 26e","Q3 26e","Q4 26e"];
+ var SUP=[102.4,103.1,103.8,104.2,104.6,105.1,105.4,105.8],DEM=[102.9,103.4,104.6,103.8,103.9,104.8,105.9,105.2];
+ var INV=[428,442,418,396,412,0,0,0];
+ var tab="bal";
+ function draw(){
+  var W=940,H=240,L=52,R=46,T=14,B=28,s="";
+  var X=function(i){return L+(i+0.5)*(W-L-R)/8};
+  if(tab==="bal"){
+   var mn=101.5,mx=106.5,Y=function(v){return T+(mx-v)/(mx-mn)*(H-T-B)};
+   for(var g=102;g<=106;g++){s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="#f0f2f5"/>'+
+    '<text x="'+(L-8)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+g+'</text>';}
+   var bw=(W-L-R)/8*0.46;
+   SUP.forEach(function(v,i){
+    var d=DEM[i],surplus=v-d;
+    s+='<rect x="'+(X(i)-bw)+'" y="'+Y(v)+'" width="'+bw*0.88+'" height="'+(H-B-Y(v))+'" fill="#2f6ea8" opacity="'+(i>4?.45:.85)+'"/>';
+    s+='<rect x="'+(X(i)+bw*0.12)+'" y="'+Y(d)+'" width="'+bw*0.88+'" height="'+(H-B-Y(d))+'" fill="#c9832f" opacity="'+(i>4?.45:.85)+'"/>';
+    s+='<text x="'+X(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+Q[i]+'</text>';
+    s+='<text x="'+X(i)+'" y="'+(Math.min(Y(v),Y(d))-6)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" font-weight="600" fill="'+(surplus>0?"#2f6ea8":"#b1352b")+'">'+(surplus>0?"+":"")+surplus.toFixed(1)+'</text>';});
+   s+='<text x="'+(L+4)+'" y="'+(T+10)+'" font-size="10" font-family="ui-monospace" fill="#2f6ea8">■ supply</text>'+
+      '<text x="'+(L+80)+'" y="'+(T+10)+'" font-size="10" font-family="ui-monospace" fill="#c9832f">■ demand</text>'+
+      '<text x="'+(W-R)+'" y="'+(T+10)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">million barrels per day · dotted = IEA forecast</text>';
+   document.getElementById("d72a-k").innerHTML=
+    '<div><b>Q1 26 BALANCE</b><span class="pos">+0.7 mb/d</span><em>surplus, third straight quarter</em></div>'+
+    '<div><b>2026 DEMAND GROWTH</b><span>+1.1 mb/d</span><em>revised down from 1.3</em></div>'+
+    '<div><b>NON-OPEC SUPPLY</b><span>+1.6 mb/d</span><em>US, Brazil, Guyana</em></div>'+
+    '<div><b>CALL ON OPEC+</b><span>26.8 mb/d</span><em>vs 27.4 current output</em></div>';
+  } else if(tab==="inv"){
+   var mn2=340,mx2=480,Y2=function(v){return T+(mx2-v)/(mx2-mn2)*(H-T-B)};
+   var band=[[360,440],[364,446],[370,452],[372,456],[368,450],[362,444],[358,438],[356,434]];
+   var top="",bot="";
+   band.forEach(function(b,i){top+=(i?"L":"M")+X(i)+","+Y2(b[1]);});
+   for(var i2=band.length-1;i2>=0;i2--)bot+="L"+X(i2)+","+Y2(band[i2][0]);
+   s+='<path d="'+top+bot+'Z" fill="#98a0b3" opacity=".16"/>';
+   var hist=[428,442,418,396,412,404,398,392];
+   var p="";hist.forEach(function(v,i){p+=(i?"L":"M")+X(i)+","+Y2(v);});
+   s+='<path d="'+p+'" fill="none" stroke="#11141c" stroke-width="2.4"/>';
+   hist.forEach(function(v,i){s+='<circle cx="'+X(i)+'" cy="'+Y2(v)+'" r="3.6" fill="'+(i<5?"#11141c":"#fff")+'" stroke="#11141c" stroke-width="2"/>'+
+    '<text x="'+X(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+Q[i]+'</text>';});
+   [360,400,440,480].forEach(function(g){s+='<line x1="'+L+'" y1="'+Y2(g)+'" x2="'+(W-R)+'" y2="'+Y2(g)+'" stroke="#f0f2f5"/>'+
+    '<text x="'+(L-8)+'" y="'+(Y2(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+g+'</text>';});
+   s+='<text x="'+(L+4)+'" y="'+(T+10)+'" font-size="10" font-family="ui-monospace" fill="#697086">US commercial crude stocks, million barrels · shaded = 5-year range</text>';
+   document.getElementById("d72a-k").innerHTML=
+    '<div><b>CUSHING STOCKS</b><span>28.4mb</span><em>−1.8mb on the week</em></div>'+
+    '<div><b>US COMMERCIAL</b><span>412mb</span><em>2% below 5-year average</em></div>'+
+    '<div><b>SPR</b><span>396mb</span><em>refill continues at 3mb/mo</em></div>'+
+    '<div><b>DAYS OF COVER</b><span>26.4</span><em>vs 28.1 five-year norm</em></div>';
+  } else {
+   var cats=[["Saudi Arabia",3.1],["UAE",1.1],["Iraq",0.4],["Kuwait",0.3],["Others",0.4]];
+   var tot=cats.reduce(function(a,c){return a+c[1]},0),x=L;
+   var barW=W-L-R;
+   cats.forEach(function(c,i){
+    var w=c[1]/tot*barW;
+    s+='<rect x="'+x+'" y="'+(T+20)+'" width="'+(w-2)+'" height="46" fill="'+["#2f6ea8","#4a8bc2","#7fb0d6","#a8c9e4","#cfe0ee"][i]+'" rx="3"/>'+
+     '<text x="'+(x+w/2)+'" y="'+(T+48)+'" text-anchor="middle" font-size="10" font-family="ui-monospace" fill="'+(i<2?"#fff":"#2a4055")+'">'+c[0]+'</text>'+
+     '<text x="'+(x+w/2)+'" y="'+(T+80)+'" text-anchor="middle" font-size="10.5" font-family="ui-monospace" font-weight="600" fill="#11141c">'+c[1].toFixed(1)+'</text>';
+    x+=w;});
+   s+='<text x="'+L+'" y="'+(T+10)+'" font-size="10" font-family="ui-monospace" fill="#697086">OPEC+ effective spare capacity, mb/d · total '+tot.toFixed(1)+'</text>';
+   var pos=[["Managed money net long",214,"#2f6ea8"],["Producer net short",-286,"#c0392b"],["Swap dealers",62,"#c9832f"],["Other reportables",10,"#697086"]];
+   var y0=T+118;
+   s+='<text x="'+L+'" y="'+(y0-8)+'" font-size="10" font-family="ui-monospace" fill="#697086">CFTC positioning, thousand contracts</text>';
+   pos.forEach(function(p2,i){
+    var mid=L+(W-L-R)/2,w2=Math.abs(p2[1])/320*((W-L-R)/2);
+    s+='<rect x="'+(p2[1]>=0?mid:mid-w2)+'" y="'+(y0+i*22)+'" width="'+w2+'" height="14" fill="'+p2[2]+'" rx="2"/>'+
+     '<text x="'+(p2[1]>=0?mid-6:mid+6)+'" y="'+(y0+i*22+11)+'" text-anchor="'+(p2[1]>=0?"end":"start")+'" font-size="9.5" font-family="ui-monospace" fill="#697086">'+p2[0]+'</text>'+
+     '<text x="'+(p2[1]>=0?mid+w2+6:mid-w2-6)+'" y="'+(y0+i*22+11)+'" text-anchor="'+(p2[1]>=0?"start":"end")+'" font-size="9.5" font-family="ui-monospace" font-weight="600" fill="#11141c">'+p2[1]+'k</text>';});
+   document.getElementById("d72a-k").innerHTML=
+    '<div><b>SPARE CAPACITY</b><span>5.3 mb/d</span><em>5.1% of global demand</em></div>'+
+    '<div><b>MANAGED MONEY</b><span>214k net long</span><em>28th percentile since 2015</em></div>'+
+    '<div><b>OPEC+ COMPLIANCE</b><span>96%</span><em>Iraq and Kazakhstan overproducing</em></div>'+
+    '<div><b>PRICE NEEDED</b><span>$78 fiscal</span><em>Saudi budget breakeven</em></div>';
+  }
+  document.getElementById("d72a-svg").innerHTML=s;
+ }
+ document.getElementById("d72a-tabs").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});tab=b.dataset.t;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 72.b ============================ -->
+<div class="design" id="d72b">
+  <div class="dlabel"><span class="id">72.b</span><span class="nm">Attribution waterfall — what moved crude this quarter</span><span class="tag">hover step · scenario switch</span></div>
+  <div class="dbody">
+<style>
+#d72b .root{background:#12100e;color:#f0ece4;padding:20px 24px;font-family:var(--sans)}
+#d72b .hd{display:flex;align-items:baseline;gap:12px}
+#d72b .hd h3{font-size:15px;font-weight:600}
+#d72b .hd .s{font:500 10px var(--mono);letter-spacing:.12em;color:#8b8172;text-transform:uppercase}
+#d72b .hd .sc{margin-left:auto;display:flex;gap:5px}
+#d72b .hd .sc button{background:#1d1a16;border:1px solid #2e2a24;color:#bdb4a5;border-radius:6px;padding:5px 10px;font:600 10px var(--mono)}
+#d72b .hd .sc button.on{background:#f0ece4;color:#12100e;border-color:#f0ece4}
+#d72b .wf2{margin-top:14px}
+#d72b .stepb{cursor:pointer}
+#d72b .stepb:hover{opacity:.82}
+#d72b .note4{margin-top:12px;background:#1a1713;border:1px solid #2b2721;border-radius:10px;padding:12px 14px;font-size:12px;color:#b6aca0;line-height:1.55;min-height:54px}
+#d72b .note4 b{color:#f0ece4}
+</style>
+<div class="root">
+  <div class="hd"><h3>Why crude is where it is</h3><span class="s">contribution to the $9.40 move since 1 January</span>
+    <div class="sc" id="d72b-sc"><button class="on" data-s="ytd">YTD</button><button data-s="q">This quarter</button></div></div>
+  <div class="wf2"><svg id="d72b-svg" viewBox="0 0 920 260" style="width:100%;height:auto"></svg></div>
+  <div class="note4" id="d72b-n">Hover a bar to read the driver behind it.</div>
+</div>
+<script>(function(){
+ var SET={
+  ytd:{start:80.24,end:70.84,steps:[
+   ["OPEC+ unwind",-4.6,"#c0563c","Eight members began returning 2.2mb/d of voluntary cuts from April, faster than the market had assumed."],
+   ["Demand downgrades",-3.2,"#c0563c","The IEA cut its 2026 demand growth forecast twice, from 1.3 to 1.1mb/d, citing Chinese EV penetration."],
+   ["Non-OPEC supply",-2.8,"#c0563c","US shale exit rates surprised to the upside; Guyana added 250kb/d ahead of schedule."],
+   ["Dollar",-0.9,"#c0563c","A firmer trade-weighted dollar mechanically weighs on dollar-denominated crude."],
+   ["Geopolitical premium",+1.8,"#4a8b6f","Red Sea disruption and sanctions enforcement restored part of the risk premium in February."],
+   ["Inventory draws",+0.3,"#4a8b6f","US commercial stocks fell 4.1mb in the most recent week, a modest offset."]]},
+  q:{start:74.10,end:70.84,steps:[
+   ["OPEC+ April decision",-2.4,"#c0563c","The group confirmed a third tranche of production returns at the 5 April meeting."],
+   ["Chinese demand data",-1.6,"#c0563c","Q1 apparent oil demand fell 1.8% year on year — the weakest since 2022."],
+   ["Refinery margins",-0.8,"#c0563c","Crack spreads narrowed $3/bbl, reducing refiners' appetite for crude."],
+   ["Positioning unwind",-0.6,"#c0563c","Managed money cut net length by 84k contracts over six weeks."],
+   ["Supply outages",+1.4,"#4a8b6f","Unplanned Libyan and Kazakh outages removed 340kb/d for three weeks."],
+   ["Cushing draw",+0.7,"#4a8b6f","Hub stocks fell toward tank-bottom levels, tightening the front spread."]]}
+ };
+ var key="ytd";
+ function draw(){
+  var D=SET[key],W=920,H=260,L=44,R=30,T=18,B=48;
+  var all=[D.start],run=D.start;
+  D.steps.forEach(function(s){run+=s[1];all.push(run);});
+  var mn=Math.min.apply(null,all.concat([D.end]))-2,mx=Math.max.apply(null,all.concat([D.end]))+2;
+  var n=D.steps.length+2,bw=(W-L-R)/n*0.6;
+  var X=function(i){return L+(i+0.5)*(W-L-R)/n},Y=function(v){return T+(mx-v)/(mx-mn)*(H-T-B)};
+  var s="";
+  for(var g=Math.ceil(mn/4)*4;g<=mx;g+=4){
+   s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="#221e19"/>'+
+   '<text x="'+(L-8)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#8b8172">$'+g+'</text>';}
+  s+='<rect x="'+(X(0)-bw/2)+'" y="'+Y(D.start)+'" width="'+bw+'" height="'+(H-B-Y(D.start))+'" fill="#6b6357" rx="2"/>'+
+   '<text x="'+X(0)+'" y="'+(Y(D.start)-8)+'" text-anchor="middle" font-size="11" font-family="ui-monospace" font-weight="600" fill="#f0ece4">$'+D.start.toFixed(2)+'</text>'+
+   '<text x="'+X(0)+'" y="'+(H-30)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#8b8172">start</text>';
+  var cur=D.start;
+  D.steps.forEach(function(st,i){
+   var y0=Y(cur),y1=Y(cur+st[1]);
+   s+='<rect class="stepb" data-i="'+i+'" x="'+(X(i+1)-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+'" height="'+Math.max(2,Math.abs(y1-y0))+'" fill="'+st[2]+'" rx="2"/>';
+   s+='<line x1="'+(X(i+1)-bw/2-((W-L-R)/n-bw))+'" y1="'+y0+'" x2="'+(X(i+1)-bw/2)+'" y2="'+y0+'" stroke="#3a352d" stroke-dasharray="2 2"/>';
+   s+='<text x="'+X(i+1)+'" y="'+(Math.min(y0,y1)-7)+'" text-anchor="middle" font-size="10.5" font-family="ui-monospace" font-weight="600" fill="'+(st[1]>=0?"#7cc9a4":"#ff9478")+'">'+(st[1]>=0?"+":"")+st[1].toFixed(1)+'</text>';
+   var words=st[0].split(" ");
+   s+='<text x="'+X(i+1)+'" y="'+(H-32)+'" text-anchor="middle" font-size="9" font-family="ui-monospace" fill="#8b8172">'+words.slice(0,2).join(" ")+'</text>';
+   if(words.length>2)s+='<text x="'+X(i+1)+'" y="'+(H-21)+'" text-anchor="middle" font-size="9" font-family="ui-monospace" fill="#8b8172">'+words.slice(2).join(" ")+'</text>';
+   cur+=st[1];});
+  s+='<rect x="'+(X(n-1)-bw/2)+'" y="'+Y(D.end)+'" width="'+bw+'" height="'+(H-B-Y(D.end))+'" fill="#d6a03c" rx="2"/>'+
+   '<text x="'+X(n-1)+'" y="'+(Y(D.end)-8)+'" text-anchor="middle" font-size="11" font-family="ui-monospace" font-weight="600" fill="#f0ece4">$'+D.end.toFixed(2)+'</text>'+
+   '<text x="'+X(n-1)+'" y="'+(H-30)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#8b8172">today</text>';
+  document.getElementById("d72b-svg").innerHTML=s;
+  [].forEach.call(document.querySelectorAll("#d72b .stepb"),function(b){
+   b.addEventListener("mouseenter",function(){
+    var st=D.steps[+b.dataset.i];
+    document.getElementById("d72b-n").innerHTML='<b>'+st[0]+' · '+(st[1]>=0?"+":"")+'$'+st[1].toFixed(2)+'/bbl</b><br>'+st[3];});});
+ }
+ document.getElementById("d72b-sc").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});key=b.dataset.s;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 72.c ============================ -->
+<div class="design" id="d72c">
+  <div class="dlabel"><span class="id">72.c</span><span class="nm">Three-dial driver board with plain-language verdict</span><span class="tag">dial hover · verdict recomputes</span></div>
+  <div class="dbody">
+<style>
+#d72c .root{background:#fcfbf7;padding:20px 24px;font-family:var(--sans)}
+#d72c .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+#d72c .hd h3{font:600 18px var(--serif)}
+#d72c .hd .px6{margin-left:auto;font:600 24px var(--mono)}
+#d72c .hd .ch10{font:600 12px var(--mono)}
+#d72c .dials{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#d72c .dl4{background:#fff;border:1px solid #e6e2d6;border-radius:12px;padding:14px;text-align:center;cursor:pointer}
+#d72c .dl4:hover{border-color:#c8c1af}
+#d72c .dl4 h4{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#a9a294}
+#d72c .dl4 .vv{font:600 24px var(--mono);margin-top:4px}
+#d72c .dl4 .ss{font:500 11px var(--mono);color:#8d8778;margin-top:2px}
+#d72c .dl4 .tag2{display:inline-block;font:600 9.5px var(--mono);padding:3px 8px;border-radius:999px;margin-top:8px}
+#d72c .verdict{margin-top:12px;background:#24221b;color:#f4f1e8;border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+#d72c .verdict .sc2{text-align:center}
+#d72c .verdict .sc2 b{font:700 34px var(--mono)}
+#d72c .verdict .sc2 span{display:block;font:600 9.5px var(--mono);letter-spacing:.14em;color:#b5ae9d}
+#d72c .verdict p{font-size:12.5px;line-height:1.6;color:#d6d1c4}
+#d72c .verdict p b{color:#fff}
+#d72c .extra{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+#d72c .extra div{background:#fff;border:1px solid #e6e2d6;border-radius:10px;padding:9px 11px}
+#d72c .extra b{font:500 8.5px var(--mono);letter-spacing:.1em;color:#a9a294;display:block}
+#d72c .extra span{font:600 14px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="root">
+  <div class="hd"><h3>What is setting the oil price today</h3>
+    <span class="px6">$70.84</span><span class="ch10 neg">−1.72%</span></div>
+  <div class="dials" id="d72c-d"></div>
+  <div class="verdict"><div class="sc2"><b id="d72c-sc" style="color:#e8a04a">−1.4</b><span>NET BALANCE SCORE</span></div>
+    <p id="d72c-p"></p></div>
+  <div class="extra">
+    <div><b>BRENT–WTI</b><span>$3.78</span></div><div><b>1M–12M SPREAD</b><span class="neg">−$1.42 contango</span></div>
+    <div><b>IMPLIED VOL</b><span>31.4%</span></div><div><b>US RIG COUNT</b><span>486 (−6)</span></div>
+  </div>
+</div>
+<script>(function(){
+ var D=[
+  {n:"Supply",v:"105.1 mb/d",s:"+1.6 mb/d y/y",sc:-1.8,tag:["LOOSENING","#fdeeec","#b4453a"],
+   txt:"supply is running ahead of demand for a third straight quarter, with OPEC+ returning barrels faster than expected"},
+  {n:"Demand",v:"104.0 mb/d",s:"+1.1 mb/d y/y",sc:-0.9,tag:["SOFTENING","#fdf3e6","#a86b1f"],
+   txt:"demand growth has been revised down twice this year, led by weaker Chinese gasoline consumption"},
+  {n:"Inventories",v:"412 mb",s:"2% below 5-yr avg",sc:+1.3,tag:["SUPPORTIVE","#e9f4ee","#2e7d5b"],
+   txt:"US commercial stocks remain below the five-year average and Cushing is close to operational minimums"}
+ ];
+ function render(sel){
+  document.getElementById("d72c-d").innerHTML=D.map(function(d,i){
+   var pct=(d.sc+3)/6;
+   return '<div class="dl4" data-i="'+i+'"><h4>'+d.n+'</h4>'+
+    '<svg viewBox="0 0 180 86" width="100%" height="86">'+
+    '<path d="M18,74 A72,72 0 0 1 162,74" fill="none" stroke="#eeeae0" stroke-width="12" stroke-linecap="round"/>'+
+    '<path d="M18,74 A72,72 0 0 1 162,74" fill="none" stroke="'+(d.sc>=0?"#2e7d5b":"#c0563c")+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+(pct*226).toFixed(0)+' 400"/>'+
+    '<text x="18" y="84" font-size="8" font-family="ui-monospace" fill="#b6b0a0">bearish</text>'+
+    '<text x="146" y="84" font-size="8" font-family="ui-monospace" fill="#b6b0a0">bullish</text></svg>'+
+    '<div class="vv">'+d.v+'</div><div class="ss">'+d.s+'</div>'+
+    '<span class="tag2" style="background:'+d.tag[1]+';color:'+d.tag[2]+'">'+d.tag[0]+'</span></div>';}).join("");
+  var net=D.reduce(function(a,d){return a+d.sc},0);
+  document.getElementById("d72c-sc").textContent=(net>=0?"+":"")+net.toFixed(1);
+  document.getElementById("d72c-sc").style.color=net>=0?"#7fd3a8":"#e8a04a";
+  document.getElementById("d72c-p").innerHTML=sel===undefined?
+   'Two of three drivers point lower. <b>Supply</b> is the dominant force: '+D[0].txt+'. Only <b>inventories</b> argue the other way — '+D[2].txt+'. On balance the market is carrying a modest surplus and the curve has slipped into contango, which historically caps rallies near $76.':
+   '<b>'+D[sel].n+'</b> — '+D[sel].txt+'. Score contribution <b>'+(D[sel].sc>=0?"+":"")+D[sel].sc.toFixed(1)+'</b> of the net '+(net>=0?"+":"")+net.toFixed(1)+'.';
+  [].forEach.call(document.querySelectorAll("#d72c .dl4"),function(e){
+   e.addEventListener("mouseenter",function(){render(+e.dataset.i)});
+   e.addEventListener("mouseleave",function(){render()});});
+ }
+ render();
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c79">
+  <div class="comp-head"><span class="num">79</span><h2>Emerging vs developed markets</h2><span class="sz med">Medium</span>
+    <span class="desc">How emerging and developed market stocks have performed against each other.</span></div>
+
+<!-- ============================ 79.a ============================ -->
+<div class="design" id="d79a">
+  <div class="dlabel"><span class="id">79.a</span><span class="nm">Relative ratio line with leadership regimes shaded</span><span class="tag">regime hover · horizon buttons</span></div>
+  <div class="dbody">
+<style>
+#d79a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d79a .hd{display:flex;align-items:center;gap:12px}
+#d79a .hd h3{font-size:15px;font-weight:650}
+#d79a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d79a .hd .hb{margin-left:auto;display:flex;gap:5px}
+#d79a .hd .hb button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 10px;font:600 10.5px var(--mono);color:#697086}
+#d79a .hd .hb button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d79a .kp{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:12px}
+#d79a .kp div{background:#fff;padding:10px 12px}
+#d79a .kp b{font:500 9px var(--mono);letter-spacing:.1em;color:#98a0b3;display:block}
+#d79a .kp span{font:600 16px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="root">
+  <div class="hd"><h3>EM relative to DM</h3><span class="s">MSCI EM ÷ MSCI World, USD total return, rebased</span>
+    <div class="hb" id="d79a-hb"><button data-n="60">1Y</button><button class="on" data-n="180">5Y</button><button data-n="360">15Y</button></div></div>
+  <svg id="d79a-svg" viewBox="0 0 940 260" style="width:100%;height:auto"></svg>
+  <div class="kp">
+    <div><b>RATIO</b><span>0.684</span></div>
+    <div><b>1-YEAR</b><span class="neg">−6.2%</span></div>
+    <div><b>5-YEAR</b><span class="neg">−28.4%</span></div>
+    <div><b>CURRENT REGIME</b><span style="font-size:13px">DM leadership</span></div>
+    <div><b>REGIME LENGTH</b><span>52 months</span></div>
+  </div>
+</div>
+<script>(function(){
+ var n=180;
+ function draw(){
+  var pts=[],v=100;
+  var total=360,start=total-n;
+  for(var i=0;i<total;i++){
+   var ph=Math.sin(i/58)*0.6+Math.sin(i/23)*0.25;
+   v+= (i<120? 0.28: i<200? -0.22: i<260? 0.18: -0.26) + ph*0.4;
+   pts.push(v);}
+  var d=pts.slice(start);
+  var W=940,H=260,L=48,R=52,T=14,B=26;
+  var mn=Math.min.apply(null,d)*0.99,mx=Math.max.apply(null,d)*1.01;
+  var X=function(i){return L+i*(W-L-R)/(d.length-1)},Y=function(x){return T+(mx-x)/(mx-mn)*(H-T-B)};
+  var s="";
+  // regimes: compute 12m slope
+  var reg=[],cur=null;
+  d.forEach(function(x,i){
+   var sl=i>11?x-d[i-12]:0,r=sl>=0?"em":"dm";
+   if(!cur||cur.r!==r){if(cur)reg.push(cur);cur={r:r,a:i,b:i};}else cur.b=i;});
+  if(cur)reg.push(cur);
+  reg.forEach(function(g){
+   if(g.b-g.a<4)return;
+   s+='<rect x="'+X(g.a)+'" y="'+T+'" width="'+(X(g.b)-X(g.a))+'" height="'+(H-T-B)+'" fill="'+(g.r==="em"?"#0f9d6a":"#3b62f6")+'" opacity=".06"/>';});
+  [0,1,2,3,4].forEach(function(g){var y=T+g*(H-T-B)/4;
+   s+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#f0f2f5"/>'+
+   '<text x="'+(L-8)+'" y="'+(y+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+(mx-(mx-mn)*g/4).toFixed(0)+'</text>';});
+  var p="";d.forEach(function(x,i){p+=(i?"L":"M")+X(i).toFixed(1)+","+Y(x).toFixed(1);});
+  s+='<path d="'+p+'" fill="none" stroke="#11141c" stroke-width="2.2"/>';
+  s+='<circle cx="'+X(d.length-1)+'" cy="'+Y(d[d.length-1])+'" r="4" fill="#11141c"/>';
+  s+='<text x="'+(L+6)+'" y="'+(T+13)+'" font-size="9.5" font-family="ui-monospace" fill="#0f9d6a">■ EM leading</text>'+
+     '<text x="'+(L+110)+'" y="'+(T+13)+'" font-size="9.5" font-family="ui-monospace" fill="#3b62f6">■ DM leading</text>';
+  document.getElementById("d79a-svg").innerHTML=s;
+ }
+ document.getElementById("d79a-hb").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});n=+b.dataset.n;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 79.b ============================ -->
+<div class="design" id="d79b">
+  <div class="dlabel"><span class="id">79.b</span><span class="nm">Head-to-head scoreboard with country contributions</span><span class="tag">metric rows · country bars</span></div>
+  <div class="dbody">
+<style>
+#d79b .root{background:#0f1218;color:#e3e8f1;padding:18px 22px 20px;font-family:var(--sans)}
+#d79b .vs2{display:grid;grid-template-columns:1fr 130px 1fr;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #1d232e}
+#d79b .vs2 .side6{text-align:center}
+#d79b .vs2 .side6 .nm7{font:600 13px var(--sans)}
+#d79b .vs2 .side6 .lv8{font:700 28px var(--mono);margin-top:4px}
+#d79b .vs2 .side6 .ch11{font:600 12px var(--mono)}
+#d79b .vs2 .mid4{text-align:center;font:600 10px var(--mono);letter-spacing:.16em;color:#59637a}
+#d79b .mrow{display:grid;grid-template-columns:1fr 130px 1fr;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #171d26}
+#d79b .mrow .lbar{display:flex;justify-content:flex-end}
+#d79b .mrow .bx{height:16px;border-radius:3px}
+#d79b .mrow .lab7{text-align:center;font:500 10.5px var(--mono);color:#8b95a8}
+#d79b .mrow .vl{font:600 12px var(--mono)}
+#d79b .cty2{margin-top:14px}
+#d79b .cty2 h4{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#59637a;margin-bottom:8px}
+#d79b .cty2 .cr{display:grid;grid-template-columns:110px 1fr 58px;gap:10px;align-items:center;font-size:12px;padding:5px 0}
+#d79b .cty2 .tr2{position:relative;height:14px;background:#161c25;border-radius:3px}
+#d79b .cty2 .tr2::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#2a3240}
+#d79b .cty2 .tr2 i{position:absolute;top:2px;bottom:2px;border-radius:2px}
+</style>
+<div class="root">
+  <div class="vs2">
+    <div class="side6"><div class="nm7">MSCI Emerging Markets</div><div class="lv8">1,086.20</div><div class="ch11 neg">−1.4% YTD</div></div>
+    <div class="mid4">HEAD TO HEAD<br><span style="color:#8b95a8;letter-spacing:0;font-size:10px">2026 year to date</span></div>
+    <div class="side6"><div class="nm7">MSCI World (DM)</div><div class="lv8">3,842.60</div><div class="ch11 pos">+7.8% YTD</div></div>
+  </div>
+  <div id="d79b-m"></div>
+  <div class="cty2"><h4>Country contribution to the EM–DM gap (percentage points)</h4><div id="d79b-c"></div></div>
+</div>
+<script>(function(){
+ var M=[
+  ["Year-to-date return",-1.4,7.8,"%"],["1-year return",4.2,18.4,"%"],["Forward P/E",12.4,19.8,"×"],
+  ["Dividend yield",3.1,1.7,"%"],["Earnings growth 2026e",11.2,9.4,"%"],["Annualised volatility",14.6,11.2,"%"],
+  ["Return on equity",12.1,16.8,"%"]
+ ];
+ document.getElementById("d79b-m").innerHTML=M.map(function(m){
+  var mx=Math.max(Math.abs(m[1]),Math.abs(m[2]))||1;
+  var w1=Math.abs(m[1])/mx*100,w2=Math.abs(m[2])/mx*100;
+  var better1=m[1]>m[2];
+  return '<div class="mrow"><div class="lbar" style="align-items:center;gap:8px">'+
+   '<span class="vl" style="color:'+(better1?"#18c281":"#8b95a8")+'">'+m[1]+m[3]+'</span>'+
+   '<div class="bx" style="width:'+w1+'%;background:'+(better1?"#18c281":"#3a4454")+'"></div></div>'+
+   '<div class="lab7">'+m[0]+'</div>'+
+   '<div style="display:flex;align-items:center;gap:8px"><div class="bx" style="width:'+w2+'%;background:'+(!better1?"#5b8cff":"#3a4454")+'"></div>'+
+   '<span class="vl" style="color:'+(!better1?"#5b8cff":"#8b95a8")+'">'+m[2]+m[3]+'</span></div></div>';}).join("");
+ var C=[["Taiwan",2.1],["India",1.4],["Brazil",0.6],["Saudi Arabia",-0.4],["Korea",0.3],["China",-3.8],["Mexico",-0.2]];
+ document.getElementById("d79b-c").innerHTML=C.map(function(c){
+  var w=Math.min(48,Math.abs(c[1])*11);
+  return '<div class="cr"><span>'+c[0]+'</span><div class="tr2"><i style="'+(c[1]>=0?"left:50%":"right:50%")+';width:'+w+'%;background:'+(c[1]>=0?"#18c281":"#ff5b52")+'"></i></div>'+
+   '<span class="vl" style="text-align:right;color:'+(c[1]>=0?"#18c281":"#ff5b52")+'">'+(c[1]>=0?"+":"")+c[1].toFixed(1)+'</span></div>';}).join("");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 79.c ============================ -->
+<div class="design" id="d79c">
+  <div class="dlabel"><span class="id">79.c</span><span class="nm">Rolling excess-return ribbon with decade markers</span><span class="tag">window slider · hover year</span></div>
+  <div class="dbody">
+<style>
+#d79c .root{background:#faf9f6;padding:20px 24px;font-family:var(--sans)}
+#d79c .hd{display:flex;align-items:baseline;gap:12px}
+#d79c .hd h3{font:600 18px var(--serif)}
+#d79c .hd p{font-size:12px;color:#8d8778}
+#d79c .hd .sl2{margin-left:auto;display:flex;align-items:center;gap:8px;font:500 10.5px var(--mono);color:#8d8778}
+#d79c input[type=range]{accent-color:#26241d;width:130px}
+#d79c .rib{margin-top:14px}
+#d79c .bars9{display:flex;align-items:center;gap:2px;height:150px;position:relative}
+#d79c .bars9 .mid5{position:absolute;left:0;right:0;top:50%;height:1px;background:#d8d4c6}
+#d79c .bars9 .cl2{flex:1;height:100%;position:relative;cursor:pointer}
+#d79c .bars9 .cl2 i{position:absolute;left:1px;right:1px;border-radius:2px}
+#d79c .bars9 .cl2:hover i{filter:brightness(1.15)}
+#d79c .xl2{display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#a9a294;margin-top:6px}
+#d79c .rd4{margin-top:12px;background:#fff;border:1px solid #e6e2d6;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#6d6759;line-height:1.55;min-height:46px}
+#d79c .rd4 b{color:#26241d}
+</style>
+<div class="root">
+  <div class="hd"><div><h3>EM minus DM, rolling excess return</h3><p>Positive bars = emerging markets ahead over the window</p></div>
+    <div class="sl2"><span>window</span><input id="d79c-w" type="range" min="1" max="5" value="3"><span id="d79c-wl">3 years</span></div></div>
+  <div class="rib"><div class="bars9" id="d79c-b"><div class="mid5"></div></div>
+    <div class="xl2"><span>1996</span><span>2001</span><span>2006</span><span>2011</span><span>2016</span><span>2021</span><span>2026</span></div></div>
+  <div class="rd4" id="d79c-rd">Emerging markets have trailed developed markets on a rolling 3-year basis for 41 of the last 52 quarters — the longest stretch of underperformance in the index's history.</div>
+</div>
+<script>(function(){
+ var W=3;
+ function series(w){
+  var a=[];
+  for(var i=0;i<120;i++){
+   var t=i/120;
+   var v=Math.sin(i/14)*9+Math.sin(i/34)*14+(t<0.35?10:t<0.55?-6:t<0.7?4:-11);
+   a.push(v*(0.7+w*0.12));}
+  return a;}
+ function render(){
+  var d=series(W),mx=Math.max.apply(null,d.map(Math.abs));
+  var yr=function(i){return 1996+Math.floor(i/120*30)};
+  document.getElementById("d79c-b").innerHTML='<div class="mid5"></div>'+d.map(function(v,i){
+   var h=Math.abs(v)/mx*70;
+   return '<div class="cl2" data-i="'+i+'" data-v="'+v.toFixed(1)+'" data-y="'+yr(i)+'">'+
+    '<i style="'+(v>=0?"bottom:50%":"top:50%")+';height:'+h+'%;background:'+(v>=0?"#2e7d5b":"#b4453a")+';opacity:'+(0.55+Math.abs(v)/mx*0.45)+'"></i></div>';}).join("");
+  document.getElementById("d79c-wl").textContent=W+" year"+(W>1?"s":"");
+  [].forEach.call(document.querySelectorAll("#d79c .cl2"),function(c){
+   c.addEventListener("mouseenter",function(){
+    var v=+c.dataset.v;
+    document.getElementById("d79c-rd").innerHTML='<b>'+c.dataset.y+'</b> — over the trailing '+W+' year'+(W>1?"s":"")+
+     ', emerging markets '+(v>=0?"outperformed":"underperformed")+' developed markets by <b style="color:'+(v>=0?"#2e7d5b":"#b4453a")+'">'+Math.abs(v).toFixed(1)+' percentage points</b> annualised.';});});
+ }
+ document.getElementById("d79c-w").addEventListener("input",function(){W=+this.value;render();});
+ render();
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c84">
+  <div class="comp-head"><span class="num">84</span><h2>Shiller CAPE by market</h2><span class="sz med">Medium</span>
+    <span class="desc">A valuation measure that smooths earnings over many years, compared across markets.</span></div>
+
+<!-- ============================ 84.a ============================ -->
+<div class="design" id="d84a">
+  <div class="dlabel"><span class="id">84.a</span><span class="nm">Country bars with own-history range and percentile</span><span class="tag">hover · sort · percentile chips</span></div>
+  <div class="dbody">
+<style>
+#d84a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d84a .hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#d84a .hd h3{font-size:15px;font-weight:650}
+#d84a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d84a .hd select{margin-left:auto;font:600 11px var(--mono);border:1px solid var(--line);border-radius:7px;padding:6px 9px;background:#fff}
+#d84a .r11{display:grid;grid-template-columns:128px 1fr 58px 84px;gap:12px;align-items:center;padding:8px 4px;border-bottom:1px solid #f3f5f8}
+#d84a .r11:hover{background:#fafbfd}
+#d84a .r11 .c13{font-size:12.5px;display:flex;align-items:center;gap:8px}
+#d84a .rangebar{position:relative;height:22px}
+#d84a .rangebar .full{position:absolute;top:9px;height:4px;background:#eef0f4;border-radius:2px;left:0;right:0}
+#d84a .rangebar .in{position:absolute;top:7px;height:8px;background:#dbe2f0;border-radius:4px}
+#d84a .rangebar .me{position:absolute;top:2px;width:3px;height:18px;border-radius:2px}
+#d84a .rangebar .av{position:absolute;top:5px;width:1.5px;height:12px;background:#98a0b3}
+#d84a .r11 .v10{font:600 14px var(--mono);text-align:right}
+#d84a .pill3{font:600 9.5px var(--mono);padding:3px 7px;border-radius:5px;text-align:center}
+</style>
+<div class="root">
+  <div class="hd"><h3>Cyclically adjusted P/E by market</h3><span class="s">10-year inflation-adjusted earnings · bar = each market's own 30-year range</span>
+    <select id="d84a-s"><option value="cape">sort: CAPE</option><option value="pct">sort: own percentile</option><option value="n">sort: name</option></select></div>
+  <div id="d84a-rows"></div>
+</div>
+<script>(function(){
+ var C=[
+  {f:"🇺🇸",n:"United States",cape:33.8,lo:13.2,hi:44.2,avg:26.4,pct:82},
+  {f:"🇮🇳",n:"India",cape:31.2,lo:14.8,hi:38.6,avg:23.1,pct:88},
+  {f:"🇯🇵",n:"Japan",cape:24.6,lo:12.4,hi:62.4,avg:28.8,pct:54},
+  {f:"🇨🇭",n:"Switzerland",cape:23.4,lo:12.8,hi:34.6,avg:21.2,pct:68},
+  {f:"🇦🇺",n:"Australia",cape:20.8,lo:11.6,hi:32.4,avg:19.4,pct:62},
+  {f:"🇫🇷",n:"France",cape:19.6,lo:10.2,hi:36.8,avg:20.8,pct:48},
+  {f:"🇨🇦",n:"Canada",cape:19.2,lo:10.8,hi:31.2,avg:20.1,pct:46},
+  {f:"🇩🇪",n:"Germany",cape:18.4,lo:9.4,hi:32.6,avg:19.2,pct:44},
+  {f:"🇬🇧",n:"United Kingdom",cape:15.6,lo:8.8,hi:28.4,avg:17.6,pct:34},
+  {f:"🇧🇷",n:"Brazil",cape:11.8,lo:6.2,hi:24.6,avg:14.2,pct:28},
+  {f:"🇰🇷",n:"South Korea",cape:11.2,lo:6.8,hi:26.4,avg:14.8,pct:22},
+  {f:"🇨🇳",n:"China",cape:10.4,lo:8.2,hi:38.4,avg:17.4,pct:8}
+ ];
+ function render(){
+  var GMX=48;
+  document.getElementById("d84a-rows").innerHTML=C.map(function(c){
+   var P=function(v){return v/GMX*100};
+   var pc=c.pct>75?["#fdeeec","#b1352b"]:c.pct>50?["#fff5e6","#a86b1f"]:["#e8f4ee","#2e7d5b"];
+   return '<div class="r11"><span class="c13">'+c.f+' '+c.n+'</span>'+
+    '<div class="rangebar"><div class="full"></div>'+
+    '<div class="in" style="left:'+P(c.lo)+'%;width:'+(P(c.hi)-P(c.lo))+'%"></div>'+
+    '<div class="av" style="left:'+P(c.avg)+'%"></div>'+
+    '<div class="me" style="left:'+P(c.cape)+'%;background:'+(c.cape>c.avg?"#b1352b":"#2e7d5b")+'"></div></div>'+
+    '<div class="v10">'+c.cape.toFixed(1)+'</div>'+
+    '<div class="pill3" style="background:'+pc[0]+';color:'+pc[1]+'">'+c.pct+'th pctile</div></div>';}).join("");
+ }
+ document.getElementById("d84a-s").addEventListener("change",function(){
+  var k=this.value;C.sort(function(a,b){return k==="n"?a.n.localeCompare(b.n):b[k]-a[k]});render();});
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 84.b ============================ -->
+<div class="design" id="d84b">
+  <div class="dlabel"><span class="id">84.b</span><span class="nm">CAPE versus subsequent ten-year return, with today's markets plotted</span><span class="tag">hover point · fit line · era filter</span></div>
+  <div class="dbody">
+<style>
+#d84b .root{background:#101319;color:#e3e8f1;padding:18px 22px 20px;font-family:var(--sans);display:grid;grid-template-columns:1fr 250px;gap:22px}
+#d84b h3{font-size:15px;font-weight:600}
+#d84b .s{font:500 10px var(--mono);letter-spacing:.12em;color:#5a6479;text-transform:uppercase;margin-top:3px}
+#d84b .plotd{position:relative;margin-top:10px}
+#d84b .hist2{opacity:.4}
+#d84b .cty3{cursor:pointer}
+#d84b .cty3:hover circle{stroke-width:3}
+#d84b .rd5{background:#171c24;border:1px solid #232a35;border-radius:11px;padding:14px}
+#d84b .rd5 h4{font-size:14px;font-weight:600}
+#d84b .rd5 .big6{font:600 26px var(--mono);margin-top:8px}
+#d84b .rd5 .kv6{display:flex;justify-content:space-between;font:500 11.5px var(--mono);color:#8b95a8;border-top:1px solid #232a35;padding:6px 0}
+#d84b .rd5 .kv6 b{color:#e3e8f1}
+#d84b .rd5 p{font-size:11.5px;color:#8b95a8;line-height:1.55;margin-top:10px}
+</style>
+<div class="root">
+  <div>
+    <h3>Valuation today, returns tomorrow</h3>
+    <div class="s">grey dots = 1,100 historical country-decade observations · coloured = markets today</div>
+    <div class="plotd"><svg id="d84b-svg" viewBox="0 0 640 320" style="width:100%;height:auto"></svg></div>
+  </div>
+  <div class="rd5" id="d84b-rd"></div>
+</div>
+<script>(function(){
+ var C=[
+  {f:"🇺🇸",n:"United States",cape:33.8,c:"#5b8cff"},{f:"🇮🇳",n:"India",cape:31.2,c:"#ff9f5a"},
+  {f:"🇯🇵",n:"Japan",cape:24.6,c:"#ff7d9c"},{f:"🇩🇪",n:"Germany",cape:18.4,c:"#6ee7c8"},
+  {f:"🇬🇧",n:"United Kingdom",cape:15.6,c:"#c39bff"},{f:"🇰🇷",n:"South Korea",cape:11.2,c:"#ffd166"},
+  {f:"🇨🇳",n:"China",cape:10.4,c:"#7fd4ff"}
+ ];
+ var W=640,H=320,L=46,R=18,T=14,B=34;
+ var X=function(v){return L+(v-5)/40*(W-L-R)},Y=function(r){return T+(18-r)/28*(H-T-B)};
+ function pred(cape){return 16.4-0.42*cape;}
+ var s="";
+ for(var g=-8;g<=16;g+=4){s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="'+(g===0?"#2a3240":"#1a212b")+'"/>'+
+  '<text x="'+(L-7)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9" font-family="ui-monospace" fill="#5a6479">'+(g>0?"+":"")+g+'%</text>';}
+ for(var v=10;v<=40;v+=10){s+='<line x1="'+X(v)+'" y1="'+T+'" x2="'+X(v)+'" y2="'+(H-B)+'" stroke="#1a212b"/>'+
+  '<text x="'+X(v)+'" y="'+(H-18)+'" text-anchor="middle" font-size="9" font-family="ui-monospace" fill="#5a6479">'+v+'</text>';}
+ s+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#5a6479">STARTING CAPE</text>';
+ for(var i=0;i<300;i++){
+  var cp=6+Math.abs(Math.sin(i*1.7))*36;
+  var rr=pred(cp)+Math.sin(i*3.1)*4.6+Math.cos(i*0.9)*3.2;
+  s+='<circle class="hist2" cx="'+X(cp)+'" cy="'+Y(rr)+'" r="2.6" fill="#4d5a70"/>';}
+ s+='<line x1="'+X(6)+'" y1="'+Y(pred(6))+'" x2="'+X(44)+'" y2="'+Y(pred(44))+'" stroke="#ffd166" stroke-width="2" stroke-dasharray="6 4"/>';
+ s+='<text x="'+X(38)+'" y="'+(Y(pred(38))-8)+'" font-size="9.5" font-family="ui-monospace" fill="#ffd166">fit · R² 0.48</text>';
+ C.forEach(function(c,i){
+  s+='<g class="cty3" data-i="'+i+'"><line x1="'+X(c.cape)+'" y1="'+(H-B)+'" x2="'+X(c.cape)+'" y2="'+Y(pred(c.cape))+'" stroke="'+c.c+'" stroke-opacity=".3"/>'+
+   '<circle cx="'+X(c.cape)+'" cy="'+Y(pred(c.cape))+'" r="7" fill="'+c.c+'" fill-opacity=".25" stroke="'+c.c+'" stroke-width="2"/>'+
+   '<text x="'+X(c.cape)+'" y="'+(Y(pred(c.cape))-12)+'" text-anchor="middle" font-size="10" font-family="ui-monospace" fill="'+c.c+'">'+c.f+'</text></g>';});
+ document.getElementById("d84b-svg").innerHTML=s;
+ function card(i){
+  var c=C[i],p=pred(c.cape);
+  document.getElementById("d84b-rd").innerHTML='<h4>'+c.f+' '+c.n+'</h4>'+
+   '<div class="big6" style="color:'+c.c+'">CAPE '+c.cape.toFixed(1)+'</div>'+
+   '<div class="kv6"><span>Implied 10y real return</span><b style="color:'+(p>=0?"#18c281":"#ff5b52")+'">'+(p>=0?"+":"")+p.toFixed(1)+'%</b></div>'+
+   '<div class="kv6"><span>Earnings yield (1/CAPE)</span><b>'+(100/c.cape).toFixed(1)+'%</b></div>'+
+   '<div class="kv6"><span>Own 30y average</span><b>'+(c.cape*0.82).toFixed(1)+'</b></div>'+
+   '<div class="kv6"><span>Historic hit rate</span><b>62%</b></div>'+
+   '<p>The regression explains roughly half the variation in subsequent ten-year real returns. It says nothing useful about the next twelve months — the one-year R² is 0.03.</p>';
+ }
+ [].forEach.call(document.querySelectorAll("#d84b .cty3"),function(g){
+  g.addEventListener("mouseenter",function(){card(+g.dataset.i)});});
+ card(0);
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 84.c ============================ -->
+<div class="design" id="d84c">
+  <div class="dlabel"><span class="id">84.c</span><span class="nm">Thirty years of CAPE, four markets, with era annotations</span><span class="tag">legend toggle · era pins</span></div>
+  <div class="dbody">
+<style>
+#d84c .root{background:#fcfbf8;padding:20px 24px;font-family:var(--sans)}
+#d84c .hd{display:flex;align-items:baseline;gap:14px}
+#d84c .hd h3{font:600 18px var(--serif)}
+#d84c .keys5{margin-left:auto;display:flex;gap:6px}
+#d84c .keys5 button{display:flex;align-items:center;gap:6px;border:1px solid #e3dfd3;background:#fff;border-radius:7px;padding:5px 10px;font:600 10.5px var(--mono);color:#6f6a5d}
+#d84c .keys5 button.off{opacity:.34}
+#d84c .keys5 i{width:14px;height:3px;border-radius:2px}
+#d84c .pinsrow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+#d84c .pinsrow span{font:500 10.5px var(--mono);color:#8d8778;background:#fff;border:1px solid #e9e5d9;border-radius:999px;padding:4px 10px}
+</style>
+<div class="root">
+  <div class="hd"><h3>CAPE through three decades</h3>
+    <div class="keys5" id="d84c-k"></div></div>
+  <svg id="d84c-svg" viewBox="0 0 940 280" style="width:100%;height:auto;margin-top:10px"></svg>
+  <div class="pinsrow"><span>1 — Dotcom peak, US CAPE 44.2</span><span>2 — GFC trough, US CAPE 13.3</span><span>3 — Covid crash</span><span>4 — 2022 rate shock</span><span>Today: US 33.8 · 82nd percentile</span></div>
+</div>
+<script>(function(){
+ var M=[
+  {id:"us",n:"United States",c:"#26241d",on:true,base:26,amp:9,seed:1,end:33.8},
+  {id:"eu",n:"Europe",c:"#2f6ea8",on:true,base:19,amp:6,seed:4,end:18.9},
+  {id:"jp",n:"Japan",c:"#c0563c",on:true,base:31,amp:14,seed:7,end:24.6},
+  {id:"em",n:"Emerging markets",c:"#6b8f4e",on:true,base:15,amp:5,seed:10,end:12.4}
+ ];
+ M.forEach(function(m){
+  var a=[];for(var i=0;i<120;i++){
+   var t=i/119;
+   var v=m.base+Math.sin(i/13+m.seed)*m.amp*0.45+Math.sin(i/31+m.seed)*m.amp*0.7+(m.end-m.base)*t;
+   if(m.id==="us"){if(i<22)v+=(22-i)*0.7;if(i>44&&i<52)v-=8;if(i===96)v-=5;}
+   if(m.id==="jp"&&i<18)v+=(18-i)*1.6;
+   a.push(Math.max(6,v));}
+  a[119]=m.end;m.s=a;});
+ var W=940,H=280,L=44,R=92,T=16,B=26;
+ var X=function(i){return L+i*(W-L-R)/119},Y=function(v){return T+(56-v)/52*(H-T-B)};
+ function draw(){
+  var s="";
+  for(var g=10;g<=50;g+=10){s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="#eeeae0"/>'+
+   '<text x="'+(L-7)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#a9a294">'+g+'</text>';}
+  [["1996",0],["2002",24],["2008",48],["2014",72],["2020",96],["2026",119]].forEach(function(y){
+   s+='<text x="'+X(y[1])+'" y="'+(H-6)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#a9a294">'+y[0]+'</text>';});
+  [[16,"1"],[50,"2"],[96,"3"],[105,"4"]].forEach(function(p){
+   s+='<line x1="'+X(p[0])+'" y1="'+T+'" x2="'+X(p[0])+'" y2="'+(H-B)+'" stroke="#ddd8c9" stroke-dasharray="2 4"/>'+
+    '<circle cx="'+X(p[0])+'" cy="'+(T+8)+'" r="8" fill="#fff" stroke="#c8c1af"/>'+
+    '<text x="'+X(p[0])+'" y="'+(T+11.5)+'" text-anchor="middle" font-size="9" font-family="ui-monospace" fill="#6f6a5d">'+p[1]+'</text>';});
+  M.forEach(function(m){if(!m.on)return;
+   var p="";m.s.forEach(function(v,i){p+=(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1);});
+   s+='<path d="'+p+'" fill="none" stroke="'+m.c+'" stroke-width="'+(m.id==="us"?2.4:1.8)+'"/>'+
+    '<text x="'+(W-R+8)+'" y="'+(Y(m.end)+4)+'" font-size="10.5" font-family="ui-monospace" fill="'+m.c+'">'+m.n+' '+m.end.toFixed(1)+'</text>';});
+  document.getElementById("d84c-svg").innerHTML=s;
+ }
+ document.getElementById("d84c-k").innerHTML=M.map(function(m){
+  return '<button data-id="'+m.id+'"><i style="background:'+m.c+'"></i>'+m.n+'</button>';}).join("");
+ document.getElementById("d84c-k").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  M.forEach(function(m){if(m.id===b.dataset.id)m.on=!m.on});b.classList.toggle("off");draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+</section>

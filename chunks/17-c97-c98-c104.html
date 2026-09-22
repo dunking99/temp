@@ -1,0 +1,419 @@
+<section class="comp" id="c97">
+  <div class="comp-head"><span class="num">97</span><h2>Market status</h2><span class="sz small">Small</span>
+    <span class="desc">Whether major exchanges are open, closed or about to open.</span></div>
+
+<!-- ============================ 97.a ============================ -->
+<div class="design" id="d97a">
+  <div class="dlabel"><span class="id">97.a</span><span class="nm">Exchange cards with session progress rings and live countdown</span><span class="tag">ticking clock · progress ring</span></div>
+  <div class="dbody">
+<style>
+#d97a .root{background:#fff;padding:16px 20px;font-family:var(--sans)}
+#d97a .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+#d97a .hd h3{font-size:14px;font-weight:650}
+#d97a .hd span{font:500 10.5px var(--mono);color:#98a0b3}
+#d97a .hd .now4{margin-left:auto;font:600 12px var(--mono)}
+#d97a .cards7{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+#d97a .ex{border:1px solid var(--line);border-radius:11px;padding:11px 12px;position:relative}
+#d97a .ex.open2{border-color:#b6e2cd;background:#f6fcf9}
+#d97a .ex .tp2{display:flex;align-items:center;gap:7px}
+#d97a .ex .fl6{font-size:15px}
+#d97a .ex .nm11{font:600 11.5px var(--sans)}
+#d97a .ex .nm11 small{display:block;font:500 9px var(--mono);color:#98a0b3;margin-top:1px}
+#d97a .ex .ring2{position:absolute;right:9px;top:9px}
+#d97a .ex .stt{font:600 9px var(--mono);letter-spacing:.1em;padding:3px 6px;border-radius:4px;display:inline-block;margin-top:9px}
+#d97a .ex .cd{font:600 13px var(--mono);margin-top:7px}
+#d97a .ex .lt{font:500 10px var(--mono);color:#98a0b3;margin-top:2px}
+</style>
+<div class="root">
+  <div class="hd"><h3>Exchange status</h3><span>local session times · updates live</span><span class="now4" id="d97a-clock">17:52:04 GMT</span></div>
+  <div class="cards7" id="d97a-c"></div>
+</div>
+<script>(function(){
+ var E=[
+  {f:"🇺🇸",n:"NYSE",c:"New York",tz:-4,o:9.5,cl:16,st:"open"},
+  {f:"🇬🇧",n:"LSE",c:"London",tz:1,o:8,cl:16.5,st:"closing"},
+  {f:"🇩🇪",n:"XETRA",c:"Frankfurt",tz:2,o:9,cl:17.5,st:"closed"},
+  {f:"🇯🇵",n:"TSE",c:"Tokyo",tz:9,o:9,cl:15,st:"closed"},
+  {f:"🇭🇰",n:"HKEX",c:"Hong Kong",tz:8,o:9.5,cl:16,st:"closed"}
+ ];
+ var t=17*3600+52*60+4;
+ function render(){
+  var gmtH=t/3600;
+  document.getElementById("d97a-c").innerHTML=E.map(function(e){
+   var lh=(gmtH+e.tz+24)%24;
+   var open=lh>=e.o&&lh<e.cl;
+   var prog=open?(lh-e.o)/(e.cl-e.o):0;
+   var mins=open?Math.round((e.cl-lh)*60):Math.round(((e.o-lh+24)%24)*60);
+   var st=open?(prog>0.88?["CLOSING SOON","#fff5e6","#a86b1f"]:["OPEN","#e8f6f0","#0b6e4b"]):
+     (mins<60?["OPENS SOON","#eef2fc","#2f5ba8"]:["CLOSED","#f2f4f7","#697086"]);
+   var R=13,C=2*Math.PI*R;
+   return '<div class="ex'+(open?" open2":"")+'"><div class="tp2"><span class="fl6">'+e.f+'</span>'+
+    '<div class="nm11">'+e.n+'<small>'+e.c+'</small></div></div>'+
+    '<svg class="ring2" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="'+R+'" fill="none" stroke="#eef0f4" stroke-width="3.5"/>'+
+    '<circle cx="16" cy="16" r="'+R+'" fill="none" stroke="'+(open?"#0f9d6a":"#c8cdd8")+'" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="'+(C*prog).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 16 16)"/></svg>'+
+    '<span class="stt" style="background:'+st[1]+';color:'+st[2]+'">'+st[0]+'</span>'+
+    '<div class="cd">'+(open?("closes in "+Math.floor(mins/60)+"h "+(mins%60)+"m"):("opens in "+Math.floor(mins/60)+"h "+(mins%60)+"m"))+'</div>'+
+    '<div class="lt">local '+String(Math.floor(lh)).padStart(2,"0")+':'+String(Math.floor((lh%1)*60)).padStart(2,"0")+' · '+e.o.toFixed(2).replace(".5",":30").replace(".00",":00")+'–'+e.cl.toFixed(2).replace(".5",":30").replace(".00",":00")+'</div></div>';}).join("");
+ }
+ setInterval(function(){
+  t++;var h=Math.floor(t/3600)%24,m=Math.floor(t%3600/60),s=t%60;
+  document.getElementById("d97a-clock").textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+" GMT";
+  if(s%10===0)render();},1000);
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 97.b ============================ -->
+<div class="design" id="d97b">
+  <div class="dlabel"><span class="id">97.b</span><span class="nm">24-hour session bar with a now-line</span><span class="tag">hover session · now marker</span></div>
+  <div class="dbody">
+<style>
+#d97b .root{background:#0c0f15;color:#e2e8f1;padding:16px 20px;font-family:var(--sans)}
+#d97b .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+#d97b .hd h3{font-size:14px;font-weight:600}
+#d97b .hd span{font:500 10px var(--mono);letter-spacing:.1em;color:#5b6577;text-transform:uppercase}
+#d97b .hd .live3{margin-left:auto;font:600 10px var(--mono);color:#18c281;display:flex;align-items:center;gap:6px}
+#d97b .hd .live3 i{width:6px;height:6px;border-radius:50%;background:#18c281;animation:d97bp 1.6s infinite}
+@keyframes d97bp{0%,100%{opacity:1}50%{opacity:.2}}
+#d97b .board2{position:relative;padding-left:96px}
+#d97b .hours{display:flex;border-bottom:1px solid #1b212b;padding-bottom:5px;margin-bottom:6px}
+#d97b .hours div{flex:1;font:500 9px var(--mono);color:#4f5869;text-align:center}
+#d97b .lane3{display:flex;align-items:center;height:26px;position:relative}
+#d97b .lane3 .lb7{position:absolute;left:-96px;width:90px;font-size:11.5px;display:flex;align-items:center;gap:6px}
+#d97b .lane3 .tr3{flex:1;height:14px;background:#141a22;border-radius:4px;position:relative;overflow:hidden}
+#d97b .lane3 .blk{position:absolute;top:0;bottom:0;border-radius:4px;display:flex;align-items:center;padding-left:6px;font:600 8.5px var(--mono);color:#0c0f15}
+#d97b .nowline{position:absolute;top:18px;bottom:0;width:2px;background:#ffd166;z-index:4}
+#d97b .nowline span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:#ffd166;color:#0c0f15;font:700 9px var(--mono);padding:2px 5px;border-radius:3px;white-space:nowrap}
+#d97b .legend6{display:flex;gap:16px;margin-top:12px;font:500 10px var(--mono);color:#5b6577}
+#d97b .legend6 i{display:inline-block;width:14px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+</style>
+<div class="root">
+  <div class="hd"><h3>Global trading day</h3><span>times in GMT</span><span class="live3"><i></i>17:52 GMT</span></div>
+  <div class="board2" id="d97b-b"></div>
+  <div class="legend6"><span><i style="background:#18c281"></i>regular session</span><span><i style="background:#2f5ba8"></i>pre / post market</span>
+    <span><i style="background:#3a4454"></i>closed</span><span style="margin-left:auto">3 of 8 venues currently open</span></div>
+</div>
+<script>(function(){
+ var E=[
+  {f:"🇯🇵",n:"Tokyo",pre:[],reg:[0,6]},
+  {f:"🇭🇰",n:"Hong Kong",pre:[],reg:[1.5,8]},
+  {f:"🇮🇳",n:"Mumbai",pre:[],reg:[3.75,10]},
+  {f:"🇩🇪",n:"Frankfurt",pre:[6,7],reg:[7,15.5]},
+  {f:"🇬🇧",n:"London",pre:[],reg:[7,15.5]},
+  {f:"🇧🇷",n:"São Paulo",pre:[],reg:[13,20]},
+  {f:"🇺🇸",n:"New York",pre:[8,13.5],reg:[13.5,20]},
+  {f:"🇺🇸",n:"NY after-hours",pre:[20,24],reg:[]}
+ ];
+ var now=17.87;
+ var hrs="";for(var h=0;h<24;h+=2)hrs+='<div>'+String(h).padStart(2,"0")+'</div>';
+ document.getElementById("d97b-b").innerHTML='<div class="hours">'+hrs+'</div>'+
+  E.map(function(e){
+   var blocks="";
+   if(e.pre.length)blocks+='<div class="blk" style="left:'+(e.pre[0]/24*100)+'%;width:'+((e.pre[1]-e.pre[0])/24*100)+'%;background:#2f5ba8;opacity:.8"></div>';
+   if(e.reg.length)blocks+='<div class="blk" style="left:'+(e.reg[0]/24*100)+'%;width:'+((e.reg[1]-e.reg[0])/24*100)+'%;background:#18c281">'+e.n.toUpperCase().slice(0,9)+'</div>';
+   var open=e.reg.length&&now>=e.reg[0]&&now<e.reg[1];
+   return '<div class="lane3"><span class="lb7">'+e.f+' '+e.n+(open?' <b style="color:#18c281;font-size:9px">●</b>':'')+'</span><div class="tr3">'+blocks+'</div></div>';}).join("")+
+  '<div class="nowline" style="left:calc(96px + '+(now/24*100)+'% - '+(96*now/24)+'px)"><span>NOW 17:52</span></div>';
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 97.c ============================ -->
+<div class="design" id="d97c">
+  <div class="dlabel"><span class="id">97.c</span><span class="nm">Compact status list with local clocks</span><span class="tag">status dots · next-event column</span></div>
+  <div class="dbody">
+<style>
+#d97c .wrapx{padding:22px;background:#faf9f6;display:flex;justify-content:center}
+#d97c .lst3{width:400px;background:#fff;border:1px solid #e6e2d7;border-radius:10px;font-family:var(--sans);overflow:hidden}
+#d97c .hh5{padding:11px 14px;border-bottom:1px solid #eeeae0;display:flex;align-items:baseline;gap:8px}
+#d97c .hh5 b{font:600 12.5px var(--sans)}
+#d97c .hh5 span{font:500 10px var(--mono);color:#a9a294;margin-left:auto}
+#d97c .rw2{display:grid;grid-template-columns:20px 1fr 66px 92px;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid #f4f1e8;font-size:12.5px}
+#d97c .rw2:last-child{border-bottom:0}
+#d97c .rw2:hover{background:#fbfaf6}
+#d97c .dot3{width:9px;height:9px;border-radius:50%;justify-self:center}
+#d97c .rw2 .nm12 small{display:block;font:500 9.5px var(--mono);color:#a9a294;margin-top:1px}
+#d97c .rw2 .lc{font:600 12px var(--mono);text-align:right}
+#d97c .rw2 .nx{font:500 10.5px var(--mono);text-align:right;color:#8d8778}
+#d97c .ft2{padding:9px 14px;background:#faf9f4;font:500 10px var(--mono);color:#a9a294;display:flex;justify-content:space-between}
+</style>
+<div class="wrapx"><div class="lst3">
+  <div class="hh5"><b>Market status</b><span>17:52 GMT</span></div>
+  <div id="d97c-r"></div>
+  <div class="ft2"><span>● open  ● closing  ● pre-market  ● closed</span><span>3 open</span></div>
+</div></div>
+<script>(function(){
+ var E=[
+  {f:"🇺🇸",n:"New York",s:"NYSE · NASDAQ",lc:"13:52",st:"open",nx:"closes 16:00"},
+  {f:"🇨🇦",n:"Toronto",s:"TSX",lc:"13:52",st:"open",nx:"closes 16:00"},
+  {f:"🇧🇷",n:"São Paulo",s:"B3",lc:"14:52",st:"open",nx:"closes 17:00"},
+  {f:"🇬🇧",n:"London",s:"LSE",lc:"18:52",st:"closed",nx:"opens in 13h 8m"},
+  {f:"🇩🇪",n:"Frankfurt",s:"XETRA",lc:"19:52",st:"closed",nx:"opens in 13h 8m"},
+  {f:"🇯🇵",n:"Tokyo",s:"TSE",lc:"02:52",st:"pre",nx:"opens in 6h 8m"},
+  {f:"🇭🇰",n:"Hong Kong",s:"HKEX",lc:"01:52",st:"closed",nx:"opens in 7h 38m"},
+  {f:"🇦🇺",n:"Sydney",s:"ASX",lc:"03:52",st:"pre",nx:"opens in 6h 8m"}
+ ];
+ var C={open:"#2e7d5b",closing:"#c98b2e",pre:"#2f5ba8",closed:"#c5c0b2"};
+ document.getElementById("d97c-r").innerHTML=E.map(function(e){
+  return '<div class="rw2"><span class="dot3" style="background:'+C[e.st]+'"></span>'+
+   '<div class="nm12">'+e.f+' '+e.n+'<small>'+e.s+'</small></div>'+
+   '<div class="lc">'+e.lc+'</div><div class="nx">'+e.nx+'</div></div>';}).join("");
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c98">
+  <div class="comp-head"><span class="num">98</span><h2>Fear &amp; greed dial</h2><span class="sz small">Small</span>
+    <span class="desc">The current sentiment score in a compact form.</span></div>
+
+<!-- ============================ 98.a ============================ -->
+<div class="design" id="d98a">
+  <div class="dlabel"><span class="id">98.a</span><span class="nm">Half-moon dial with previous-reading ghosts</span><span class="tag">hover ghosts</span></div>
+  <div class="dbody">
+<style>
+#d98a .wrapx{padding:22px;background:#f4f5f7;display:flex;justify-content:center}
+#d98a .dl5{width:280px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px;font-family:var(--sans);text-align:center}
+#d98a .dl5 .ttl2{font:600 9.5px var(--mono);letter-spacing:.16em;color:#98a0b3}
+#d98a .dl5 .nm13{font:700 44px var(--mono);letter-spacing:-.03em;margin-top:-6px}
+#d98a .dl5 .wd2{font:600 11px var(--mono);letter-spacing:.14em}
+#d98a .dl5 .hist3{display:flex;justify-content:space-between;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+#d98a .dl5 .hist3 div{flex:1}
+#d98a .dl5 .hist3 b{display:block;font:500 8.5px var(--mono);color:#98a0b3;letter-spacing:.08em}
+#d98a .dl5 .hist3 span{font:600 14px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="wrapx"><div class="dl5">
+  <div class="ttl2">FEAR &amp; GREED INDEX</div>
+  <svg viewBox="0 0 220 132" width="100%" height="132">
+    <defs><linearGradient id="d98ag" x1="0" x2="1"><stop offset="0" stop-color="#c0392b"/><stop offset=".35" stop-color="#e0a23d"/><stop offset=".6" stop-color="#9aa0ad"/><stop offset="1" stop-color="#0f9d6a"/></linearGradient></defs>
+    <path d="M22,116 A88,88 0 0 1 198,116" fill="none" stroke="#eef0f4" stroke-width="18" stroke-linecap="round"/>
+    <path d="M22,116 A88,88 0 0 1 198,116" fill="none" stroke="url(#d98ag)" stroke-width="18" stroke-linecap="round" stroke-dasharray="188 400"/>
+    <circle cx="146.2" cy="53.1" r="5" fill="#c8cdd8"/><circle cx="103.6" cy="28.2" r="5" fill="#dfe3ea"/>
+    <line x1="110" y1="116" x2="169" y2="51" stroke="#11141c" stroke-width="3.6" stroke-linecap="round"/>
+    <circle cx="110" cy="116" r="8" fill="#11141c"/><circle cx="110" cy="116" r="3.4" fill="#fff"/>
+    <text x="22" y="130" font-size="9" font-family="ui-monospace" fill="#98a0b3">0 FEAR</text>
+    <text x="198" y="130" font-size="9" font-family="ui-monospace" fill="#98a0b3" text-anchor="end">GREED 100</text>
+  </svg>
+  <div class="nm13 pos">68</div>
+  <div class="wd2 pos">GREED</div>
+  <div class="hist3">
+    <div><b>PREV</b><span>64</span></div><div><b>1 WEEK</b><span style="color:#d98613">47</span></div>
+    <div><b>1 MONTH</b><span class="neg">28</span></div><div><b>1 YEAR</b><span style="color:#697086">55</span></div>
+  </div>
+</div></div>
+  </div>
+</div>
+
+<!-- ============================ 98.b ============================ -->
+<div class="design" id="d98b">
+  <div class="dlabel"><span class="id">98.b</span><span class="nm">Horizontal bead rail with 30-day trail</span><span class="tag">trail dots · zone labels</span></div>
+  <div class="dbody">
+<style>
+#d98b .wrapx{padding:22px;background:#0d0f14;display:flex;justify-content:center}
+#d98b .rl{width:460px;background:#151922;border:1px solid #222836;border-radius:12px;padding:15px 17px;font-family:var(--sans);color:#e3e8f1}
+#d98b .rl .tp3{display:flex;align-items:baseline;gap:10px}
+#d98b .rl .tp3 b{font:600 9.5px var(--mono);letter-spacing:.16em;color:#616b7e}
+#d98b .rl .tp3 .sc3{margin-left:auto;font:700 28px var(--mono);letter-spacing:-.02em}
+#d98b .rl .tp3 .wd3{font:600 10px var(--mono);letter-spacing:.12em}
+#d98b .rail6{position:relative;height:46px;margin-top:12px}
+#d98b .rail6 .zones{display:flex;height:12px;border-radius:6px;overflow:hidden;margin-top:16px}
+#d98b .rail6 .zones div{flex:1}
+#d98b .rail6 .tr4{position:absolute;top:19px;width:6px;height:6px;border-radius:50%;transform:translateX(-50%)}
+#d98b .rail6 .mk5{position:absolute;top:10px;width:5px;height:26px;border-radius:3px;background:#fff;transform:translateX(-50%);box-shadow:0 0 0 2px #151922}
+#d98b .zlab{display:flex;margin-top:6px}
+#d98b .zlab span{flex:1;font:500 8.5px var(--mono);color:#616b7e;text-align:center}
+#d98b .ft3{display:flex;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid #222836;font:500 10.5px var(--mono);color:#7b859a}
+#d98b .ft3 b{color:#e3e8f1}
+</style>
+<div class="wrapx"><div class="rl">
+  <div class="tp3"><b>FEAR &amp; GREED</b><span style="font:500 10px var(--mono);color:#616b7e">24 APR 17:45 GMT</span>
+    <span class="sc3 pos">68</span><span class="wd3 pos">GREED</span></div>
+  <div class="rail6" id="d98b-r">
+    <div class="zones"><div style="background:#8e2d24"></div><div style="background:#c07830"></div><div style="background:#4e5768"></div><div style="background:#2f8f66"></div><div style="background:#14b87a"></div></div>
+  </div>
+  <div class="zlab"><span>EXTREME FEAR</span><span>FEAR</span><span>NEUTRAL</span><span>GREED</span><span>EXTREME GREED</span></div>
+  <div class="ft3"><span>30-day low <b>24</b></span><span>30-day high <b>68</b></span><span>trail = last 30 daily closes</span></div>
+</div></div>
+<script>(function(){
+ var r=document.getElementById("d98b-r"),h="";
+ for(var i=0;i<30;i++){
+  var v=Math.round(28+ (68-28)*Math.pow(i/29,1.4) + Math.sin(i/3)*5);
+  v=Math.max(20,Math.min(72,v));
+  h+='<div class="tr4" style="left:'+v+'%;background:rgba(255,255,255,'+(0.12+i/29*0.5).toFixed(2)+')"></div>';}
+ h+='<div class="mk5" style="left:68%"></div>';
+ r.insertAdjacentHTML("beforeend",h);
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 98.c ============================ -->
+<div class="design" id="d98c">
+  <div class="dlabel"><span class="id">98.c</span><span class="nm">Ring badge with component pips</span><span class="tag">pip hover · ring</span></div>
+  <div class="dbody">
+<style>
+#d98c .wrapx{padding:22px;background:#fdfcf9;display:flex;justify-content:center}
+#d98c .rg{width:250px;background:#fff;border:1px solid #e6e2d7;border-radius:14px;padding:16px;font-family:var(--sans);text-align:center;position:relative}
+#d98c .rg .kk{font:600 9px var(--mono);letter-spacing:.18em;color:#b0a894}
+#d98c .rg .num3{position:absolute;left:0;right:0;top:78px;font:700 40px var(--mono);letter-spacing:-.03em}
+#d98c .rg .wdd{position:absolute;left:0;right:0;top:120px;font:600 9.5px var(--mono);letter-spacing:.14em;color:#7d7768}
+#d98c .pips{display:flex;justify-content:center;gap:5px;margin-top:8px}
+#d98c .pips i{width:20px;height:6px;border-radius:3px;cursor:pointer}
+#d98c .rg .pl2{font-size:11px;color:#8d8778;margin-top:8px;min-height:30px;line-height:1.45}
+</style>
+<div class="wrapx"><div class="rg">
+  <div class="kk">MARKET SENTIMENT</div>
+  <svg viewBox="0 0 160 160" width="160" height="160" style="margin:6px auto 0">
+    <circle cx="80" cy="80" r="64" fill="none" stroke="#f1eee5" stroke-width="13"/>
+    <circle cx="80" cy="80" r="64" fill="none" stroke="#2e7d5b" stroke-width="13" stroke-linecap="round"
+      stroke-dasharray="273 402" transform="rotate(-90 80 80)"/>
+  </svg>
+  <div class="num3" style="color:#2e7d5b">68</div>
+  <div class="wdd">GREED</div>
+  <div class="pips" id="d98c-p"></div>
+  <div class="pl2" id="d98c-l">Seven inputs · hover a pip</div>
+</div></div>
+<script>(function(){
+ var S=[["Momentum",74],["Price strength",81],["Breadth",66],["Put/call",71],["Volatility",69],["Safe haven",63],["Junk bonds",52]];
+ function col(v){return v<25?"#a8342c":v<45?"#cc7f36":v<55?"#8f887a":v<75?"#4d9a72":"#17a86f";}
+ document.getElementById("d98c-p").innerHTML=S.map(function(s,i){
+  return '<i data-i="'+i+'" style="background:'+col(s[1])+'"></i>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d98c-p i"),function(p){
+  p.addEventListener("mouseenter",function(){
+   var s=S[+p.dataset.i];
+   document.getElementById("d98c-l").innerHTML='<b style="color:#26241d">'+s[0]+'</b><br>'+s[1]+' / 100 · '+(s[1]>55?"greed":s[1]<45?"fear":"neutral");});
+  p.addEventListener("mouseleave",function(){
+   document.getElementById("d98c-l").textContent="Seven inputs · hover a pip";});});
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c104">
+  <div class="comp-head"><span class="num">104</span><h2>Yield curve snapshot</h2><span class="sz small">Small</span>
+    <span class="desc">A compact read on the current curve shape (normal, flat or inverted).</span></div>
+
+<!-- ============================ 104.a ============================ -->
+<div class="design" id="d104a">
+  <div class="dlabel"><span class="id">104.a</span><span class="nm">Mini curve with shape verdict and key spreads</span><span class="tag">hover point</span></div>
+  <div class="dbody">
+<style>
+#d104a .wrapx{padding:22px;background:#f5f6f8;display:flex;justify-content:center}
+#d104a .cd4{width:380px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-family:var(--sans)}
+#d104a .tp4{display:flex;align-items:baseline;gap:9px}
+#d104a .tp4 b{font-size:13px;font-weight:650}
+#d104a .tp4 .vd{margin-left:auto;font:600 9.5px var(--mono);padding:4px 8px;border-radius:5px;background:#fff5e6;color:#a86b1f;letter-spacing:.06em}
+#d104a .cv{margin-top:10px}
+#d104a .sp6{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:11px}
+#d104a .sp6 div{background:#fff;padding:8px 10px}
+#d104a .sp6 b{font:500 8.5px var(--mono);letter-spacing:.08em;color:#98a0b3;display:block}
+#d104a .sp6 span{font:600 14px var(--mono);display:block;margin-top:2px}
+#d104a .ft4{font:500 10.5px var(--mono);color:#98a0b3;margin-top:9px}
+</style>
+<div class="wrapx"><div class="cd4">
+  <div class="tp4"><b>US Treasury curve</b><span style="font:500 10px var(--mono);color:#98a0b3">24 Apr</span><span class="vd">FLAT, FRONT-END INVERTED</span></div>
+  <div class="cv"><svg id="d104a-svg" viewBox="0 0 340 104" style="width:100%;height:104px"></svg></div>
+  <div class="sp6">
+    <div><b>2s10s</b><span class="pos">+25bp</span></div>
+    <div><b>3m10s</b><span class="neg">−19bp</span></div>
+    <div><b>5s30s</b><span class="pos">+56bp</span></div>
+  </div>
+  <div class="ft4">10Y 4.11% · steepened 29bp over the past quarter</div>
+</div></div>
+<script>(function(){
+ var M=["1M","3M","6M","1Y","2Y","5Y","10Y","30Y"],Y=[4.32,4.30,4.24,4.08,3.86,3.82,4.11,4.38];
+ var W=340,H=104,L=10,R=10,T=16,B=20,mn=3.6,mx=4.55;
+ var X=function(i){return L+i*(W-L-R)/(M.length-1)},Yp=function(v){return T+(mx-v)/(mx-mn)*(H-T-B)};
+ var p="";Y.forEach(function(v,i){p+=(i?"L":"M")+X(i).toFixed(1)+","+Yp(v).toFixed(1);});
+ var s='<path d="'+p+'L'+X(7)+','+(H-B)+'L'+L+','+(H-B)+'Z" fill="#3b62f6" opacity=".08"/>'+
+  '<path d="'+p+'" fill="none" stroke="#3b62f6" stroke-width="2.2"/>';
+ Y.forEach(function(v,i){
+  s+='<circle cx="'+X(i)+'" cy="'+Yp(v)+'" r="3" fill="#fff" stroke="#3b62f6" stroke-width="2"><title>'+M[i]+' · '+v.toFixed(2)+'%</title></circle>'+
+  '<text x="'+X(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="8.5" font-family="ui-monospace" fill="#98a0b3">'+M[i]+'</text>';});
+ s+='<text x="'+X(0)+'" y="'+(Yp(Y[0])-7)+'" font-size="9" font-family="ui-monospace" fill="#697086">4.32</text>'+
+    '<text x="'+X(4)+'" y="'+(Yp(Y[4])+13)+'" text-anchor="middle" font-size="9" font-family="ui-monospace" fill="#697086">3.86 low</text>'+
+    '<text x="'+X(7)+'" y="'+(Yp(Y[7])-7)+'" text-anchor="end" font-size="9" font-family="ui-monospace" fill="#697086">4.38</text>';
+ document.getElementById("d104a-svg").innerHTML=s;
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 104.b ============================ -->
+<div class="design" id="d104b">
+  <div class="dlabel"><span class="id">104.b</span><span class="nm">Three-tenor bar read with slope arrow</span><span class="tag">bar hover</span></div>
+  <div class="dbody">
+<style>
+#d104b .wrapx{padding:22px;background:#0c0f14;display:flex;justify-content:center}
+#d104b .bx2{width:360px;background:#141922;border:1px solid #212836;border-radius:12px;padding:15px 17px;font-family:var(--sans);color:#e2e8f1}
+#d104b .tt2{font:600 9.5px var(--mono);letter-spacing:.16em;color:#5f6a7e}
+#d104b .bars10{display:flex;align-items:flex-end;gap:10px;height:96px;margin-top:14px}
+#d104b .bb3{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+#d104b .bb3 .bar11{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(#3b62f6,#2843a8);position:relative}
+#d104b .bb3 .vl2{font:600 13px var(--mono);margin-bottom:5px}
+#d104b .bb3 .tn{font:500 10px var(--mono);color:#5f6a7e;margin-top:6px}
+#d104b .bb3 .dd2{font:500 9.5px var(--mono);margin-top:2px}
+#d104b .verd{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid #212836}
+#d104b .verd .ar2{font-size:22px}
+#d104b .verd .tx3{font-size:12.5px;line-height:1.45;color:#96a1b3}
+#d104b .verd .tx3 b{color:#e2e8f1}
+</style>
+<div class="wrapx"><div class="bx2">
+  <div class="tt2">CURVE SHAPE · US TREASURIES</div>
+  <div class="bars10" id="d104b-b"></div>
+  <div class="verd"><span class="ar2">↗</span><div class="tx3"><b>Positively sloped, but only just.</b> The 2s10s spread sits at +25bp — the curve disinverted 71 days ago after 21 months upside-down.</div></div>
+</div></div>
+<script>(function(){
+ var T=[["2Y",3.86,-0.04],["10Y",4.11,-0.02],["30Y",4.38,0.01]];
+ var mx=4.6;
+ document.getElementById("d104b-b").innerHTML=T.map(function(t){
+  return '<div class="bb3"><span class="vl2">'+t[1].toFixed(2)+'%</span>'+
+   '<div class="bar11" style="height:'+(t[1]/mx*72)+'px"></div>'+
+   '<span class="tn">'+t[0]+'</span>'+
+   '<span class="dd2" style="color:'+(t[2]>=0?"#18c281":"#ff5b52")+'">'+(t[2]>=0?"+":"")+(t[2]*100).toFixed(0)+'bp</span></div>';}).join("");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 104.c ============================ -->
+<div class="design" id="d104c">
+  <div class="dlabel"><span class="id">104.c</span><span class="nm">Slope gauge with inversion memory strip</span><span class="tag">gauge · 24-month strip</span></div>
+  <div class="dbody">
+<style>
+#d104c .wrapx{padding:22px;background:#fbfaf7;display:flex;justify-content:center}
+#d104c .gg{width:330px;background:#fff;border:1px solid #e6e2d7;border-radius:12px;padding:15px 17px;font-family:var(--sans);text-align:center}
+#d104c .gg .k2{font:600 9px var(--mono);letter-spacing:.16em;color:#b0a894}
+#d104c .gg .vvv{font:700 32px var(--mono);margin-top:-2px}
+#d104c .gg .shp{font:600 10px var(--mono);letter-spacing:.12em;color:#7d7768}
+#d104c .strip4{display:flex;gap:2px;margin-top:14px;height:20px}
+#d104c .strip4 div{flex:1;border-radius:2px;position:relative}
+#d104c .strip4 div:hover::after{content:attr(data-l);position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:#26241d;color:#fff;font:500 9.5px var(--mono);padding:3px 6px;border-radius:4px;white-space:nowrap;z-index:5}
+#d104c .lbs{display:flex;justify-content:space-between;font:500 9px var(--mono);color:#b0a894;margin-top:5px}
+</style>
+<div class="wrapx"><div class="gg">
+  <div class="k2">2s10s SLOPE</div>
+  <svg viewBox="0 0 220 122" width="100%" height="122">
+    <path d="M22,108 A86,86 0 0 1 198,108" fill="none" stroke="#f1eee5" stroke-width="15" stroke-linecap="round"/>
+    <path d="M110,22 A86,86 0 0 1 198,108" fill="none" stroke="#2e7d5b" stroke-width="15" stroke-linecap="round" opacity=".25"/>
+    <path d="M22,108 A86,86 0 0 1 110,22" fill="none" stroke="#b4453a" stroke-width="15" stroke-linecap="round" opacity=".25"/>
+    <path d="M110,22 A86,86 0 0 1 131,25.6" fill="none" stroke="#2e7d5b" stroke-width="15" stroke-linecap="round"/>
+    <line x1="110" y1="108" x2="131" y2="26" stroke="#26241d" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="110" cy="108" r="7" fill="#26241d"/>
+    <text x="24" y="120" font-size="8.5" font-family="ui-monospace" fill="#b0a894">−100bp</text>
+    <text x="196" y="120" font-size="8.5" font-family="ui-monospace" fill="#b0a894" text-anchor="end">+100bp</text>
+  </svg>
+  <div class="vvv pos">+25bp</div>
+  <div class="shp">UPWARD SLOPING</div>
+  <div class="strip4" id="d104c-s"></div>
+  <div class="lbs"><span>Apr 2024</span><span>24 months of 2s10s</span><span>Apr 2026</span></div>
+</div></div>
+<script>(function(){
+ var h="";
+ for(var i=0;i<24;i++){
+  var v=Math.round(-48+ i*3.4 + Math.sin(i/3)*9);
+  var c=v<0?"#b4453a":"#2e7d5b";
+  h+='<div data-l="month '+(i+1)+' · '+(v>=0?"+":"")+v+'bp" style="background:'+c+';opacity:'+(0.35+Math.min(0.65,Math.abs(v)/70))+'"></div>';}
+ document.getElementById("d104c-s").innerHTML=h;
+})();</script>
+  </div>
+</div>
+</section>

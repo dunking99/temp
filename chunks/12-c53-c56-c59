@@ -1,0 +1,577 @@
+<section class="comp" id="c53">
+  <div class="comp-head"><span class="num">53</span><h2>Currency pair snapshot</h2><span class="sz med">Medium</span>
+    <span class="desc">One currency pair's rate, chart and today's change.</span></div>
+
+<!-- ============================ 53.a ============================ -->
+<div class="design" id="d53a">
+  <div class="dlabel"><span class="id">53.a</span><span class="nm">Dealing-style card with bid/ask, pip move and session range</span><span class="tag">bid/ask hover · timeframe</span></div>
+  <div class="dbody">
+<style>
+#d53a .wrapx{padding:22px;background:#f4f5f7;display:flex;justify-content:center}
+#d53a .c7{width:440px;background:#fff;border:1px solid var(--line);border-radius:12px;font-family:var(--sans);overflow:hidden}
+#d53a .h5{display:flex;align-items:center;gap:10px;padding:13px 16px;background:linear-gradient(#fbfcfd,#f4f6f9);border-bottom:1px solid var(--line)}
+#d53a .h5 .fl3{font-size:17px}
+#d53a .h5 b{font:700 15px var(--mono)}
+#d53a .h5 small{font-size:11px;color:#98a0b3}
+#d53a .h5 .tf2{margin-left:auto;display:flex;gap:3px}
+#d53a .h5 .tf2 button{border:1px solid var(--line);background:#fff;border-radius:5px;padding:4px 7px;font:600 9.5px var(--mono);color:#697086}
+#d53a .h5 .tf2 button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d53a .quote{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+#d53a .quote div{background:#fff;padding:12px 16px;cursor:pointer;transition:background .12s}
+#d53a .quote div:hover{background:#f6f9ff}
+#d53a .quote b{font:500 9px var(--mono);letter-spacing:.14em;color:#98a0b3;display:block}
+#d53a .quote .px4{font:600 27px var(--mono);letter-spacing:-.01em;margin-top:3px}
+#d53a .quote .px4 sup{font-size:15px;color:#3b62f6;vertical-align:baseline}
+#d53a .mid2{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px}
+#d53a .mid2 .ch5{font:600 14px var(--mono)}
+#d53a .mid2 .sp2{margin-left:auto;font:500 11px var(--mono);color:#697086}
+#d53a .chart4{padding:6px 10px 10px}
+#d53a .rng2{padding:0 16px 14px}
+#d53a .rng2 .b8{height:26px;background:#f2f4f7;border-radius:5px;position:relative}
+#d53a .rng2 .b8 i{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#dbe4fb,#c3d3fb);border-radius:5px}
+#d53a .rng2 .b8 b{position:absolute;top:-3px;bottom:-3px;width:3px;background:#11141c;border-radius:2px}
+#d53a .rng2 .b8 span{position:absolute;top:6px;font:600 10px var(--mono);color:#4b5364}
+#d53a .foot4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+#d53a .foot4 div{background:#fff;padding:9px 12px}
+#d53a .foot4 b{font:500 8.5px var(--mono);letter-spacing:.08em;color:#98a0b3;display:block}
+#d53a .foot4 span{font:600 12.5px var(--mono);display:block;margin-top:2px}
+</style>
+<div class="wrapx"><div class="c7">
+  <div class="h5"><span class="fl3">🇪🇺</span><b>EUR/USD</b><span class="fl3">🇺🇸</span><small>Euro / US Dollar · spot</small>
+    <div class="tf2"><button class="on">1D</button><button>1W</button><button>1M</button></div></div>
+  <div class="quote">
+    <div><b>BID</b><div class="px4">1.084<sup>1</sup></div></div>
+    <div><b>ASK</b><div class="px4">1.084<sup>3</sup></div></div>
+  </div>
+  <div class="mid2"><span class="ch5 pos">▲ +0.0024 (+0.22%)</span><span style="font:500 11px var(--mono);color:#98a0b3">+24 pips</span>
+    <span class="sp2">spread 0.2 pips · 17:48 GMT</span></div>
+  <div class="chart4"><svg id="d53a-svg" viewBox="0 0 400 110" style="width:100%;height:auto"></svg></div>
+  <div class="rng2"><div class="b8"><i style="left:14%;width:58%"></i><b style="left:72%"></b>
+    <span style="left:8px">1.0798</span><span style="right:8px">1.0866</span></div>
+    <div style="display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#98a0b3;margin-top:5px"><span>session low</span><span>72% of range</span><span>session high</span></div></div>
+  <div class="foot4">
+    <div><b>PREV CLOSE</b><span>1.0818</span></div><div><b>1M RANGE</b><span style="font-size:10.5px">1.0712–1.0912</span></div>
+    <div><b>RATE DIFF</b><span>−2.13%</span></div><div><b>IMPLIED VOL 1M</b><span>6.4%</span></div>
+  </div>
+</div></div>
+<script>(function(){
+ var p=1.0818,pts=[];
+ for(var i=0;i<96;i++){p+=Math.sin(i/7)*0.00042+Math.sin(i/2.3)*0.00018+0.000026;pts.push(p);}
+ pts[95]=1.0842;
+ var W=400,H=110,mn=Math.min.apply(null,pts)-0.0004,mx=Math.max.apply(null,pts)+0.0004;
+ var X=function(i){return i*W/(pts.length-1)},Y=function(v){return 8+(mx-v)/(mx-mn)*(H-26)};
+ var d="";pts.forEach(function(v,i){d+=(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1);});
+ var s='<line x1="0" y1="'+Y(1.0818)+'" x2="'+W+'" y2="'+Y(1.0818)+'" stroke="#d6dae2" stroke-dasharray="3 3"/>'+
+  '<path d="'+d+'L'+W+','+(H-14)+'L0,'+(H-14)+'Z" fill="#0f9d6a" opacity=".08"/><path d="'+d+'" fill="none" stroke="#0f9d6a" stroke-width="1.9"/>'+
+  '<circle cx="'+X(95)+'" cy="'+Y(1.0842)+'" r="3.2" fill="#0f9d6a"/>';
+ ["00:00","06:00","12:00","17:48"].forEach(function(t,i){
+  s+='<text x="'+(i*W/3.3+3)+'" y="'+(H-2)+'" font-size="8" font-family="ui-monospace" fill="#b0b7c5">'+t+'</text>';});
+ document.getElementById("d53a-svg").innerHTML=s;
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 53.b ============================ -->
+<div class="design" id="d53b">
+  <div class="dlabel"><span class="id">53.b</span><span class="nm">Two-country panel with carry, candles and driver notes</span><span class="tag">flip driver notes · candle hover</span></div>
+  <div class="dbody">
+<style>
+#d53b .wrapx{padding:22px;background:#0c0e13;display:flex;justify-content:center}
+#d53b .p2{width:520px;background:#12151c;border:1px solid #1f2632;border-radius:14px;font-family:var(--sans);color:#e3e8f1;padding:16px 18px}
+#d53b .vs{display:flex;align-items:center;gap:14px}
+#d53b .vs .side4{display:flex;align-items:center;gap:8px}
+#d53b .vs .fl4{font-size:24px}
+#d53b .vs .cc4{font:700 14px var(--mono)}
+#d53b .vs .cc4 small{display:block;font:500 9.5px var(--mono);color:#68728a;margin-top:2px}
+#d53b .vs .mid3{flex:1;text-align:center}
+#d53b .vs .mid3 .rate3{font:600 32px var(--mono);letter-spacing:-.02em}
+#d53b .vs .mid3 .chg6{font:600 12px var(--mono);margin-top:2px}
+#d53b .cndl{margin-top:14px;border-top:1px solid #1f2632;border-bottom:1px solid #1f2632;padding:10px 0}
+#d53b .drivers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+#d53b .drivers div{background:#171b24;border:1px solid #232a36;border-radius:9px;padding:10px 12px}
+#d53b .drivers b{font:500 8.5px var(--mono);letter-spacing:.12em;color:#5d6678;display:block}
+#d53b .drivers span{font:600 15px var(--mono);display:block;margin-top:4px}
+#d53b .drivers em{font-style:normal;font:500 10px var(--mono);color:#7b859a}
+#d53b .note3{margin-top:12px;font-size:12px;color:#93a0b5;line-height:1.55;background:#151921;border-radius:9px;padding:11px 13px;cursor:pointer}
+#d53b .note3 b{color:#e3e8f1}
+#d53b .note3 .more2{display:none;margin-top:8px;padding-top:8px;border-top:1px solid #232a36}
+#d53b .note3.op .more2{display:block}
+</style>
+<div class="wrapx"><div class="p2">
+  <div class="vs">
+    <div class="side4"><span class="fl4">🇪🇺</span><div class="cc4">EUR<small>Euro area</small></div></div>
+    <div class="mid3"><div class="rate3">1.0842</div><div class="chg6 pos">▲ +0.22% · +24 pips</div></div>
+    <div class="side4"><div class="cc4" style="text-align:right">USD<small>United States</small></div><span class="fl4">🇺🇸</span></div>
+  </div>
+  <div class="cndl"><svg id="d53b-svg" viewBox="0 0 480 120" style="width:100%;height:auto"></svg>
+    <div style="display:flex;justify-content:space-between;font:500 9px var(--mono);color:#5d6678;margin-top:4px"><span>30 sessions</span><span id="d53b-ohlc">O 1.0818 H 1.0866 L 1.0798 C 1.0842</span></div></div>
+  <div class="drivers">
+    <div><b>POLICY RATE SPREAD</b><span class="neg">−2.13%</span><em>ECB 2.25% vs Fed 4.38%</em></div>
+    <div><b>2Y YIELD SPREAD</b><span class="neg">−184bp</span><em>widened 6bp this week</em></div>
+    <div><b>1M IMPLIED VOL</b><span>6.4%</span><em>25-delta risk reversal −0.3</em></div>
+    <div><b>CARRY (1Y ANN.)</b><span class="neg">−2.08%</span><em>long EUR is a negative-carry trade</em></div>
+  </div>
+  <div class="note3" id="d53b-n"><b>Why it moved:</b> softer US durable goods and a hawkish ECB press conference pushed the pair through 1.0830 resistance. <span style="color:#5d6678">click for more ▾</span>
+    <div class="more2">Positioning is close to flat after four weeks of EUR short-covering. The 200-day average at 1.0798 held on the morning dip — the third successful test since February. Option barriers are reported at 1.0900 and 1.0750.</div></div>
+</div></div>
+<script>(function(){
+ var C=[],p=1.0762;
+ for(var i=0;i<30;i++){var o=p,c=p+Math.sin(i/4)*0.0026+0.00012*i+(Math.sin(i*2.7)*0.0009);
+  var h=Math.max(o,c)+0.0011,l=Math.min(o,c)-0.0011;C.push({o:o,h:h,l:l,c:c});p=c;}
+ C[29]={o:1.0818,h:1.0866,l:1.0798,c:1.0842};
+ var W=480,H=120,mn=Math.min.apply(null,C.map(function(d){return d.l}))-0.0006,mx=Math.max.apply(null,C.map(function(d){return d.h}))+0.0006;
+ var X=function(i){return 8+i*(W-40)/(C.length-1)},Y=function(v){return 8+(mx-v)/(mx-mn)*(H-24)};
+ var s="";
+ [0.25,0.5,0.75].forEach(function(f){var v=mn+(mx-mn)*f;
+  s+='<line x1="0" y1="'+Y(v)+'" x2="'+(W-26)+'" y2="'+Y(v)+'" stroke="#1c222c"/>'+
+  '<text x="'+(W-22)+'" y="'+(Y(v)+3)+'" font-size="8.5" font-family="ui-monospace" fill="#5d6678">'+v.toFixed(4)+'</text>';});
+ C.forEach(function(d,i){var up=d.c>=d.o,col=up?"#18c281":"#ff5b52";
+  s+='<g class="k3" data-i="'+i+'"><line x1="'+X(i)+'" y1="'+Y(d.h)+'" x2="'+X(i)+'" y2="'+Y(d.l)+'" stroke="'+col+'"/>'+
+   '<rect x="'+(X(i)-4)+'" y="'+Y(Math.max(d.o,d.c))+'" width="8" height="'+Math.max(1.5,Math.abs(Y(d.o)-Y(d.c)))+'" fill="'+col+'"/></g>';});
+ document.getElementById("d53b-svg").innerHTML=s;
+ [].forEach.call(document.querySelectorAll("#d53b .k3"),function(g){
+  g.addEventListener("mouseenter",function(){var d=C[+g.dataset.i];
+   document.getElementById("d53b-ohlc").textContent="O "+d.o.toFixed(4)+" H "+d.h.toFixed(4)+" L "+d.l.toFixed(4)+" C "+d.c.toFixed(4);});});
+ document.getElementById("d53b-n").addEventListener("click",function(){this.classList.toggle("op")});
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 53.c ============================ -->
+<div class="design" id="d53c">
+  <div class="dlabel"><span class="id">53.c</span><span class="nm">Minimal strip with inline converter</span><span class="tag">type an amount · invert pair</span></div>
+  <div class="dbody">
+<style>
+#d53c .wrapx{padding:22px;background:#fdfcf9;display:flex;justify-content:center}
+#d53c .strip2{width:560px;background:#fff;border:1px solid #e7e3d8;border-radius:10px;font-family:var(--sans);padding:16px 18px}
+#d53c .top4{display:flex;align-items:center;gap:12px}
+#d53c .top4 .pair{font:600 17px var(--serif)}
+#d53c .top4 .inv{border:1px solid #e0dccf;background:#fbfaf6;border-radius:6px;padding:4px 9px;font:600 10px var(--mono);color:#7d7768}
+#d53c .top4 .big5{margin-left:auto;font:600 30px var(--mono);letter-spacing:-.02em}
+#d53c .top4 .ch7{font:600 12.5px var(--mono);text-align:right}
+#d53c .sparkrow{display:flex;align-items:center;gap:14px;margin-top:12px;border-top:1px solid #f1eee5;border-bottom:1px solid #f1eee5;padding:10px 0}
+#d53c .sparkrow .lbl3{font:500 9.5px var(--mono);letter-spacing:.1em;color:#a9a394;text-transform:uppercase}
+#d53c .sparkrow .vals{display:flex;gap:16px;margin-left:auto;font:500 11px var(--mono);color:#7d7768}
+#d53c .sparkrow .vals b{color:#26241d}
+#d53c .conv{display:grid;grid-template-columns:1fr 26px 1fr;gap:10px;align-items:center;margin-top:14px}
+#d53c .conv .fld{border:1px solid #e0dccf;border-radius:8px;padding:9px 11px;background:#fbfaf6}
+#d53c .conv .fld b{font:500 9px var(--mono);letter-spacing:.12em;color:#a9a394;display:block}
+#d53c .conv input{border:0;background:transparent;font:600 19px var(--mono);width:100%;outline:none;margin-top:3px;color:#26241d}
+#d53c .conv .arrow{text-align:center;color:#a9a394;font-size:15px}
+#d53c .conv .out2{font:600 19px var(--mono);margin-top:3px}
+#d53c .foot5{display:flex;gap:18px;margin-top:12px;font:500 10.5px var(--mono);color:#a9a394}
+</style>
+<div class="wrapx"><div class="strip2">
+  <div class="top4"><span class="pair" id="d53c-pair">EUR / USD</span><button class="inv" id="d53c-inv">⇄ invert</button>
+    <div><div class="big5" id="d53c-rate">1.0842</div><div class="ch7 pos" id="d53c-ch">▲ +0.0024 · +0.22%</div></div></div>
+  <div class="sparkrow"><span class="lbl3">30 days</span>
+    <svg viewBox="0 0 240 34" width="240" height="34"><path d="M0,26 L16,24 L32,28 L48,22 L64,25 L80,18 L96,21 L112,14 L128,18 L144,12 L160,15 L176,9 L192,12 L208,7 L224,9 L240,5" fill="none" stroke="#2e7d5b" stroke-width="1.8"/></svg>
+    <div class="vals"><span>1M <b class="pos">+1.4%</b></span><span>3M <b class="neg">−0.8%</b></span><span>YTD <b class="pos">+2.1%</b></span></div></div>
+  <div class="conv">
+    <div class="fld"><b id="d53c-l1">EUR — AMOUNT</b><input id="d53c-in" type="number" value="1000"></div>
+    <div class="arrow">→</div>
+    <div class="fld"><b id="d53c-l2">USD — CONVERTED</b><div class="out2" id="d53c-out">1,084.20</div></div>
+  </div>
+  <div class="foot5"><span>Mid rate · indicative only</span><span>Updated 17:48 GMT</span><span>Spread 0.2 pips</span></div>
+</div></div>
+<script>(function(){
+ var inv=false,rate=1.0842;
+ function calc(){
+  var v=parseFloat(document.getElementById("d53c-in").value)||0;
+  var r=inv?1/rate:rate;
+  document.getElementById("d53c-out").textContent=(v*r).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+ function upd(){
+  document.getElementById("d53c-pair").textContent=inv?"USD / EUR":"EUR / USD";
+  document.getElementById("d53c-rate").textContent=(inv?1/rate:rate).toFixed(4);
+  document.getElementById("d53c-ch").innerHTML=inv?'▼ −0.0020 · −0.22%':'▲ +0.0024 · +0.22%';
+  document.getElementById("d53c-ch").className="ch7 "+(inv?"neg":"pos");
+  document.getElementById("d53c-l1").textContent=(inv?"USD":"EUR")+" — AMOUNT";
+  document.getElementById("d53c-l2").textContent=(inv?"EUR":"USD")+" — CONVERTED";
+  calc();}
+ document.getElementById("d53c-in").addEventListener("input",calc);
+ document.getElementById("d53c-inv").addEventListener("click",function(){inv=!inv;upd();});
+ upd();
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c56">
+  <div class="comp-head"><span class="num">56</span><h2>Advance/decline line</h2><span class="sz med">Medium</span>
+    <span class="desc">The running difference between rising and falling stocks over time.</span></div>
+
+<!-- ============================ 56.a ============================ -->
+<div class="design" id="d56a">
+  <div class="dlabel"><span class="id">56.a</span><span class="nm">Cumulative A/D with index overlay and divergence shading</span><span class="tag">hover · overlay toggle</span></div>
+  <div class="dbody">
+<style>
+#d56a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d56a .hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#d56a .hd h3{font-size:15px;font-weight:650}
+#d56a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d56a .hd label{margin-left:auto;font:500 11px var(--mono);color:#697086;display:flex;gap:6px;align-items:center}
+#d56a .flag2{display:inline-block;font:600 9.5px var(--mono);padding:3px 7px;border-radius:5px;background:#e8f6f0;color:#0b6e4b}
+#d56a .stats5{display:flex;gap:26px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font:500 11.5px var(--mono);color:#697086}
+#d56a .stats5 b{display:block;color:#11141c;font-size:15px;margin-top:2px}
+</style>
+<div class="root">
+  <div class="hd"><h3>NYSE cumulative advance/decline line</h3><span class="s">252 sessions</span>
+    <label><input type="checkbox" id="d56a-ov" checked> overlay index</label></div>
+  <svg id="d56a-svg" viewBox="0 0 940 260" style="width:100%;height:auto"></svg>
+  <div class="stats5">
+    <span>A/D line<b>new 52-week high</b></span>
+    <span>Today<b class="pos">+146 net advances</b></span>
+    <span>10-day average<b class="pos">+62</b></span>
+    <span>Divergence<b><span class="flag2">NONE — CONFIRMING</span></b></span>
+    <span>Last negative divergence<b>Dec 2025</b></span>
+  </div>
+</div>
+<script>(function(){
+ var N=252,ad=[0],ix=[100];
+ for(var i=1;i<N;i++){
+  var net=Math.round(Math.sin(i/9)*120+Math.sin(i/31)*180+Math.sin(i/2.4)*60+22);
+  if(i>190&&i<215)net-=90;
+  ad.push(ad[i-1]+net);
+  ix.push(ix[i-1]*(1+ (net/26000) + Math.sin(i/7)*0.0024 + 0.0004));}
+ var W=940,H=260,L=52,R=54,T=14,B=24;
+ var amn=Math.min.apply(null,ad),amx=Math.max.apply(null,ad);
+ var imn=Math.min.apply(null,ix),imx=Math.max.apply(null,ix);
+ var X=function(i){return L+i*(W-L-R)/(N-1)};
+ var YA=function(v){return T+(amx-v)/(amx-amn)*(H-T-B)},YI=function(v){return T+(imx-v)/(imx-imn)*(H-T-B)};
+ function draw(ov){
+  var s="";
+  for(var g=0;g<=4;g++){var y=T+g*(H-T-B)/4;
+   s+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#f0f2f5"/>'+
+   '<text x="'+(L-8)+'" y="'+(y+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+Math.round(amx-(amx-amn)*g/4).toLocaleString()+'</text>';}
+  if(ov){
+   s+='<rect x="'+X(190)+'" y="'+T+'" width="'+(X(215)-X(190))+'" height="'+(H-T-B)+'" fill="#e0483d" opacity=".06"/>';
+   s+='<text x="'+(X(190)+6)+'" y="'+(T+12)+'" font-size="9" font-family="ui-monospace" fill="#c0392b">breadth lagged price</text>';
+   var pi="";ix.forEach(function(v,i){pi+=(i?"L":"M")+X(i).toFixed(1)+","+YI(v).toFixed(1);});
+   s+='<path d="'+pi+'" fill="none" stroke="#c0c6d2" stroke-width="1.6"/>'+
+    '<text x="'+(W-R+6)+'" y="'+(YI(ix[N-1])+4)+'" font-size="10" font-family="ui-monospace" fill="#98a0b3">NYSE comp</text>';}
+  var pa="";ad.forEach(function(v,i){pa+=(i?"L":"M")+X(i).toFixed(1)+","+YA(v).toFixed(1);});
+  s+='<path d="'+pa+'L'+X(N-1)+','+(H-B)+'L'+L+','+(H-B)+'Z" fill="#3b62f6" opacity=".07"/>';
+  s+='<path d="'+pa+'" fill="none" stroke="#3b62f6" stroke-width="2.2"/>';
+  s+='<circle cx="'+X(N-1)+'" cy="'+YA(ad[N-1])+'" r="4" fill="#3b62f6"/>';
+  ["May","Jul","Sep","Nov","Jan","Mar"].forEach(function(m,i){
+   s+='<text x="'+X(i*42+8)+'" y="'+(H-6)+'" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+m+'</text>';});
+  document.getElementById("d56a-svg").innerHTML=s;
+ }
+ document.getElementById("d56a-ov").addEventListener("change",function(){draw(this.checked)});
+ draw(true);
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 56.b ============================ -->
+<div class="design" id="d56b">
+  <div class="dlabel"><span class="id">56.b</span><span class="nm">Daily net advances columns beneath the running line</span><span class="tag">column hover · zoom buttons</span></div>
+  <div class="dbody">
+<style>
+#d56b .root{background:#0d1016;color:#e2e7f0;padding:18px 20px 20px;font-family:var(--sans)}
+#d56b .hd{display:flex;align-items:center;gap:12px}
+#d56b .hd h3{font-size:14px;font-weight:600}
+#d56b .hd .s{font:500 10px var(--mono);letter-spacing:.12em;color:#59627a;text-transform:uppercase}
+#d56b .hd .zm{margin-left:auto;display:flex;gap:5px}
+#d56b .hd .zm button{background:#161b23;border:1px solid #222935;color:#97a1b4;border-radius:6px;padding:5px 10px;font:600 10px var(--mono)}
+#d56b .hd .zm button.on{background:#e2e7f0;color:#0d1016;border-color:#e2e7f0}
+#d56b .rdout{display:flex;gap:22px;margin-top:10px;font:500 11px var(--mono);color:#59627a}
+#d56b .rdout b{color:#e2e7f0;font-size:14px;display:block;margin-top:2px}
+#d56b .colh:hover{opacity:.7}
+</style>
+<div class="root">
+  <div class="hd"><h3>Advance / decline, daily and cumulative</h3><span class="s">S&amp;P 500 members</span>
+    <div class="zm" id="d56b-zm"><button data-n="60">60d</button><button class="on" data-n="120">120d</button><button data-n="252">1y</button></div></div>
+  <svg id="d56b-svg" viewBox="0 0 940 300" style="width:100%;height:auto"></svg>
+  <div class="rdout" id="d56b-rd"></div>
+</div>
+<script>(function(){
+ var ALL=[];
+ for(var i=0;i<252;i++){
+  var net=Math.round(Math.sin(i/8)*140+Math.sin(i/29)*150+Math.sin(i/2.1)*70+18);
+  ALL.push(net);}
+ var n=120;
+ function draw(hi){
+  var d=ALL.slice(ALL.length-n),cum=[0];
+  d.forEach(function(v,i){cum.push(cum[i]+v)});cum.shift();
+  var W=940,H=300,L=48,R=52,T=12,B=90;
+  var cmn=Math.min.apply(null,cum),cmx=Math.max.apply(null,cum);
+  var X=function(i){return L+i*(W-L-R)/(d.length-1)};
+  var YC=function(v){return T+(cmx-v)/(cmx-cmn||1)*(H-T-B-12)};
+  var mxb=Math.max.apply(null,d.map(Math.abs));
+  var YB=function(v){return (H-B/2)-(v/mxb)*(B/2-8)};
+  var s="";
+  for(var g=0;g<=3;g++){var y=T+g*(H-T-B-12)/3;
+   s+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#171d26"/>'+
+   '<text x="'+(L-8)+'" y="'+(y+3)+'" text-anchor="end" font-size="9" font-family="ui-monospace" fill="#59627a">'+Math.round(cmx-(cmx-cmn)*g/3).toLocaleString()+'</text>';}
+  var pc="";cum.forEach(function(v,i){pc+=(i?"L":"M")+X(i).toFixed(1)+","+YC(v).toFixed(1);});
+  s+='<path d="'+pc+'" fill="none" stroke="#5b8cff" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+(H-B/2)+'" x2="'+(W-R)+'" y2="'+(H-B/2)+'" stroke="#2a3140"/>';
+  var bw=Math.max(1.4,(W-L-R)/d.length*0.62);
+  d.forEach(function(v,i){
+   s+='<rect class="colh" data-i="'+i+'" x="'+(X(i)-bw/2)+'" y="'+Math.min(YB(v),H-B/2)+'" width="'+bw+'" height="'+Math.abs(YB(v)-(H-B/2))+'" fill="'+(v>=0?"#18c281":"#ff5b52")+'" opacity="'+(hi===i?1:.7)+'"/>';});
+  s+='<text x="'+(L-8)+'" y="'+(H-B/2+3)+'" text-anchor="end" font-size="9" font-family="ui-monospace" fill="#59627a">0</text>';
+  s+='<text x="'+(W-R+6)+'" y="'+(YC(cum[cum.length-1])+4)+'" font-size="10" font-family="ui-monospace" fill="#5b8cff">A/D line</text>';
+  s+='<text x="'+(W-R+6)+'" y="'+(H-B/2+3)+'" font-size="9.5" font-family="ui-monospace" fill="#59627a">daily net</text>';
+  document.getElementById("d56b-svg").innerHTML=s;
+  var last=d[d.length-1],idx=hi===undefined?d.length-1:hi;
+  document.getElementById("d56b-rd").innerHTML=
+   '<span>SESSION<b>'+(idx===d.length-1?"today":"t−"+(d.length-1-idx))+'</b></span>'+
+   '<span>NET ADVANCES<b style="color:'+(d[idx]>=0?"#18c281":"#ff5b52")+'">'+(d[idx]>=0?"+":"")+d[idx]+'</b></span>'+
+   '<span>CUMULATIVE<b>'+cum[idx].toLocaleString()+'</b></span>'+
+   '<span>UP DAYS IN WINDOW<b>'+d.filter(function(v){return v>0}).length+' / '+d.length+'</b></span>'+
+   '<span>10-DAY AVG<b>'+Math.round(d.slice(-10).reduce(function(a,b){return a+b},0)/10)+'</b></span>';
+  [].forEach.call(document.querySelectorAll("#d56b .colh"),function(r){
+   r.addEventListener("mouseenter",function(){draw(+r.dataset.i)});});
+ }
+ document.getElementById("d56b-zm").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});n=+b.dataset.n;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 56.c ============================ -->
+<div class="design" id="d56c">
+  <div class="dlabel"><span class="id">56.c</span><span class="nm">Four indices, four A/D lines, one divergence scorecard</span><span class="tag">row hover · status chips</span></div>
+  <div class="dbody">
+<style>
+#d56c .root{background:#faf9f6;padding:20px 24px;font-family:var(--sans)}
+#d56c h3{font:600 18px var(--serif)}
+#d56c .sb2{font-size:12px;color:#8c8778;margin-top:4px}
+#d56c .rows2{margin-top:14px;border-top:1px solid #e6e2d7}
+#d56c .r8{display:grid;grid-template-columns:150px 1fr 96px 96px 130px;gap:14px;align-items:center;padding:12px 4px;border-bottom:1px solid #eeeae0}
+#d56c .r8:hover{background:#fff}
+#d56c .r8 .nm5{font-size:13.5px;font-weight:600}
+#d56c .r8 .nm5 small{display:block;font:500 10px var(--mono);color:#a9a394;margin-top:2px}
+#d56c .r8 .v5{font:600 13px var(--mono);text-align:right}
+#d56c .r8 .v5 small{display:block;font:500 9.5px var(--mono);color:#a9a394}
+#d56c .chip2{font:600 9.5px var(--mono);padding:4px 8px;border-radius:5px;text-align:center;letter-spacing:.04em}
+</style>
+<div class="root">
+  <h3>Breadth confirmation across the market</h3>
+  <div class="sb2">Cumulative advance/decline lines rebased · a rising price with a falling A/D line is the classic warning</div>
+  <div class="rows2" id="d56c-r"></div>
+</div>
+<script>(function(){
+ var IX=[
+  {n:"S&P 500",s:"503 members",net:146,ten:62,st:["CONFIRMING","#e8f4ee","#2e7d5b"],seed:1,slope:1},
+  {n:"Nasdaq 100",s:"101 members",net:42,ten:18,st:["CONFIRMING","#e8f4ee","#2e7d5b"],seed:5,slope:0.9},
+  {n:"Russell 2000",s:"1,974 members",net:-254,ten:-86,st:["DIVERGING","#fdeeec","#b4453a"],seed:9,slope:-0.5},
+  {n:"NYSE composite",s:"2,118 members",net:88,ten:24,st:["NEUTRAL","#f4f2ea","#7d7768"],seed:13,slope:0.3}
+ ];
+ function line(seed,slope){
+  var W=320,H=46,p="",v=0,pts=[];
+  for(var i=0;i<90;i++){v+=Math.sin(i/7+seed)*2.4+Math.sin(i/23+seed)*3.1+slope*1.4;pts.push(v);}
+  var mn=Math.min.apply(null,pts),mx=Math.max.apply(null,pts);
+  pts.forEach(function(y,i){p+=(i?"L":"M")+(i*W/89).toFixed(1)+","+(H-(y-mn)/(mx-mn||1)*(H-6)-3).toFixed(1);});
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="46" preserveAspectRatio="none">'+
+   '<path d="'+p+'" fill="none" stroke="'+(slope>0?"#2e7d5b":slope<0?"#b4453a":"#8c8778")+'" stroke-width="1.8"/></svg>';}
+ document.getElementById("d56c-r").innerHTML=IX.map(function(x){
+  return '<div class="r8"><div class="nm5">'+x.n+'<small>'+x.s+'</small></div>'+
+   '<div>'+line(x.seed,x.slope)+'</div>'+
+   '<div class="v5" style="color:'+(x.net>=0?"#2e7d5b":"#b4453a")+'">'+(x.net>=0?"+":"")+x.net+'<small>net today</small></div>'+
+   '<div class="v5" style="color:'+(x.ten>=0?"#2e7d5b":"#b4453a")+'">'+(x.ten>=0?"+":"")+x.ten+'<small>10d average</small></div>'+
+   '<div class="chip2" style="background:'+x.st[1]+';color:'+x.st[2]+'">'+x.st[0]+'</div></div>';}).join("");
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c59">
+  <div class="comp-head"><span class="num">59</span><h2>VIX level and history</h2><span class="sz med">Medium</span>
+    <span class="desc">The market's main volatility gauge and how it has moved recently.</span></div>
+
+<!-- ============================ 59.a ============================ -->
+<div class="design" id="d59a">
+  <div class="dlabel"><span class="id">59.a</span><span class="nm">History line with regime bands and percentile marker</span><span class="tag">band hover · range buttons</span></div>
+  <div class="dbody">
+<style>
+#d59a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans)}
+#d59a .hd{display:flex;align-items:baseline;gap:12px}
+#d59a .hd h3{font-size:15px;font-weight:650}
+#d59a .hd .lv5{font:600 28px var(--mono);margin-left:6px}
+#d59a .hd .ch8{font:600 13px var(--mono)}
+#d59a .hd .rb{margin-left:auto;display:flex;gap:5px}
+#d59a .hd .rb button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 10px;font:600 10.5px var(--mono);color:#697086}
+#d59a .hd .rb button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d59a .bands{display:flex;gap:1px;margin-top:12px;font:600 9px var(--mono);letter-spacing:.06em}
+#d59a .bands div{flex:1;padding:6px 8px;color:#fff;text-align:center}
+#d59a .pctl{display:flex;align-items:center;gap:12px;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+#d59a .pctl .pb{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#0f9d6a,#e8c547,#e0483d);position:relative}
+#d59a .pctl .pb i{position:absolute;top:-4px;width:3px;height:18px;background:#11141c;border-radius:2px}
+#d59a .pctl span{font:500 11px var(--mono);color:#697086}
+</style>
+<div class="root">
+  <div class="hd"><h3>CBOE Volatility Index</h3><span class="lv5">13.84</span><span class="ch8 neg">▼ −0.62 (−4.29%)</span>
+    <div class="rb" id="d59a-rb"><button data-n="60">3M</button><button class="on" data-n="126">6M</button><button data-n="252">1Y</button></div></div>
+  <svg id="d59a-svg" viewBox="0 0 940 260" style="width:100%;height:auto"></svg>
+  <div class="bands">
+    <div style="background:#0f9d6a">CALM &lt;15</div><div style="background:#8cb84a">NORMAL 15–20</div>
+    <div style="background:#e8c547;color:#4b4116">ELEVATED 20–30</div><div style="background:#e07a3d">STRESS 30–45</div><div style="background:#c0392b">CRISIS &gt;45</div>
+  </div>
+  <div class="pctl"><span>1-year percentile</span><div class="pb"><i style="left:12%"></i></div><span><b style="color:#11141c">12th</b> — lower than 88% of the past year</span>
+    <span style="margin-left:auto">5-day avg 14.62 · 50-day avg 15.61</span></div>
+</div>
+<script>(function(){
+ var ALL=[];var v=16;
+ for(var i=0;i<252;i++){
+  v+=(15.5-v)*0.04+Math.sin(i/11)*0.55+Math.sin(i/2.7)*0.4;
+  if(i===64)v+=9.2; if(i===65)v+=4; if(i>65&&i<80)v-=1.1;
+  if(i===168)v+=6.4; if(i>168&&i<182)v-=0.9;
+  ALL.push(Math.max(10.2,v));}
+ ALL[251]=13.84;
+ var n=126;
+ function draw(){
+  var d=ALL.slice(ALL.length-n),W=940,H=260,L=44,R=46,T=12,B=24;
+  var mx=Math.max.apply(null,d)*1.1,mn=9;
+  var X=function(i){return L+i*(W-L-R)/(d.length-1)},Y=function(x){return T+(mx-x)/(mx-mn)*(H-T-B)};
+  var s="";
+  [[0,15,"#0f9d6a"],[15,20,"#8cb84a"],[20,30,"#e8c547"],[30,45,"#e07a3d"]].forEach(function(b){
+   if(b[0]>mx)return;
+   s+='<rect x="'+L+'" y="'+Y(Math.min(b[1],mx))+'" width="'+(W-L-R)+'" height="'+Math.max(0,Y(Math.max(b[0],mn))-Y(Math.min(b[1],mx)))+'" fill="'+b[2]+'" opacity=".07"/>';});
+  [10,15,20,25,30].forEach(function(g){if(g>mx)return;
+   s+='<line x1="'+L+'" y1="'+Y(g)+'" x2="'+(W-R)+'" y2="'+Y(g)+'" stroke="#eef0f4"/>'+
+   '<text x="'+(L-8)+'" y="'+(Y(g)+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+g+'</text>';});
+  var p="";d.forEach(function(x,i){p+=(i?"L":"M")+X(i).toFixed(1)+","+Y(x).toFixed(1);});
+  s+='<path d="'+p+'L'+X(d.length-1)+','+(H-B)+'L'+L+','+(H-B)+'Z" fill="#11141c" opacity=".05"/>';
+  s+='<path d="'+p+'" fill="none" stroke="#11141c" stroke-width="1.9"/>';
+  var ma=d.map(function(_,i){var a=d.slice(Math.max(0,i-49),i+1);return a.reduce(function(x,y){return x+y},0)/a.length;});
+  var pm="";ma.forEach(function(x,i){pm+=(i?"L":"M")+X(i).toFixed(1)+","+Y(x).toFixed(1);});
+  s+='<path d="'+pm+'" fill="none" stroke="#98a0b3" stroke-width="1.3" stroke-dasharray="4 3"/>';
+  s+='<circle cx="'+X(d.length-1)+'" cy="'+Y(d[d.length-1])+'" r="4" fill="#11141c"/>'+
+   '<text x="'+(W-R+6)+'" y="'+(Y(d[d.length-1])+4)+'" font-size="11" font-family="ui-monospace" font-weight="600">13.84</text>';
+  var pk=d.indexOf(Math.max.apply(null,d));
+  s+='<text x="'+X(pk)+'" y="'+(Y(d[pk])-8)+'" text-anchor="middle" font-size="9.5" font-family="ui-monospace" fill="#c0392b">spike '+d[pk].toFixed(1)+'</text>';
+  document.getElementById("d59a-svg").innerHTML=s;
+ }
+ document.getElementById("d59a-rb").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});n=+b.dataset.n;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 59.b ============================ -->
+<div class="design" id="d59b">
+  <div class="dlabel"><span class="id">59.b</span><span class="nm">Dial plus distribution — where today sits in ten years of readings</span><span class="tag">histogram hover · dial</span></div>
+  <div class="dbody">
+<style>
+#d59b .root{background:#0c0e14;color:#e4e9f2;padding:20px 24px;font-family:var(--sans);display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:center}
+#d59b .dialw{text-align:center}
+#d59b .dialw .n6{font:700 44px var(--mono);letter-spacing:-.03em}
+#d59b .dialw .c9{font:600 13px var(--mono);margin-top:2px}
+#d59b .dialw .w2{font:600 10px var(--mono);letter-spacing:.18em;color:#18c281;margin-top:6px}
+#d59b .rightb h4{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#59637a}
+#d59b .bars8{display:flex;align-items:flex-end;gap:2px;height:120px;margin-top:12px}
+#d59b .bars8 div{flex:1;background:#2a3446;border-radius:2px 2px 0 0;position:relative;cursor:pointer}
+#d59b .bars8 div:hover{background:#3c4a64}
+#d59b .bars8 div.cur2{background:#18c281}
+#d59b .bars8 div:hover::after{content:attr(data-l);position:absolute;bottom:104%;left:50%;transform:translateX(-50%);background:#1b2231;color:#e4e9f2;font:500 10px var(--mono);padding:4px 7px;border-radius:5px;white-space:nowrap;z-index:4}
+#d59b .xl{display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#59637a;margin-top:6px}
+#d59b .kvs2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+#d59b .kvs2 div{background:#131822;border:1px solid #1f2733;border-radius:9px;padding:9px 11px}
+#d59b .kvs2 b{font:500 8.5px var(--mono);letter-spacing:.1em;color:#59637a;display:block}
+#d59b .kvs2 span{font:600 14px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="root">
+  <div class="dialw">
+    <svg viewBox="0 0 200 130" width="200" height="130">
+      <path d="M18,116 A82,82 0 0 1 182,116" fill="none" stroke="#1b2231" stroke-width="15" stroke-linecap="round"/>
+      <path d="M18,116 A82,82 0 0 1 182,116" fill="none" stroke="#18c281" stroke-width="15" stroke-linecap="round" stroke-dasharray="46 300"/>
+      <line x1="100" y1="116" x2="47" y2="54" stroke="#e4e9f2" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="100" cy="116" r="7" fill="#e4e9f2"/>
+      <text x="18" y="129" font-size="8.5" font-family="ui-monospace" fill="#59637a">9</text>
+      <text x="176" y="129" font-size="8.5" font-family="ui-monospace" fill="#59637a">60</text></svg>
+    <div class="n6">13.84</div><div class="c9 pos">▼ −0.62 (−4.29%)</div><div class="w2">CALM REGIME</div>
+  </div>
+  <div class="rightb">
+    <h4>Distribution of daily VIX closes, 2016–2026</h4>
+    <div class="bars8" id="d59b-b"></div>
+    <div class="xl"><span>9</span><span>15</span><span>22</span><span>30</span><span>40</span><span>60+</span></div>
+    <div class="kvs2">
+      <div><b>PERCENTILE</b><span>12th</span></div><div><b>10Y MEDIAN</b><span>17.2</span></div>
+      <div><b>DAYS BELOW 14</b><span>14.8%</span></div><div><b>1M FWD RETURN</b><span class="pos">+1.4%</span></div>
+    </div>
+  </div>
+</div>
+<script>(function(){
+ var counts=[42,118,264,386,412,368,296,238,182,146,118,92,74,58,46,36,28,22,17,13,10,8,6,5,4,3,2,2,1,1];
+ var mx=Math.max.apply(null,counts);
+ document.getElementById("d59b-b").innerHTML=counts.map(function(c,i){
+  var lo=9+i*1.75;
+  return '<div class="'+(i===2?"cur2":"")+'" data-l="VIX '+lo.toFixed(1)+'–'+(lo+1.75).toFixed(1)+' · '+c+' sessions" style="height:'+(c/mx*120)+'px"></div>';}).join("");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 59.c ============================ -->
+<div class="design" id="d59c">
+  <div class="dlabel"><span class="id">59.c</span><span class="nm">Spike ledger — every move above 20 in the last two years</span><span class="tag">row hover chart · sort</span></div>
+  <div class="dbody">
+<style>
+#d59c .root{background:#fffdf9;padding:20px 24px;font-family:var(--sans);display:grid;grid-template-columns:1fr 300px;gap:22px}
+#d59c h3{font:600 18px var(--serif)}
+#d59c .sb3{font-size:12px;color:#8d8778;margin-top:3px}
+#d59c table{width:100%;border-collapse:collapse;margin-top:12px}
+#d59c th{font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#a9a294;text-align:right;padding:7px 8px;border-bottom:1px solid #e6e2d6}
+#d59c th:first-child{text-align:left}
+#d59c td{padding:9px 8px;border-bottom:1px solid #f1eee5;font-size:12.5px;text-align:right;cursor:pointer}
+#d59c td:first-child{text-align:left}
+#d59c tr:hover td{background:#faf8f2}
+#d59c tr.on2 td{background:#f4f1e6}
+#d59c .nowcard{background:#24221b;color:#f5f2e9;border-radius:12px;padding:16px 18px}
+#d59c .nowcard .lv6{font:700 40px var(--mono);letter-spacing:-.03em}
+#d59c .nowcard .c10{font:600 13px var(--mono);margin-top:2px}
+#d59c .nowcard .sp3{margin-top:12px}
+#d59c .nowcard .kv5{display:flex;justify-content:space-between;font:500 11px var(--mono);color:#b5b0a2;border-top:1px solid #3a372e;padding:5px 0}
+#d59c .nowcard .kv5 b{color:#f5f2e9}
+#d59c .detail2{margin-top:12px;background:#fff;border:1px solid #e6e2d6;border-radius:11px;padding:13px 15px;font-size:12px;color:#6d6759;line-height:1.55}
+#d59c .detail2 b{color:#24221b}
+</style>
+<div class="root">
+  <div>
+    <h3>Volatility spikes since 2024</h3>
+    <div class="sb3">Every episode where VIX closed above 20 · click a row for the context</div>
+    <table id="d59c-t"></table>
+    <div class="detail2" id="d59c-d">Select an episode to read what drove it and how quickly volatility normalised.</div>
+  </div>
+  <div>
+    <div class="nowcard"><div style="font:500 9px var(--mono);letter-spacing:.16em;color:#b5b0a2">VIX · SPOT</div>
+      <div class="lv6">13.84</div><div class="c10" style="color:#7fd3a8">▼ −0.62 (−4.29%)</div>
+      <div class="sp3"><svg viewBox="0 0 260 60" width="100%" height="60">
+        <path d="M0,22 L20,26 L40,18 L60,30 L80,24 L100,12 L120,34 L140,28 L160,38 L180,32 L200,42 L220,38 L240,46 L260,48" fill="none" stroke="#f0c86a" stroke-width="2"/>
+        <text x="0" y="58" font-size="8" font-family="ui-monospace" fill="#8c8778">60 sessions</text></svg></div>
+      <div class="kv5"><span>VIX9D</span><b>12.42</b></div>
+      <div class="kv5"><span>VIX3M</span><b>16.12</b></div>
+      <div class="kv5"><span>Term slope</span><b style="color:#7fd3a8">contango +16.5%</b></div>
+      <div class="kv5"><span>Days since &gt;20</span><b>58</b></div>
+      <div class="kv5"><span>SPX 1-day implied</span><b>±0.86%</b></div>
+    </div>
+  </div>
+</div>
+<script>(function(){
+ var S=[
+  {d:"27 Feb 2026",pk:24.8,ch:"+58%",dys:9,dd:-4.2,x:"A hot core CPI print (0.42% m/m) repriced the rate path. VIX peaked two sessions later and was back below 16 within nine trading days."},
+  {d:"18 Dec 2025",pk:28.4,ch:"+82%",dys:14,dd:-6.1,x:"Hawkish FOMC dot plot plus quad witching. Dealer gamma flipped negative, amplifying the move; the S&P fell 6.1% peak to trough."},
+  {d:"04 Sep 2025",pk:22.1,ch:"+41%",dys:6,dd:-3.4,x:"Seasonal weakness and a soft payrolls print. A shallow episode — realised vol never exceeded implied."},
+  {d:"12 Apr 2025",pk:34.6,ch:"+126%",dys:22,dd:-9.8,x:"Tariff escalation headlines. The steepest backwardation of the cycle; the VIX curve stayed inverted for 11 sessions."},
+  {d:"05 Aug 2024",pk:38.6,ch:"+164%",dys:18,dd:-8.4,x:"Carry-trade unwind after the BoJ hike. Intraday VIX touched 65 before closing at 38.6 — the largest gap between intraday and close on record."},
+  {d:"16 Apr 2024",pk:21.4,ch:"+36%",dys:7,dd:-5.2,x:"Middle East escalation and a hawkish repricing. Volatility mean-reverted quickly once oil stabilised."}
+ ];
+ document.getElementById("d59c-t").innerHTML='<tr><th>Episode start</th><th>Peak VIX</th><th>Rise</th><th>Days &gt;20</th><th>SPX drawdown</th></tr>'+
+  S.map(function(s,i){
+   return '<tr data-i="'+i+'"><td><b>'+s.d+'</b></td><td class="mn" style="color:'+(s.pk>30?"#b4453a":"#8a6d2f")+'"><b>'+s.pk.toFixed(1)+'</b></td>'+
+    '<td class="mn">'+s.ch+'</td><td class="mn">'+s.dys+'</td><td class="mn" style="color:#b4453a">'+s.dd+'%</td></tr>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d59c-t tr[data-i]"),function(r){
+  r.addEventListener("click",function(){
+   [].forEach.call(document.querySelectorAll("#d59c-t tr"),function(x){x.classList.remove("on2")});
+   r.classList.add("on2");
+   var s=S[+r.dataset.i];
+   document.getElementById("d59c-d").innerHTML='<b>'+s.d+' — peak '+s.pk.toFixed(1)+'</b><br>'+s.x;});});
+})();</script>
+  </div>
+</div>
+</section>

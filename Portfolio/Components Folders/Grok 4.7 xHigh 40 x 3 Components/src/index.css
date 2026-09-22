@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #e4dccf;
+  color: #1c1915;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.study-canvas button:focus-visible,
+.study-canvas input:focus-visible,
+.study-canvas select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.design-frame {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 560px;
+}
+
+.nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #6d645a transparent;
+}
+
+@keyframes meridian-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes meridian-flip {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes meridian-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes meridian-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.flip {
+  display: inline-block;
+  animation: meridian-flip 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flip,
+  .spin {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,278 @@
+<section class="comp" id="c5">
+  <div class="comp-head"><span class="num">5</span><h2>Market breadth</h2><span class="sz">Huge</span>
+    <span class="desc">How many stocks are rising versus falling, and by how much, across a whole index.</span></div>
+
+<!-- ============================ 5.a ============================ -->
+<div class="design" id="d5a">
+  <div class="dlabel"><span class="id">5.a</span><span class="nm">Return distribution histogram with live A/D bar</span><span class="tag">bucket hover · index switch · cumulative overlay</span></div>
+  <div class="dbody">
+<style>
+#d5a .root{background:#fff;padding:22px 26px 24px;font-family:var(--sans)}
+#d5a .hd{display:flex;align-items:center;gap:14px}
+#d5a .hd h3{font-size:17px;font-weight:650}
+#d5a .hd select{margin-left:auto;font:600 12px var(--mono);border:1px solid var(--line);border-radius:7px;padding:7px 10px;background:#fff}
+#d5a .hd label{font:500 11px var(--mono);color:#697086;display:flex;align-items:center;gap:6px}
+#d5a .adbar{display:flex;height:42px;margin:16px 0 4px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+#d5a .adbar div{display:flex;align-items:center;padding:0 12px;font:600 13px var(--mono);color:#fff;transition:flex-basis .5s}
+#d5a .adbar .a{background:linear-gradient(90deg,#0f9d6a,#17b97e);justify-content:flex-start}
+#d5a .adbar .u{background:#c8cdd8;color:#4b5364;justify-content:center;font-size:11px}
+#d5a .adbar .d{background:linear-gradient(90deg,#e86055,#d0392e);justify-content:flex-end}
+#d5a .adlab{display:flex;justify-content:space-between;font:500 11px var(--mono);color:#697086;margin-bottom:14px}
+#d5a .chart{position:relative}
+#d5a .bar{transition:opacity .15s;cursor:pointer}
+#d5a .bar:hover{opacity:.7}
+#d5a .tip{position:absolute;background:#11141c;color:#fff;padding:8px 10px;border-radius:7px;font:500 11px var(--mono);opacity:0;pointer-events:none;transition:opacity .1s}
+#d5a .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:16px}
+#d5a .stats div{background:#fff;padding:11px 12px}
+#d5a .stats b{font:600 9.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#98a0b3;display:block}
+#d5a .stats span{font:600 17px var(--mono);display:block;margin-top:4px}
+#d5a .stats em{font-style:normal;font:500 10.5px var(--mono);color:#98a0b3}
+</style>
+<div class="root">
+  <div class="hd"><h3>Breadth &amp; return distribution</h3>
+    <label><input type="checkbox" id="d5a-cum" checked> cumulative share</label>
+    <select id="d5a-ix"><option value="spx">S&amp;P 500</option><option value="ndx">Nasdaq 100</option><option value="rty">Russell 2000</option></select></div>
+  <div class="adbar" id="d5a-ad"></div>
+  <div class="adlab" id="d5a-adl"></div>
+  <div class="chart"><svg id="d5a-svg" viewBox="0 0 980 300" style="width:100%;height:auto"></svg><div class="tip" id="d5a-tip"></div></div>
+  <div class="stats" id="d5a-st"></div>
+</div>
+<script>(function(){
+ var IX={
+  spx:{n:"S&P 500",tot:503,adv:318,dec:172,unch:13,mean:0.21,med:0.08,sk:-0.42,up5:38,dn5:9,udv:1.84,
+       dist:[2,4,9,18,34,58,86,74,61,49,38,28,19,12,7,4]},
+  ndx:{n:"Nasdaq 100",tot:101,adv:71,dec:29,unch:1,mean:0.46,med:0.31,sk:0.18,up5:12,dn5:3,udv:2.62,
+       dist:[0,1,2,3,6,9,14,16,15,13,9,6,4,2,1,0]},
+  rty:{n:"Russell 2000",tot:1974,adv:842,dec:1096,unch:36,mean:-0.34,med:-0.29,sk:-0.66,up5:96,dn5:184,udv:0.61,
+       dist:[26,48,92,148,216,284,268,214,180,148,112,88,62,44,28,16]}
+ };
+ var buckets=["<-5","-5/-4","-4/-3","-3/-2.5","-2.5/-2","-2/-1.5","-1.5/-1","-1/-0.5","-0.5/0","0/0.5","0.5/1","1/1.5","1.5/2","2/3","3/5",">5"];
+ var key="spx",cum=true,svg=document.getElementById("d5a-svg"),tip=document.getElementById("d5a-tip");
+ var W=980,H=300,L=44,R=44,T=14,B=38;
+ function draw(){
+  var d=IX[key],mx=Math.max.apply(null,d.dist),bw=(W-L-R)/d.dist.length,s="";
+  for(var g=0;g<=4;g++){var y=T+g*(H-T-B)/4;s+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#eef0f4"/>'+
+   '<text x="'+(L-8)+'" y="'+(y+3)+'" text-anchor="end" font-size="9.5" font-family="ui-monospace" fill="#98a0b3">'+Math.round(mx*(1-g/4))+'</text>';}
+  var run=0,cp="";
+  d.dist.forEach(function(v,i){
+   var h=(v/mx)*(H-T-B),x=L+i*bw,neg=i<9;
+   var c=neg?"rgb("+(200-Math.min(60,(9-i)*10))+",60,52)":"rgb(15,"+(140+Math.min(50,(i-8)*7))+",100)";
+   s+='<rect class="bar" data-i="'+i+'" x="'+(x+2)+'" y="'+(H-B-h)+'" width="'+(bw-4)+'" height="'+h+'" fill="'+c+'" rx="2"/>';
+   s+='<text x="'+(x+bw/2)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="8.5" font-family="ui-monospace" fill="#98a0b3" transform="rotate(-32 '+(x+bw/2)+','+(H-B+13)+')">'+buckets[i]+'</text>';
+   run+=v;cp+=(i?"L":"M")+(x+bw/2)+","+(T+(1-run/d.tot)*(H-T-B));
+  });
+  if(cum){s+='<path d="'+cp+'" fill="none" stroke="#3b62f6" stroke-width="2" stroke-dasharray="4 3"/>';
+   [0,25,50,75,100].forEach(function(p){s+='<text x="'+(W-R+8)+'" y="'+(T+(1-p/100)*(H-T-B)+3)+'" font-size="9.5" font-family="ui-monospace" fill="#3b62f6">'+p+'%</text>';});}
+  // zero line
+  var zx=L+9*bw;s+='<line x1="'+zx+'" y1="'+T+'" x2="'+zx+'" y2="'+(H-B)+'" stroke="#11141c" stroke-width="1.2"/>'+
+   '<text x="'+(zx+5)+'" y="'+(T+11)+'" font-size="9.5" font-family="ui-monospace" fill="#11141c">0%</text>';
+  svg.innerHTML=s;
+  [].forEach.call(svg.querySelectorAll(".bar"),function(b){
+   b.addEventListener("mousemove",function(e){
+    var r=svg.getBoundingClientRect(),i=+b.dataset.i;
+    tip.style.opacity=1;tip.style.left=Math.min(r.width-150,e.clientX-r.left+12)+"px";tip.style.top=(e.clientY-r.top-46)+"px";
+    tip.innerHTML=buckets[i]+"% bucket<br><b>"+d.dist[i]+" stocks</b> · "+(d.dist[i]/d.tot*100).toFixed(1)+"% of index";});
+   b.addEventListener("mouseleave",function(){tip.style.opacity=0});});
+  document.getElementById("d5a-ad").innerHTML=
+   '<div class="a" style="flex:'+d.adv+'">▲ '+d.adv+'</div><div class="u" style="flex:'+(d.unch*4)+'">'+d.unch+'</div><div class="d" style="flex:'+d.dec+'">'+d.dec+' ▼</div>';
+  document.getElementById("d5a-adl").innerHTML='<span>'+(d.adv/d.tot*100).toFixed(1)+'% advancing</span><span>'+d.n+' · '+d.tot+' members · A/D ratio '+(d.adv/d.dec).toFixed(2)+'</span><span>'+(d.dec/d.tot*100).toFixed(1)+'% declining</span>';
+  var st=[["Mean return",(d.mean>=0?"+":"")+d.mean.toFixed(2)+"%","cap-weighted +0.31%"],
+   ["Median return",(d.med>=0?"+":"")+d.med.toFixed(2)+"%","equal-weight proxy"],
+   ["Skew",d.sk.toFixed(2),d.sk<0?"fat left tail":"fat right tail"],
+   ["Up >5%",d.up5+" names","vs "+d.dn5+" down >5%"],
+   ["Up/down volume",d.udv.toFixed(2)+"x",d.udv>1?"buyers in control":"sellers in control"],
+   ["Breadth thrust",(d.adv/d.tot).toFixed(3),d.adv/d.tot>0.615?"thrust triggered":"below 0.615 trigger"]];
+  document.getElementById("d5a-st").innerHTML=st.map(function(r){
+   return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span><em>'+r[2]+'</em></div>';}).join("");
+ }
+ document.getElementById("d5a-ix").addEventListener("change",function(){key=this.value;draw();});
+ document.getElementById("d5a-cum").addEventListener("change",function(){cum=this.checked;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 5.b ============================ -->
+<div class="design" id="d5b">
+  <div class="dlabel"><span class="id">5.b</span><span class="nm">Breadth control room — six linked gauges</span><span class="tag">panel hover · 20-day sparks</span></div>
+  <div class="dbody">
+<style>
+#d5b .root{background:#0a0c10;color:#dfe5ee;padding:18px 20px 20px;font-family:var(--sans)}
+#d5b .hdr{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid #1a1f29}
+#d5b .hdr h3{font:600 14px var(--sans);letter-spacing:.01em}
+#d5b .hdr .badge{font:600 10px var(--mono);letter-spacing:.12em;padding:4px 8px;border-radius:4px;background:#12301f;color:#3ddc9a;border:1px solid #1d5237}
+#d5b .hdr .r{margin-left:auto;font:500 10.5px var(--mono);color:#5b6478;letter-spacing:.1em}
+#d5b .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+#d5b .p{background:#0f131a;border:1px solid #1a1f29;border-radius:11px;padding:13px 14px;position:relative;overflow:hidden}
+#d5b .p:hover{border-color:#2b3345}
+#d5b .p h4{font:600 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#5b6478}
+#d5b .p .big{font:600 27px/1.1 var(--mono);margin-top:7px}
+#d5b .p .sm{font:500 11px var(--mono);color:#7b859c;margin-top:2px}
+#d5b .p svg{margin-top:9px;width:100%}
+#d5b .stack{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:11px;background:#1a1f29}
+#d5b .wide{grid-column:span 2}
+#d5b .mcl{font:500 10px var(--mono);fill:#5b6478}
+#d5b .pill2{display:inline-block;font:600 9.5px var(--mono);padding:3px 7px;border-radius:4px;margin-top:9px}
+#d5b .ticks{display:flex;justify-content:space-between;font:500 9px var(--mono);color:#4d5566;margin-top:5px}
+</style>
+<div class="root">
+  <div class="hdr"><h3>S&amp;P 500 breadth monitor</h3><span class="badge">HEALTHY · 4 of 6 green</span><span class="r">24 APR 2026 · 16:00 ET · SETTLED</span></div>
+  <div class="grid">
+    <div class="p"><h4>Advance / decline</h4>
+      <div class="big"><span class="pos">318</span> <span style="color:#3b4252">/</span> <span class="neg">172</span></div>
+      <div class="sm">13 unchanged · ratio 1.85</div>
+      <div class="stack"><i style="flex:318;background:#0f9d6a"></i><i style="flex:13;background:#3b4252"></i><i style="flex:172;background:#e0483d"></i></div>
+      <svg viewBox="0 0 240 44" height="44"><polyline points="0,32 12,28 24,34 36,24 48,26 60,18 72,22 84,14 96,20 108,12 120,16 132,10 144,18 156,12 168,8 180,14 192,10 204,6 216,12 228,7 240,5" fill="none" stroke="#0f9d6a" stroke-width="1.8"/></svg>
+      <div class="ticks"><span>20 sessions</span><span>cumulative A/D line, new high</span></div></div>
+
+    <div class="p"><h4>% above 50-day MA</h4><div class="big">68.4%</div>
+      <div class="sm">+4.2pp on the day · 5d avg 64.1%</div>
+      <svg viewBox="0 0 240 92" height="92">
+        <rect x="0" y="0" width="240" height="92" fill="none"/>
+        <rect x="0" y="0" width="240" height="18" fill="#12301f" opacity=".5"/><rect x="0" y="74" width="240" height="18" fill="#3a1614" opacity=".5"/>
+        <polyline points="0,62 12,58 24,66 36,54 48,50 60,58 72,44 84,48 96,38 108,42 120,34 132,40 144,30 156,34 168,26 180,32 192,24 204,28 216,22 228,26 240,21" fill="none" stroke="#5fd0ff" stroke-width="2"/>
+        <text class="mcl" x="3" y="12">overbought 80%</text><text class="mcl" x="3" y="88">oversold 20%</text></svg></div>
+
+    <div class="p"><h4>% above 200-day MA</h4><div class="big">61.2%</div>
+      <div class="sm">−0.8pp · long-term trend intact</div>
+      <svg viewBox="0 0 120 120" height="120" style="max-width:130px;margin:6px auto 0">
+        <circle cx="60" cy="60" r="48" fill="none" stroke="#1a1f29" stroke-width="13"/>
+        <circle cx="60" cy="60" r="48" fill="none" stroke="#9d7bff" stroke-width="13" stroke-linecap="round"
+          stroke-dasharray="184.6 301.6" transform="rotate(-90 60 60)"/>
+        <text x="60" y="58" text-anchor="middle" font-family="ui-monospace" font-size="19" fill="#dfe5ee">307</text>
+        <text x="60" y="74" text-anchor="middle" font-family="ui-monospace" font-size="8.5" fill="#5b6478">OF 503 ABOVE</text></svg></div>
+
+    <div class="p wide"><h4>McClellan oscillator &amp; summation index</h4>
+      <div style="display:flex;gap:26px;align-items:baseline"><div class="big" style="color:#3ddc9a">+42.6</div>
+        <div class="sm">Summation index <b style="color:#dfe5ee">+814</b> · rising for 6 sessions</div></div>
+      <svg viewBox="0 0 520 96" height="96">
+        <line x1="0" y1="48" x2="520" y2="48" stroke="#2b3345"/>
+        <g>
+        <rect x="4" y="48" width="14" height="14" fill="#e0483d"/><rect x="24" y="36" width="14" height="12" fill="#0f9d6a"/>
+        <rect x="44" y="48" width="14" height="22" fill="#e0483d"/><rect x="64" y="48" width="14" height="8" fill="#e0483d"/>
+        <rect x="84" y="30" width="14" height="18" fill="#0f9d6a"/><rect x="104" y="26" width="14" height="22" fill="#0f9d6a"/>
+        <rect x="124" y="48" width="14" height="10" fill="#e0483d"/><rect x="144" y="34" width="14" height="14" fill="#0f9d6a"/>
+        <rect x="164" y="22" width="14" height="26" fill="#0f9d6a"/><rect x="184" y="18" width="14" height="30" fill="#0f9d6a"/>
+        <rect x="204" y="48" width="14" height="12" fill="#e0483d"/><rect x="224" y="40" width="14" height="8" fill="#0f9d6a"/>
+        <rect x="244" y="28" width="14" height="20" fill="#0f9d6a"/><rect x="264" y="16" width="14" height="32" fill="#0f9d6a"/>
+        <rect x="284" y="24" width="14" height="24" fill="#0f9d6a"/><rect x="304" y="48" width="14" height="18" fill="#e0483d"/>
+        <rect x="324" y="38" width="14" height="10" fill="#0f9d6a"/><rect x="344" y="20" width="14" height="28" fill="#0f9d6a"/>
+        <rect x="364" y="12" width="14" height="36" fill="#0f9d6a"/><rect x="384" y="26" width="14" height="22" fill="#0f9d6a"/>
+        <rect x="404" y="48" width="14" height="14" fill="#e0483d"/><rect x="424" y="34" width="14" height="14" fill="#0f9d6a"/>
+        <rect x="444" y="22" width="14" height="26" fill="#0f9d6a"/><rect x="464" y="14" width="14" height="34" fill="#0f9d6a"/>
+        <rect x="484" y="10" width="14" height="38" fill="#0f9d6a"/><rect x="504" y="18" width="14" height="30" fill="#0f9d6a"/>
+        </g>
+        <text class="mcl" x="2" y="92">−100</text><text class="mcl" x="486" y="92">+100</text></svg></div>
+
+    <div class="p"><h4>New highs vs new lows</h4>
+      <div class="big"><span class="pos">86</span> <span style="color:#3b4252">vs</span> <span class="neg">11</span></div>
+      <div class="sm">52-week · net +75 · 30-day high</div>
+      <svg viewBox="0 0 240 70" height="70">
+        <line x1="0" y1="35" x2="240" y2="35" stroke="#2b3345"/>
+        <g fill="#0f9d6a"><rect x="4" y="21" width="8" height="14"/><rect x="20" y="17" width="8" height="18"/><rect x="36" y="25" width="8" height="10"/><rect x="52" y="13" width="8" height="22"/><rect x="68" y="19" width="8" height="16"/><rect x="84" y="9" width="8" height="26"/><rect x="100" y="15" width="8" height="20"/><rect x="116" y="7" width="8" height="28"/><rect x="132" y="12" width="8" height="23"/><rect x="148" y="5" width="8" height="30"/><rect x="164" y="10" width="8" height="25"/><rect x="180" y="4" width="8" height="31"/><rect x="196" y="8" width="8" height="27"/><rect x="212" y="3" width="8" height="32"/><rect x="228" y="2" width="8" height="33"/></g>
+        <g fill="#e0483d"><rect x="4" y="35" width="8" height="9"/><rect x="20" y="35" width="8" height="7"/><rect x="36" y="35" width="8" height="12"/><rect x="52" y="35" width="8" height="5"/><rect x="68" y="35" width="8" height="8"/><rect x="84" y="35" width="8" height="4"/><rect x="100" y="35" width="8" height="6"/><rect x="116" y="35" width="8" height="3"/><rect x="132" y="35" width="8" height="5"/><rect x="148" y="35" width="8" height="3"/><rect x="164" y="35" width="8" height="4"/><rect x="180" y="35" width="8" height="2"/><rect x="196" y="35" width="8" height="4"/><rect x="212" y="35" width="8" height="3"/><rect x="228" y="35" width="8" height="2"/></g></svg></div>
+
+    <div class="p"><h4>Equal weight vs cap weight</h4><div class="big pos">+0.44pp</div>
+      <div class="sm">RSP +0.75% vs SPY +0.31% today</div>
+      <svg viewBox="0 0 240 78" height="78">
+        <polyline points="0,60 20,58 40,62 60,55 80,58 100,50 120,53 140,46 160,48 180,40 200,43 220,34 240,28" fill="none" stroke="#f0b13a" stroke-width="2"/>
+        <polyline points="0,60 20,55 40,57 60,52 80,50 100,48 120,45 140,44 160,40 180,38 200,36 220,33 240,31" fill="none" stroke="#7b859c" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <text class="mcl" x="2" y="12" fill="#f0b13a">equal weight</text><text class="mcl" x="2" y="24">cap weight</text></svg>
+      <span class="pill2" style="background:#3a2f10;color:#f0b13a">Participation broadening</span></div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ============================ 5.c ============================ -->
+<div class="design" id="d5c">
+  <div class="dlabel"><span class="id">5.c</span><span class="nm">Every constituent as a tile — waffle of the whole index</span><span class="tag">sector filter · sort mode · tile hover</span></div>
+  <div class="dbody">
+<style>
+#d5c .root{background:#fcfcfd;padding:22px 26px;font-family:var(--sans)}
+#d5c .hd{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+#d5c .hd h3{font-size:18px;font-weight:650}
+#d5c .hd .n{font:500 12px var(--mono);color:#98a0b3}
+#d5c .modes{margin-left:auto;display:flex;gap:6px}
+#d5c .modes button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:600 11px var(--mono);color:#697086}
+#d5c .modes button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d5c .secs{display:flex;gap:5px;flex-wrap:wrap;margin:14px 0 12px}
+#d5c .secs button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 9px;font:500 11px var(--sans);color:#4b5364}
+#d5c .secs button.off{opacity:.34}
+#d5c .secs button i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}
+#d5c .waffle{display:grid;grid-template-columns:repeat(50,1fr);gap:2.5px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:12px}
+#d5c .t{aspect-ratio:1;border-radius:2px;transition:transform .1s;cursor:pointer}
+#d5c .t:hover{transform:scale(2.4);z-index:5;border-radius:3px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#d5c .t.hide{opacity:.06;pointer-events:none}
+#d5c .read{display:flex;gap:26px;align-items:center;margin-top:14px;padding:14px 16px;background:#11141c;color:#fff;border-radius:11px}
+#d5c .read .big{font:600 30px var(--mono)}
+#d5c .read .lbl{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#7b859c}
+#d5c .read .sel{margin-left:auto;text-align:right;font:500 12px var(--mono);color:#b7bfd0;min-width:230px}
+#d5c .scalerow{display:flex;align-items:center;gap:3px;margin-top:12px;font:500 10px var(--mono);color:#98a0b3}
+#d5c .scalerow i{width:26px;height:9px;border-radius:2px}
+</style>
+<div class="root">
+  <div class="hd"><h3>503 stocks, 503 tiles</h3><span class="n">S&amp;P 500 · 24 Apr 2026 · sorted by today's return</span>
+    <div class="modes" id="d5c-modes"><button class="on" data-m="ret">Sort by return</button><button data-m="sec">Group by sector</button><button data-m="cap">Sort by size</button></div></div>
+  <div class="secs" id="d5c-secs"></div>
+  <div class="waffle" id="d5c-w"></div>
+  <div class="scalerow"><span style="margin-right:6px">−4%</span><i style="background:#8c1d18"></i><i style="background:#c0392b"></i><i style="background:#e8837a"></i><i style="background:#eceef2"></i><i style="background:#7fc9ab"></i><i style="background:#17a06c"></i><i style="background:#0a6e49"></i><span style="margin-left:6px">+4%</span>
+    <span style="margin-left:auto">Tile size is uniform — one company, one vote</span></div>
+  <div class="read">
+    <div><div class="lbl">Advancing</div><div class="big pos" id="d5c-a">318</div></div>
+    <div><div class="lbl">Declining</div><div class="big neg" id="d5c-d">172</div></div>
+    <div><div class="lbl">Median return</div><div class="big" id="d5c-m">+0.08%</div></div>
+    <div><div class="lbl">Visible tiles</div><div class="big" id="d5c-v">503</div></div>
+    <div class="sel" id="d5c-sel">Hover a tile for the name, sector and return.</div>
+  </div>
+</div>
+<script>(function(){
+ var SEC=[["Tech","#5b7cfa",78],["Financials","#f0a93a","72"],["Health","#2bb789",62],["Cons Disc","#e5657a",53],["Industrials","#9d7bff",78],["Comm","#4ec5d9",22],["Staples","#c2a878",38],["Energy","#e8753c",23],["Utilities","#79a84f",31],["Materials","#b06b9e",28],["Real Estate","#7d8798",18]];
+ var T=["AAPL","MSFT","NVDA","AMZN","META","GOOGL","BRK.B","LLY","AVGO","JPM","XOM","UNH","V","TSLA","PG","MA","JNJ","COST","HD","MRK","ABBV","CVX","CRM","AMD","PEP","KO","ADBE","WMT","BAC","NFLX","TMO","LIN","MCD","CSCO","ACN","ABT","ORCL","DHR","WFC","TXN","PM","VZ","NEE","DIS","INTC","CAT","AMGN","IBM","GE","NOW"];
+ var stocks=[],id=0;
+ SEC.forEach(function(s,si){
+  var n=+s[2];
+  for(var i=0;i<n;i++){
+   var r=Math.sin(id*12.9898)*Math.cos(id*4.1414);
+   var bias=[0.55,-0.18,-0.06,-0.14,0.14,0.6,-0.05,-1.6,1.22,0.5,-0.3][si];
+   stocks.push({t:T[id%T.length]+(id>49?String.fromCharCode(65+id%26):""),s:si,sn:s[0],c:s[1],
+     v:Math.round((bias+r*1.65)*100)/100,cap:Math.abs(Math.sin(id*7.7))*900+2});
+   id++;}
+ });
+ var off={},mode="ret";
+ function col(v){var x=Math.max(-1,Math.min(1,v/4));
+  if(x>=0)return "rgb("+Math.round(236-226*x)+","+Math.round(238-128*x)+","+Math.round(242-169*x)+")";
+  x=-x;return "rgb("+Math.round(236-96*x)+","+Math.round(238-209*x)+","+Math.round(242-218*x)+")";}
+ document.getElementById("d5c-secs").innerHTML=SEC.map(function(s,i){
+  return '<button data-i="'+i+'"><i style="background:'+s[1]+'"></i>'+s[0]+' <span style="color:#98a0b3;font-family:var(--mono);font-size:10px">'+s[2]+'</span></button>';}).join("");
+ function draw(){
+  var arr=stocks.slice();
+  if(mode==="ret")arr.sort(function(a,b){return b.v-a.v});
+  if(mode==="cap")arr.sort(function(a,b){return b.cap-a.cap});
+  if(mode==="sec")arr.sort(function(a,b){return a.s-b.s||b.v-a.v});
+  var w=document.getElementById("d5c-w");
+  w.innerHTML=arr.map(function(s){
+   return '<div class="t'+(off[s.s]?" hide":"")+'" style="background:'+col(s.v)+';'+(mode==="sec"?"box-shadow:inset 0 -2.5px 0 "+s.c+";":"")+'" data-t="'+s.t+'" data-v="'+s.v+'" data-s="'+s.sn+'"></div>';}).join("");
+  var vis=arr.filter(function(s){return !off[s.s]});
+  document.getElementById("d5c-a").textContent=vis.filter(function(s){return s.v>0}).length;
+  document.getElementById("d5c-d").textContent=vis.filter(function(s){return s.v<0}).length;
+  var sv=vis.map(function(s){return s.v}).sort(function(a,b){return a-b});
+  var md=sv.length?sv[Math.floor(sv.length/2)]:0;
+  var me=document.getElementById("d5c-m");me.textContent=(md>=0?"+":"")+md.toFixed(2)+"%";
+  me.className="big "+(md>=0?"pos":"neg");
+  document.getElementById("d5c-v").textContent=vis.length;
+  w.addEventListener("mouseover",function(e){
+   var t=e.target.closest(".t");if(!t)return;
+   document.getElementById("d5c-sel").innerHTML='<b style="color:#fff;font-size:14px">'+t.dataset.t+'</b> · '+t.dataset.s+
+    ' <span style="color:'+(+t.dataset.v>=0?"#3ddc9a":"#ff7a70")+';font-size:14px">'+(+t.dataset.v>=0?"+":"")+(+t.dataset.v).toFixed(2)+'%</span>';});
+ }
+ document.getElementById("d5c-secs").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;var i=+b.dataset.i;off[i]=!off[i];b.classList.toggle("off",!!off[i]);draw();});
+ document.getElementById("d5c-modes").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});mode=b.dataset.m;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+</section>

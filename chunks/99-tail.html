@@ -1,0 +1,27 @@
+<footer style="border-top:2px solid #11141c;padding-top:20px;margin-top:20px;display:flex;gap:28px;flex-wrap:wrap;align-items:baseline">
+  <div><b style="font:600 13px var(--sans)">Meridian — component design studies</b>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;max-width:60ch;line-height:1.55">All figures are invented sample data created for design evaluation. Nothing here is market data, research or advice. Each study is self-contained: styles are scoped per design and no external assets are loaded.</div></div>
+  <div style="margin-left:auto;font:500 11px var(--mono);color:var(--muted);text-align:right">
+    40 components · 120 designs<br>6 huge · 9 big · 12 medium · 8 small · 5 tiny<br>v0.1 · desktop
+  </div>
+</footer>
+</main>
+<script>
+(function(){
+  var input=document.getElementById("filter");
+  var comps=[].slice.call(document.querySelectorAll(".comp"));
+  input.addEventListener("input",function(){
+    var q=this.value.trim().toLowerCase();
+    comps.forEach(function(c){
+      var head=c.querySelector(".comp-head").textContent.toLowerCase();
+      c.style.display=(!q||head.indexOf(q)>-1)?"":"none";
+    });
+  });
+  // keyboard: press "/" to focus filter
+  document.addEventListener("keydown",function(e){
+    if(e.key==="/"&&document.activeElement!==input){e.preventDefault();input.focus();}
+  });
+})();
+</script>
+</body>
+</html>

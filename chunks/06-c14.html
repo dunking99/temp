@@ -1,0 +1,302 @@
+<section class="comp" id="c14">
+  <div class="comp-head"><span class="num">14</span><h2>Fear and greed</h2><span class="sz">Huge</span>
+    <span class="desc">A composite read of market sentiment built from several underlying signals.</span></div>
+
+<!-- ============================ 14.a ============================ -->
+<div class="design" id="d14a">
+  <div class="dlabel"><span class="id">14.a</span><span class="nm">Arc dial with seven signal spokes and a one-year tape</span><span class="tag">click a signal · timeline scrub</span></div>
+  <div class="dbody">
+<style>
+#d14a .root{background:#0d0f14;color:#e8ebf2;padding:22px 26px 24px;font-family:var(--sans);display:grid;grid-template-columns:400px 1fr;gap:28px}
+#d14a h3{font-size:15px;font-weight:600}
+#d14a .k{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#5f6879;margin-top:3px}
+#d14a .gauge{position:relative;margin-top:6px}
+#d14a .gnum{font:700 62px var(--mono);letter-spacing:-.03em;text-anchor:middle}
+#d14a .glab{font:600 13px var(--sans);text-anchor:middle}
+#d14a .gsub{font:500 9.5px var(--mono);fill:#5f6879;text-anchor:middle;letter-spacing:.14em}
+#d14a .prev{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1b1f29;border:1px solid #1b1f29;border-radius:9px;overflow:hidden;margin-top:12px}
+#d14a .prev div{background:#12151c;padding:9px 10px;text-align:center}
+#d14a .prev b{display:block;font:500 9px var(--mono);letter-spacing:.1em;color:#5f6879}
+#d14a .prev span{font:600 17px var(--mono);display:block;margin-top:3px}
+#d14a .sig{display:flex;flex-direction:column;gap:7px}
+#d14a .s{display:grid;grid-template-columns:150px 1fr 54px;align-items:center;gap:12px;padding:8px 10px;border-radius:9px;cursor:pointer;border:1px solid transparent}
+#d14a .s:hover{background:#12161e;border-color:#232937}
+#d14a .s.on{background:#12161e;border-color:#3a4considered}
+#d14a .s.on{background:#141924;border-color:#33405c}
+#d14a .s .nm{font-size:12.5px}
+#d14a .s .nm small{display:block;font:500 10px var(--mono);color:#5f6879;margin-top:2px}
+#d14a .scale{position:relative;height:22px;border-radius:5px;background:linear-gradient(90deg,#b8322c,#c97a2e,#5f6879,#3f9a70,#14b87a)}
+#d14a .scale i{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px;box-shadow:0 0 0 2px rgba(0,0,0,.45)}
+#d14a .scale em{position:absolute;top:-3px;bottom:-3px;width:2px;background:rgba(255,255,255,.35)}
+#d14a .s .v{font:600 15px var(--mono);text-align:right}
+#d14a .det{background:#12161e;border:1px solid #232937;border-radius:11px;padding:14px 16px;margin-top:12px}
+#d14a .det h4{font-size:13.5px;font-weight:600}
+#d14a .det p{font-size:12px;color:#97a0b2;line-height:1.55;margin-top:6px}
+#d14a .tape{display:flex;gap:2px;margin-top:14px;height:46px;align-items:flex-end}
+#d14a .tape div{flex:1;border-radius:2px 2px 0 0;cursor:pointer;position:relative}
+#d14a .tape div:hover::after{content:attr(data-l);position:absolute;bottom:52px;left:50%;transform:translateX(-50%);background:#e8ebf2;color:#0d0f14;font:600 10px var(--mono);padding:4px 7px;border-radius:5px;white-space:nowrap}
+#d14a .tlab{display:flex;justify-content:space-between;font:500 9.5px var(--mono);color:#5f6879;margin-top:5px}
+</style>
+<div class="root">
+  <div>
+    <h3>Meridian Fear &amp; Greed Index</h3><div class="k">Composite of 7 signals · updated 17:45 GMT</div>
+    <div class="gauge">
+      <svg viewBox="0 0 380 240" style="width:100%">
+        <defs><linearGradient id="d14ag" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#b8322c"/><stop offset=".3" stop-color="#c97a2e"/><stop offset=".5" stop-color="#6b7383"/><stop offset=".72" stop-color="#3f9a70"/><stop offset="1" stop-color="#14b87a"/></linearGradient></defs>
+        <path d="M40,200 A150,150 0 0 1 340,200" fill="none" stroke="#1b1f29" stroke-width="26" stroke-linecap="round"/>
+        <path d="M40,200 A150,150 0 0 1 340,200" fill="none" stroke="url(#d14ag)" stroke-width="26" stroke-linecap="round" stroke-dasharray="471" stroke-dashoffset="0" opacity=".92"/>
+        <g id="d14a-ticks"></g>
+        <line id="d14a-nd" x1="190" y1="200" x2="190" y2="80" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="190" cy="200" r="9" fill="#e8ebf2"/><circle cx="190" cy="200" r="4" fill="#0d0f14"/>
+        <text class="gnum" id="d14a-n" x="190" y="176" fill="#14b87a">68</text>
+        <text class="glab" id="d14a-l" x="190" y="220" fill="#14b87a">GREED</text>
+        <text class="gsub" x="190" y="236">0 EXTREME FEAR · 100 EXTREME GREED</text>
+      </svg>
+    </div>
+    <div class="prev">
+      <div><b>PREV CLOSE</b><span style="color:#3f9a70">64</span></div>
+      <div><b>1 WEEK</b><span style="color:#c97a2e">47</span></div>
+      <div><b>1 MONTH</b><span style="color:#b8322c">28</span></div>
+      <div><b>1 YEAR</b><span style="color:#6b7383">55</span></div>
+    </div>
+    <div class="tape" id="d14a-tape"></div>
+    <div class="tlab"><span>May 2025</span><span>weekly composite, 52 weeks</span><span>Apr 2026</span></div>
+  </div>
+  <div>
+    <h3>Underlying signals</h3><div class="k">Each normalised 0–100 · grey tick = 1-month average</div>
+    <div class="sig" id="d14a-sig" style="margin-top:12px"></div>
+    <div class="det" id="d14a-det"></div>
+  </div>
+</div>
+<script>(function(){
+ var S=[
+  {n:"Market momentum",s:"S&P 500 vs 125-day MA",v:74,a:58,x:"The index sits 4.2% above its 125-day moving average, the widest gap since December. Momentum has been the single largest greed contributor for three weeks."},
+  {n:"Price strength",s:"52-week highs vs lows",v:81,a:62,x:"86 NYSE names made new 52-week highs against 11 new lows. Ratios above 8:1 have historically preceded a short-term pause, not a reversal."},
+  {n:"Price breadth",s:"McClellan volume summation",v:66,a:54,x:"Advancing volume has exceeded declining volume on 12 of the last 15 sessions. Breadth is confirming the tape rather than diverging from it."},
+  {n:"Put / call ratio",s:"5-day equity put/call",v:71,a:52,x:"The 5-day ratio has fallen to 0.78, well below the 1.02 one-year average — options desks are leaning bullish."},
+  {n:"Volatility",s:"VIX vs 50-day average",v:69,a:60,x:"VIX at 13.8 versus a 50-day average of 15.6. Complacency, but not yet the sub-12 readings that flag exhaustion."},
+  {n:"Safe-haven demand",s:"20-day equity vs Treasury return",v:63,a:49,x:"Equities have outperformed Treasuries by 3.4pp over 20 sessions. Investors are paying up for risk."},
+  {n:"Junk bond demand",s:"HY vs IG spread",v:52,a:51,x:"The high-yield spread at 312bp is close to its two-year average — credit is the one signal refusing to join the party."}
+ ];
+ var ns="http://www.w3.org/2000/svg",tk=document.getElementById("d14a-ticks");
+ for(var i=0;i<=10;i++){var a=Math.PI+i/10*Math.PI;
+  var l=document.createElementNS(ns,"line");
+  l.setAttribute("x1",190+Math.cos(a)*126);l.setAttribute("y1",200+Math.sin(a)*126);
+  l.setAttribute("x2",190+Math.cos(a)*118);l.setAttribute("y2",200+Math.sin(a)*118);
+  l.setAttribute("stroke","#3a4152");l.setAttribute("stroke-width",i%5===0?"2":"1");tk.appendChild(l);}
+ function lab(v){return v<25?["EXTREME FEAR","#b8322c"]:v<45?["FEAR","#c97a2e"]:v<55?["NEUTRAL","#8b93a5"]:v<75?["GREED","#3f9a70"]:["EXTREME GREED","#14b87a"];}
+ function setNeedle(v){
+  var a=Math.PI+v/100*Math.PI;
+  var nd=document.getElementById("d14a-nd");
+  nd.setAttribute("x2",190+Math.cos(a)*124);nd.setAttribute("y2",200+Math.sin(a)*124);
+  var L=lab(v);
+  document.getElementById("d14a-n").textContent=v;document.getElementById("d14a-n").setAttribute("fill",L[1]);
+  document.getElementById("d14a-l").textContent=L[0];document.getElementById("d14a-l").setAttribute("fill",L[1]);
+ }
+ document.getElementById("d14a-sig").innerHTML=S.map(function(s,i){
+  return '<div class="s" data-i="'+i+'"><div class="nm">'+s.n+'<small>'+s.s+'</small></div>'+
+  '<div class="scale"><em style="left:'+s.a+'%"></em><i style="left:'+s.v+'%"></i></div>'+
+  '<div class="v" style="color:'+lab(s.v)[1]+'">'+s.v+'</div></div>';}).join("");
+ function pick(i){
+  [].forEach.call(document.querySelectorAll("#d14a .s"),function(e,j){e.classList.toggle("on",i===j)});
+  var s=S[i];
+  document.getElementById("d14a-det").innerHTML='<h4>'+s.n+' · <span style="color:'+lab(s.v)[1]+'">'+s.v+' / 100 ('+lab(s.v)[0].toLowerCase()+')</span></h4><p>'+s.x+'</p>'+
+   '<p style="color:#5f6879;font-family:var(--mono);font-size:11px">Weight in composite 14.3% · 1-month average '+s.a+' · contribution to today\'s move '+(s.v>s.a?"+":"")+((s.v-s.a)*0.143).toFixed(1)+' pts</p>';
+ }
+ document.getElementById("d14a-sig").addEventListener("click",function(e){
+  var r=e.target.closest(".s");if(r)pick(+r.dataset.i);});
+ var H=[];for(var w=0;w<52;w++){var v=Math.round(52+30*Math.sin(w/7)+14*Math.sin(w/2.3)+ (w>44?w-44:0)*1.6);H.push(Math.max(6,Math.min(96,v)));}
+ H[51]=68;
+ document.getElementById("d14a-tape").innerHTML=H.map(function(v,i){
+  return '<div data-l="wk '+(i+1)+' · '+v+'" style="height:'+(v*0.44+4)+'px;background:'+lab(v)[1]+';opacity:'+(0.45+i/52*0.55)+'"></div>';}).join("");
+ setNeedle(68);pick(0);
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 14.b ============================ -->
+<div class="design" id="d14b">
+  <div class="dlabel"><span class="id">14.b</span><span class="nm">Vertical thermometer with contribution waterfall</span><span class="tag">hover zone · contribution toggle</span></div>
+  <div class="dbody">
+<style>
+#d14b .root{background:#fffefb;padding:24px 28px;font-family:var(--sans);display:grid;grid-template-columns:230px 1fr;gap:30px}
+#d14b .therm{position:relative}
+#d14b .therm h3{font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#a49f92}
+#d14b .col{position:relative;height:420px;width:78px;margin:14px auto 0;border-radius:999px;overflow:hidden;border:1px solid #e6e1d5;background:#faf8f3}
+#d14b .col .zone{position:absolute;left:0;right:0;transition:filter .2s}
+#d14b .col .zone:hover{filter:brightness(1.12)}
+#d14b .col .zone span{position:absolute;left:8px;top:6px;font:600 9px var(--mono);letter-spacing:.1em;color:rgba(255,255,255,.88)}
+#d14b .mark{position:absolute;left:-14px;right:-14px;height:0;z-index:4}
+#d14b .mark .ln{height:3px;background:#1a1814;border-radius:2px}
+#d14b .mark .bb{position:absolute;right:-96px;top:-19px;background:#1a1814;color:#fff;border-radius:8px;padding:6px 10px;font:700 16px var(--mono)}
+#d14b .mark .bb small{display:block;font:500 8.5px var(--mono);letter-spacing:.14em;opacity:.7}
+#d14b .ghost{position:absolute;left:-8px;right:-8px;height:0;border-top:1.5px dashed #b6b0a2;z-index:3}
+#d14b .ghost em{position:absolute;right:-62px;top:-8px;font:500 9.5px var(--mono);color:#8d8779;font-style:normal}
+#d14b .right h2{font:600 26px var(--serif);letter-spacing:-.015em}
+#d14b .right .lede{font-size:13px;color:#6e6a5f;line-height:1.6;margin-top:8px;max-width:64ch}
+#d14b .tabs{display:flex;gap:18px;margin:18px 0 10px;border-bottom:1px solid #e6e1d5}
+#d14b .tabs button{background:none;border:0;padding:0 0 9px;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a49f92}
+#d14b .tabs button.on{color:#1a1814;box-shadow:inset 0 -2px 0 #1a1814}
+#d14b table{width:100%;border-collapse:collapse}
+#d14b th{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#a49f92;text-align:right;padding:8px 6px;border-bottom:1px solid #e6e1d5}
+#d14b th:first-child{text-align:left}
+#d14b td{padding:10px 6px;border-bottom:1px solid #f0ece2;font-size:13px;text-align:right}
+#d14b td:first-child{text-align:left}
+#d14b tr:hover{background:#faf8f3}
+#d14b .wf{position:relative;height:16px;background:#f2efe6;border-radius:3px}
+#d14b .wf::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#d8d2c4}
+#d14b .wf i{position:absolute;top:2px;bottom:2px;border-radius:2px}
+#d14b .quote{margin-top:18px;border-left:3px solid #1a1814;padding:2px 0 2px 14px;font:400 14px/1.6 var(--serif);color:#3d3a33}
+</style>
+<div class="root">
+  <div class="therm"><h3>Sentiment</h3>
+    <div class="col" id="d14b-col"></div>
+    <div style="text-align:center;font:500 10px var(--mono);color:#a49f92;margin-top:10px">reading taken 24 Apr, 17:45 GMT</div>
+  </div>
+  <div class="right">
+    <h2>Greed, but credit isn't buying it</h2>
+    <p class="lede">The composite reads <b>68</b> — firmly in greed territory and 40 points above where it sat a month ago, the fastest four-week swing since November 2023. Six of seven inputs are risk-positive. The exception, high-yield credit demand, is sitting almost exactly on its two-year average.</p>
+    <div class="tabs" id="d14b-tabs"><button class="on" data-t="c">Contribution</button><button data-t="l">Levels</button><button data-t="h">1-month change</button></div>
+    <table id="d14b-tbl"></table>
+    <div class="quote">Readings above 75 have preceded a negative next-month return 58% of the time since 2011 — but median drawdowns from greed have been shallow (−1.9%).</div>
+  </div>
+</div>
+<script>(function(){
+ var Z=[[0,25,"#a8342c","EXTREME FEAR"],[25,45,"#cc7f36","FEAR"],[45,55,"#8f887a","NEUTRAL"],[55,75,"#4d9a72","GREED"],[75,100,"#17a86f","EXTREME GREED"]];
+ var col=document.getElementById("d14b-col");
+ col.innerHTML=Z.map(function(z){
+  return '<div class="zone" style="bottom:'+z[0]+'%;height:'+(z[1]-z[0])+'%;background:'+z[2]+'"><span>'+z[3]+'</span></div>';}).join("")+
+  '<div class="ghost" style="bottom:28%"><em>1mo · 28</em></div>'+
+  '<div class="ghost" style="bottom:55%"><em>1yr · 55</em></div>'+
+  '<div class="mark" style="bottom:68%"><div class="ln"></div><div class="bb">68<small>TODAY</small></div></div>';
+ var S=[
+  {n:"Market momentum",v:74,m:58,w:20},{n:"Price strength",v:81,m:62,w:15},{n:"Price breadth",v:66,m:54,w:15},
+  {n:"Put / call ratio",v:71,m:52,w:15},{n:"Volatility (VIX)",v:69,m:60,w:15},{n:"Safe-haven demand",v:63,m:49,w:10},
+  {n:"Junk bond demand",v:52,m:51,w:10}];
+ function render(t){
+  var head='<tr><th>Signal</th><th>Weight</th><th>'+(t==="l"?"Reading":t==="h"?"1-mo ago":"Reading")+'</th><th style="width:210px">'+(t==="c"?"Contribution to 68":t==="h"?"Change":"Position on 0–100")+'</th><th>'+(t==="c"?"pts":"Δ")+'</th></tr>';
+  var rows=S.map(function(s){
+   var contrib=s.v*s.w/100,ch=s.v-s.m;
+   var barW,barC,barL;
+   if(t==="c"){barW=contrib/20*100;barC="#1a1814";barL='<i style="left:50%;width:'+Math.min(50,barW/2)+'%;background:'+barC+'"></i>';}
+   else if(t==="h"){barW=Math.min(48,Math.abs(ch)*1.6);barC=ch>=0?"#17a86f":"#a8342c";
+     barL='<i style="'+(ch>=0?"left:50%":"right:50%")+';width:'+barW+'%;background:'+barC+'"></i>';}
+   else{barL='<i style="left:0;width:'+s.v+'%;background:linear-gradient(90deg,#cc7f36,#17a86f)"></i>';}
+   return '<tr><td><b>'+s.n+'</b></td><td class="mn">'+s.w+'%</td><td class="mn">'+(t==="h"?s.m:s.v)+'</td>'+
+    '<td><div class="wf">'+barL+'</div></td>'+
+    '<td class="mn" style="color:'+(t==="c"?"#1a1814":(ch>=0?"#17a86f":"#a8342c"))+'">'+(t==="c"?contrib.toFixed(1):(ch>=0?"+":"")+ch)+'</td></tr>';}).join("");
+  document.getElementById("d14b-tbl").innerHTML=head+rows+
+   '<tr style="background:#f6f3ec"><td><b>Composite</b></td><td class="mn">100%</td><td class="mn"><b>68</b></td><td></td><td class="mn"><b>+40</b></td></tr>';
+ }
+ document.getElementById("d14b-tabs").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});render(b.dataset.t);});
+ render("c");
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 14.c ============================ -->
+<div class="design" id="d14c">
+  <div class="dlabel"><span class="id">14.c</span><span class="nm">Build-your-own composite — live weight sliders</span><span class="tag">drag weights · reset · scenario chips</span></div>
+  <div class="dbody">
+<style>
+#d14c .root{background:#12101a;color:#ece9f5;padding:22px 26px 26px;font-family:var(--sans)}
+#d14c .hd{display:flex;align-items:center;gap:14px}
+#d14c .hd h3{font-size:16px;font-weight:600}
+#d14c .hd .sub{font:500 10.5px var(--mono);color:#7a7194;letter-spacing:.1em;text-transform:uppercase}
+#d14c .chips{margin-left:auto;display:flex;gap:6px}
+#d14c .chips button{background:#1c1830;border:1px solid #2d2747;color:#b6acd6;border-radius:999px;padding:6px 12px;font:600 11px var(--mono)}
+#d14c .chips button:hover{background:#262040}
+#d14c .wrap2{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:18px}
+#d14c .sliders{display:flex;flex-direction:column;gap:12px}
+#d14c .sl{background:#181428;border:1px solid #272040;border-radius:11px;padding:11px 14px}
+#d14c .sl .top{display:flex;align-items:baseline;gap:10px}
+#d14c .sl .top b{font-size:13px}
+#d14c .sl .top .rd{margin-left:auto;font:600 13px var(--mono)}
+#d14c .sl .top .wt{font:500 11px var(--mono);color:#7a7194;min-width:44px;text-align:right}
+#d14c .sl .meter{height:8px;border-radius:4px;background:#241d3c;margin:8px 0 6px;position:relative;overflow:hidden}
+#d14c .sl .meter i{position:absolute;top:0;bottom:0;left:0;border-radius:4px}
+#d14c input[type=range]{width:100%;accent-color:#a78bfa;height:14px}
+#d14c .out{background:linear-gradient(165deg,#1d1734,#141022);border:1px solid #2d2747;border-radius:14px;padding:20px;display:flex;flex-direction:column;align-items:center;position:sticky;top:70px}
+#d14c .out .score{font:700 74px/1 var(--mono);letter-spacing:-.04em}
+#d14c .out .word{font:600 13px var(--mono);letter-spacing:.2em;margin-top:6px}
+#d14c .out .delta{font:500 12px var(--mono);color:#8b81ad;margin-top:8px}
+#d14c .ring{margin-top:10px}
+#d14c .out .cmp{width:100%;margin-top:18px;border-top:1px solid #2d2747;padding-top:14px}
+#d14c .out .cmp div{display:flex;justify-content:space-between;font:500 11.5px var(--mono);color:#8b81ad;padding:4px 0}
+#d14c .out .cmp div b{color:#ece9f5}
+#d14c .hist{margin-top:16px;background:#181428;border:1px solid #272040;border-radius:11px;padding:12px 14px}
+#d14c .hist h4{font:600 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#7a7194}
+#d14c .note{font-size:11.5px;color:#8b81ad;line-height:1.5;margin-top:8px}
+</style>
+<div class="root">
+  <div class="hd"><h3>Sentiment composite lab</h3><span class="sub">7 signals · adjust the weights, the score recomputes live</span>
+    <div class="chips" id="d14c-chips"><button data-p="std">CNN-style default</button><button data-p="vol">Volatility-led</button><button data-p="pos">Positioning-led</button><button data-p="eq">Equal weight</button></div></div>
+  <div class="wrap2">
+    <div class="sliders" id="d14c-sl"></div>
+    <div>
+      <div class="out">
+        <svg class="ring" viewBox="0 0 160 160" width="160" height="160">
+          <circle cx="80" cy="80" r="66" fill="none" stroke="#241d3c" stroke-width="12"/>
+          <circle id="d14c-ring" cx="80" cy="80" r="66" fill="none" stroke="#a78bfa" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="414" stroke-dashoffset="132" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="score" id="d14c-score" style="margin-top:-118px">68</div>
+        <div class="word" id="d14c-word" style="margin-bottom:34px">GREED</div>
+        <div class="delta" id="d14c-delta">+40 vs one month ago</div>
+        <div class="cmp">
+          <div><span>Default composite</span><b>68</b></div>
+          <div><span>Your composite</span><b id="d14c-mine">68</b></div>
+          <div><span>Difference</span><b id="d14c-diff">0</b></div>
+          <div><span>Signals in greed</span><b id="d14c-ng">6 of 7</b></div>
+        </div>
+      </div>
+      <div class="hist"><h4>What this reading has meant</h4>
+        <p class="note">Since 2011 the composite has closed between 65 and 75 on <b style="color:#ece9f5">412 days</b>. Median S&amp;P 500 return over the following month: <b style="color:#4ade9b">+0.9%</b>. Hit rate 61%. Worst 1-month outcome from this zone: <b style="color:#ff8a9b">−8.4%</b> (Feb 2020).</p></div>
+    </div>
+  </div>
+</div>
+<script>(function(){
+ var S=[
+  {n:"Market momentum",v:74,w:20,c:"#a78bfa"},{n:"Price strength (highs/lows)",v:81,w:15,c:"#6ee7c8"},
+  {n:"Price breadth",v:66,w:15,c:"#7dd3fc"},{n:"Put / call ratio",v:71,w:15,c:"#fca5a5"},
+  {n:"Volatility (VIX vs 50d)",v:69,w:15,c:"#fcd34d"},{n:"Safe-haven demand",v:63,w:10,c:"#f0abfc"},
+  {n:"Junk bond demand",v:52,w:10,c:"#93c5fd"}];
+ var P={std:[20,15,15,15,15,10,10],vol:[10,10,10,20,35,5,10],pos:[10,10,10,30,10,10,20],eq:[14.3,14.3,14.3,14.3,14.3,14.2,14.3]};
+ function word(v){return v<25?["EXTREME FEAR","#ef5350"]:v<45?["FEAR","#f59e42"]:v<55?["NEUTRAL","#9aa0b4"]:v<75?["GREED","#4ade9b"]:["EXTREME GREED","#22e39a"];}
+ function build(){
+  document.getElementById("d14c-sl").innerHTML=S.map(function(s,i){
+   return '<div class="sl"><div class="top"><b>'+s.n+'</b><span class="rd" style="color:'+word(s.v)[1]+'">'+s.v+'</span>'+
+   '<span class="wt" id="d14c-w'+i+'">'+s.w.toFixed(0)+'%</span></div>'+
+   '<div class="meter"><i style="width:'+s.v+'%;background:'+s.c+'"></i></div>'+
+   '<input type="range" min="0" max="40" step="1" value="'+s.w+'" data-i="'+i+'"></div>';}).join("");
+  [].forEach.call(document.querySelectorAll("#d14c-sl input"),function(r){
+   r.addEventListener("input",function(){S[+r.dataset.i].w=+r.value;calc();});});
+ }
+ function calc(){
+  var tw=S.reduce(function(a,s){return a+s.w},0)||1;
+  var v=Math.round(S.reduce(function(a,s){return a+s.v*s.w},0)/tw);
+  S.forEach(function(s,i){document.getElementById("d14c-w"+i).textContent=(s.w/tw*100).toFixed(0)+"%";});
+  var W=word(v);
+  document.getElementById("d14c-score").textContent=v;
+  document.getElementById("d14c-score").style.color=W[1];
+  document.getElementById("d14c-word").textContent=W[0];
+  document.getElementById("d14c-word").style.color=W[1];
+  document.getElementById("d14c-ring").setAttribute("stroke-dashoffset",414-(414*v/100));
+  document.getElementById("d14c-ring").setAttribute("stroke",W[1]);
+  document.getElementById("d14c-mine").textContent=v;
+  var d=v-68;
+  document.getElementById("d14c-diff").textContent=(d>0?"+":"")+d;
+  document.getElementById("d14c-diff").style.color=d===0?"#ece9f5":(d>0?"#4ade9b":"#ff8a9b");
+  document.getElementById("d14c-ng").textContent=S.filter(function(s){return s.v>55}).length+" of 7";
+ }
+ document.getElementById("d14c-chips").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  P[b.dataset.p].forEach(function(w,i){S[i].w=w});build();calc();});
+ build();calc();
+})();</script>
+  </div>
+</div>
+</section>

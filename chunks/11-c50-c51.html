@@ -1,0 +1,462 @@
+<section class="comp" id="c50">
+  <div class="comp-head"><span class="num">50</span><h2>Crypto market overview</h2><span class="sz big">Big</span>
+    <span class="desc">Prices, market caps and recent moves across major cryptocurrencies.</span></div>
+
+<!-- ============================ 50.a ============================ -->
+<div class="design" id="d50a">
+  <div class="dlabel"><span class="id">50.a</span><span class="nm">Ranked table with dominance donut and 7-day sparks</span><span class="tag">sort · currency toggle · dominance</span></div>
+  <div class="dbody">
+<style>
+#d50a .root{background:#fff;padding:18px 22px 20px;font-family:var(--sans);display:grid;grid-template-columns:1fr 250px;gap:22px}
+#d50a .hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#d50a .hd h3{font-size:16px;font-weight:650}
+#d50a .hd .s{font:500 11px var(--mono);color:#98a0b3}
+#d50a .hd .cur{margin-left:auto;display:flex;gap:4px}
+#d50a .hd .cur button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 9px;font:600 10.5px var(--mono);color:#697086}
+#d50a .hd .cur button.on{background:#11141c;color:#fff;border-color:#11141c}
+#d50a table{width:100%;border-collapse:collapse}
+#d50a th{font:600 9.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#98a0b3;text-align:right;padding:8px;border-bottom:1px solid var(--line);cursor:pointer}
+#d50a th:first-child,#d50a th:nth-child(2){text-align:left}
+#d50a th:hover{color:#11141c}
+#d50a td{padding:9px 8px;border-bottom:1px solid #f3f5f8;text-align:right;font-size:13px}
+#d50a td:first-child,#d50a td:nth-child(2){text-align:left}
+#d50a tr:hover td{background:#fafbfd}
+#d50a .coin{display:flex;align-items:center;gap:9px}
+#d50a .ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 10px var(--mono);color:#fff}
+#d50a .coin b{font-size:13px}
+#d50a .coin small{display:block;font:500 10px var(--mono);color:#98a0b3}
+#d50a .dom{display:flex;flex-direction:column;align-items:center}
+#d50a .dom h4{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#98a0b3;align-self:flex-start;margin-bottom:8px}
+#d50a .dlist{width:100%;margin-top:10px}
+#d50a .dlist div{display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 0}
+#d50a .dlist i{width:9px;height:9px;border-radius:2px}
+#d50a .dlist b{margin-left:auto;font:600 11.5px var(--mono)}
+#d50a .mk{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+#d50a .mk div{display:flex;justify-content:space-between;font:500 11.5px var(--mono);color:#697086;padding:4px 0}
+#d50a .mk b{color:#11141c}
+</style>
+<div class="root">
+  <div>
+    <div class="hd"><h3>Crypto market</h3><span class="s">24 Apr 2026 · 17:48 UTC · spot, volume-weighted</span>
+      <div class="cur" id="d50a-cur"><button class="on" data-c="usd">USD</button><button data-c="btc">BTC</button></div></div>
+    <table id="d50a-t"></table>
+  </div>
+  <div class="dom">
+    <h4>Market cap dominance</h4>
+    <svg viewBox="0 0 180 180" width="180" height="180" id="d50a-donut"></svg>
+    <div class="dlist" id="d50a-dl"></div>
+    <div class="mk">
+      <div><span>Total cap</span><b>$2.41tn</b></div>
+      <div><span>24h volume</span><b>$96.2bn</b></div>
+      <div><span>24h change</span><b class="neg">−2.4%</b></div>
+      <div><span>Stablecoin supply</span><b>$186bn</b></div>
+      <div><span>Fear &amp; greed</span><b style="color:#d98613">42 · fear</b></div>
+    </div>
+  </div>
+</div>
+<script>(function(){
+ var C=[
+  {t:"BTC",n:"Bitcoin",c:"#f7931a",p:64280,d1:-1.84,d7:-6.2,d30:4.2,cap:1268,vol:32.4,sup:"19.8m",sp:[16,15,14,15,13,12,11]},
+  {t:"ETH",n:"Ethereum",c:"#627eea",p:3142,d1:-2.62,d7:-8.4,d30:-2.1,cap:378,vol:18.6,sup:"120.4m",sp:[14,13,13,12,11,10,9]},
+  {t:"SOL",n:"Solana",c:"#14f195",p:148.60,d1:-3.86,d7:-11.2,d30:6.8,cap:68,vol:6.2,sup:"458m",sp:[12,11,12,10,9,8,7]},
+  {t:"BNB",n:"BNB",c:"#f3ba2f",p:562.40,d1:-0.94,d7:-3.1,d30:1.4,cap:82,vol:2.1,sup:"146m",sp:[10,10,9,10,9,9,8]},
+  {t:"XRP",n:"XRP",c:"#23292f",p:0.6284,d1:1.24,d7:2.8,d30:-4.6,cap:36,vol:1.8,sup:"57.2bn",sp:[8,8,9,8,9,9,10]},
+  {t:"ADA",n:"Cardano",c:"#0033ad",p:0.4126,d1:-2.18,d7:-7.4,d30:-9.2,cap:14,vol:0.6,sup:"35.4bn",sp:[11,10,10,9,9,8,8]},
+  {t:"AVAX",n:"Avalanche",c:"#e84142",p:28.42,d1:-4.12,d7:-13.6,d30:-11.4,cap:11,vol:0.5,sup:"396m",sp:[12,11,10,9,8,8,7]},
+  {t:"LINK",n:"Chainlink",c:"#2a5ada",p:14.86,d1:-1.42,d7:-4.8,d30:2.6,cap:9,vol:0.4,sup:"626m",sp:[9,9,10,9,9,8,9]},
+  {t:"DOGE",n:"Dogecoin",c:"#c2a633",p:0.1284,d1:-5.24,d7:-14.2,d30:-18.6,cap:19,vol:1.2,sup:"146bn",sp:[13,12,11,10,9,8,7]},
+  {t:"TON",n:"Toncoin",c:"#0098ea",p:5.42,d1:2.86,d7:6.4,d30:12.8,cap:14,vol:0.3,sup:"2.6bn",sp:[7,8,8,9,10,11,12]}
+ ];
+ var cur="usd",sk="cap";
+ function spark(sp,up){var w=70,h=22,mn=Math.min.apply(null,sp),mx=Math.max.apply(null,sp),p="";
+  sp.forEach(function(v,i){p+=(i?"L":"M")+(i*w/(sp.length-1)).toFixed(1)+","+(h-(v-mn)/(mx-mn||1)*(h-3)-1.5).toFixed(1);});
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="70" height="22"><path d="'+p+'" fill="none" stroke="'+(up?"#0f9d6a":"#e0483d")+'" stroke-width="1.5"/></svg>';}
+ function render(){
+  C.sort(function(a,b){return sk==="t"?a.t.localeCompare(b.t):b[sk]-a[sk]});
+  document.getElementById("d50a-t").innerHTML=
+   '<tr><th data-k="t">Asset</th><th>7d</th><th data-k="p">Price</th><th data-k="d1">24h</th><th data-k="d7">7d</th><th data-k="d30">30d</th><th data-k="cap">Market cap</th><th data-k="vol">24h vol</th><th>Supply</th></tr>'+
+   C.map(function(c){
+    var px=cur==="usd"?("$"+(c.p>=1000?c.p.toLocaleString():c.p.toFixed(c.p<1?4:2))):((c.p/64280).toFixed(6)+" ₿");
+    return '<tr><td><div class="coin"><span class="ic" style="background:'+c.c+'">'+c.t[0]+'</span><div><b>'+c.n+'</b><small>'+c.t+'</small></div></div></td>'+
+     '<td>'+spark(c.sp,c.d7>=0)+'</td><td class="mn"><b>'+px+'</b></td>'+
+     ['d1','d7','d30'].map(function(k){return '<td class="mn '+(c[k]>=0?"pos":"neg")+'">'+(c[k]>=0?"+":"")+c[k].toFixed(2)+'%</td>';}).join("")+
+     '<td class="mn">$'+c.cap+'bn</td><td class="mn" style="color:#697086">$'+c.vol.toFixed(1)+'bn</td>'+
+     '<td class="mn" style="color:#98a0b3">'+c.sup+'</td></tr>';}).join("");
+  [].forEach.call(document.querySelectorAll("#d50a th[data-k]"),function(t){
+   t.addEventListener("click",function(){sk=t.dataset.k;render();});});
+ }
+ var tot=C.reduce(function(a,c){return a+c.cap},0),other=2410-tot;
+ var segs=C.slice(0,4).map(function(c){return {n:c.t,v:c.cap,c:c.c}});
+ segs.push({n:"Others",v:2410-segs.reduce(function(a,s){return a+s.v},0),c:"#c8cdd8"});
+ var a0=-Math.PI/2,ns="http://www.w3.org/2000/svg",d="";
+ segs.forEach(function(s){
+  var a1=a0+s.v/2410*Math.PI*2,R=78,r=50;
+  var lg=(a1-a0)>Math.PI?1:0;
+  d+='<path d="M'+(90+Math.cos(a0)*R)+','+(90+Math.sin(a0)*R)+'A'+R+','+R+' 0 '+lg+' 1 '+(90+Math.cos(a1)*R)+','+(90+Math.sin(a1)*R)+
+   'L'+(90+Math.cos(a1)*r)+','+(90+Math.sin(a1)*r)+'A'+r+','+r+' 0 '+lg+' 0 '+(90+Math.cos(a0)*r)+','+(90+Math.sin(a0)*r)+'Z" fill="'+s.c+'" stroke="#fff" stroke-width="2"/>';
+  a0=a1;});
+ d+='<text x="90" y="86" text-anchor="middle" font-family="ui-monospace" font-size="22" font-weight="700">52.6%</text>'+
+    '<text x="90" y="102" text-anchor="middle" font-family="ui-monospace" font-size="9" fill="#98a0b3">BTC DOMINANCE</text>';
+ document.getElementById("d50a-donut").innerHTML=d;
+ document.getElementById("d50a-dl").innerHTML=segs.map(function(s){
+  return '<div><i style="background:'+s.c+'"></i>'+s.n+'<b>'+(s.v/2410*100).toFixed(1)+'%</b></div>';}).join("");
+ document.getElementById("d50a-cur").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});cur=b.dataset.c;render();});
+ render();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 50.b ============================ -->
+<div class="design" id="d50b">
+  <div class="dlabel"><span class="id">50.b</span><span class="nm">Cap treemap with sector rails and timeframe switch</span><span class="tag">tile hover · timeframe · category rails</span></div>
+  <div class="dbody">
+<style>
+#d50b .root{background:#090b10;color:#e6ebf4;padding:16px 18px 18px;font-family:var(--sans)}
+#d50b .hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#d50b .hd h3{font-size:14px;font-weight:600}
+#d50b .hd .s{font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#59637a}
+#d50b .hd .tf{margin-left:auto;display:flex;border:1px solid #1d232f;border-radius:6px;overflow:hidden}
+#d50b .hd .tf button{background:#0f131b;border:0;color:#6c7689;padding:6px 11px;font:600 10.5px var(--mono)}
+#d50b .hd .tf button.on{background:#e6ebf4;color:#090b10}
+#d50b .tmw{display:flex;gap:3px;height:330px}
+#d50b .cat{display:flex;flex-direction:column;gap:3px}
+#d50b .cat .ch2{font:600 9px var(--mono);letter-spacing:.12em;color:#59637a;text-transform:uppercase}
+#d50b .cells2{flex:1;display:flex;flex-direction:column;gap:3px}
+#d50b .tile2{border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden}
+#d50b .tile2:hover{outline:1.5px solid #fff;z-index:4}
+#d50b .tile2 b{font:700 13px var(--mono)}
+#d50b .tile2 span{font:600 11px var(--mono);opacity:.92}
+#d50b .tile2 small{font:500 9px var(--mono);opacity:.6}
+#d50b .bar5{display:flex;gap:3px;margin-top:10px}
+#d50b .bar5 div{background:#0f131b;border:1px solid #1d232f;border-radius:8px;padding:9px 11px;flex:1}
+#d50b .bar5 b{font:500 9px var(--mono);letter-spacing:.1em;color:#59637a;display:block}
+#d50b .bar5 span{font:600 15px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="root">
+  <div class="hd"><h3>Crypto market map</h3><span class="s">area = market cap · colour = return</span>
+    <div class="tf" id="d50b-tf"><button class="on" data-k="d1">24H</button><button data-k="d7">7D</button><button data-k="d30">30D</button></div></div>
+  <div class="tmw" id="d50b-tm"></div>
+  <div class="bar5">
+    <div><b>TOTAL CAP</b><span>$2.41tn</span></div><div><b>24H CHANGE</b><span class="neg">−2.4%</span></div>
+    <div><b>BTC DOMINANCE</b><span>52.6%</span></div><div><b>ETH/BTC</b><span>0.0489</span></div>
+    <div><b>ALT SEASON INDEX</b><span style="color:#d98613">28 / 100</span></div><div><b>24H LIQUIDATIONS</b><span class="neg">$412m</span></div>
+  </div>
+</div>
+<script>(function(){
+ var G=[
+  {n:"Layer 1",coins:[["BTC",1268,-1.84,-6.2,4.2],["ETH",378,-2.62,-8.4,-2.1],["SOL",68,-3.86,-11.2,6.8],["ADA",14,-2.18,-7.4,-9.2],["AVAX",11,-4.12,-13.6,-11.4],["TON",14,2.86,6.4,12.8]]},
+  {n:"Exchange & payments",coins:[["BNB",82,-0.94,-3.1,1.4],["XRP",36,1.24,2.8,-4.6],["TRX",21,0.42,-1.2,3.8],["OKB",4,-1.84,-5.2,-2.4]]},
+  {n:"DeFi & infra",coins:[["LINK",9,-1.42,-4.8,2.6],["UNI",6,-3.24,-9.8,-6.2],["AAVE",4,-2.86,-8.2,4.4],["MKR",2,-1.12,-3.4,1.8]]},
+  {n:"Memes & other",coins:[["DOGE",19,-5.24,-14.2,-18.6],["SHIB",8,-6.42,-16.8,-22.4],["PEPE",4,-8.64,-21.2,-28.6],["WIF",2,-9.86,-24.4,-34.2]]},
+  {n:"Stablecoins",coins:[["USDT",142,0.01,0.02,0.0],["USDC",42,0.0,-0.01,0.01],["DAI",6,0.02,0.0,0.01]]}
+ ];
+ var k="d1",idx={d1:2,d7:3,d30:4};
+ function col(v){var s=Math.max(-1,Math.min(1,v/8));
+  if(s>=0)return "rgb("+Math.round(38-24*s)+","+Math.round(46+146*s)+","+Math.round(60+62*s)+")";
+  s=-s;return "rgb("+Math.round(38+184*s)+","+Math.round(46+14*s)+","+Math.round(60-6*s)+")";}
+ function draw(){
+  var tot=G.reduce(function(a,g){return a+g.coins.reduce(function(x,c){return x+c[1]},0)},0);
+  document.getElementById("d50b-tm").innerHTML=G.map(function(g){
+   var gt=g.coins.reduce(function(a,c){return a+c[1]},0);
+   return '<div class="cat" style="flex:'+gt/tot+'"><div class="ch2">'+g.n+' · $'+gt+'bn</div><div class="cells2">'+
+    g.coins.map(function(c){
+     var v=c[idx[k]];
+     return '<div class="tile2" style="flex:'+c[1]+';background:'+col(v)+';color:'+(Math.abs(v)>4?"#fff":"#b8c2d4")+'" title="'+c[0]+' · $'+c[1]+'bn · '+(v>=0?"+":"")+v+'%">'+
+      (c[1]>40?'<b>'+c[0]+'</b><span>'+(v>=0?"+":"")+v.toFixed(2)+'%</span><small>$'+c[1]+'bn</small>':
+       c[1]>8?'<b style="font-size:11px">'+c[0]+'</b><span style="font-size:9.5px">'+(v>=0?"+":"")+v.toFixed(1)+'%</span>':
+       '<b style="font-size:9px">'+c[0]+'</b>')+'</div>';}).join("")+'</div></div>';}).join("");
+ }
+ document.getElementById("d50b-tf").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});k=b.dataset.k;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 50.c ============================ -->
+<div class="design" id="d50c">
+  <div class="dlabel"><span class="id">50.c</span><span class="nm">Ticking price cards with market-state banner</span><span class="tag">simulated ticks · flash on change · watch toggle</span></div>
+  <div class="dbody">
+<style>
+#d50c .root{background:#12101c;color:#eae7f5;font-family:var(--sans);padding:0 0 18px}
+#d50c .banner{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#241f38;border-bottom:1px solid #241f38}
+#d50c .banner div{background:#16132340;padding:13px 16px;background:#161323}
+#d50c .banner b{font:500 9px var(--mono);letter-spacing:.14em;color:#7c72a3;display:block}
+#d50c .banner span{font:600 20px var(--mono);display:block;margin-top:4px}
+#d50c .banner em{font-style:normal;font:500 10.5px var(--mono);color:#8c83b0}
+#d50c .hd{display:flex;align-items:center;gap:12px;padding:14px 20px 10px}
+#d50c .hd h3{font-size:15px;font-weight:600}
+#d50c .hd .s{font:500 10px var(--mono);color:#7c72a3;letter-spacing:.1em;text-transform:uppercase}
+#d50c .hd .lv2{margin-left:auto;display:flex;align-items:center;gap:7px;font:600 10px var(--mono);color:#6ee7c8}
+#d50c .hd .lv2 i{width:7px;height:7px;border-radius:50%;background:#6ee7c8;animation:d50cp 1.4s infinite}
+@keyframes d50cp{0%,100%{opacity:1}50%{opacity:.2}}
+#d50c .grid5{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 20px}
+#d50c .cc3{background:#191529;border:1px solid #272040;border-radius:13px;padding:14px;cursor:pointer;transition:border-color .15s}
+#d50c .cc3:hover{border-color:#3d3466}
+#d50c .cc3.watch{border-color:#a78bfa;box-shadow:0 0 0 1px rgba(167,139,250,.3)}
+#d50c .cc3 .top3{display:flex;align-items:center;gap:8px}
+#d50c .cc3 .ic2{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--mono);color:#fff}
+#d50c .cc3 .nm4{font-size:13px;font-weight:600}
+#d50c .cc3 .nm4 small{display:block;font:500 9.5px var(--mono);color:#7c72a3}
+#d50c .cc3 .star{margin-left:auto;font-size:13px;color:#4d4470}
+#d50c .cc3.watch .star{color:#a78bfa}
+#d50c .cc3 .px3{font:600 23px var(--mono);margin-top:11px;transition:color .25s}
+#d50c .cc3 .px3.up{color:#6ee7c8}#d50c .cc3 .px3.dn{color:#ff8098}
+#d50c .cc3 .ch3{font:600 12px var(--mono);margin-top:2px}
+#d50c .cc3 svg{margin-top:9px;width:100%}
+#d50c .cc3 .kv4{display:flex;justify-content:space-between;font:500 10px var(--mono);color:#7c72a3;margin-top:8px;border-top:1px solid #241f38;padding-top:7px}
+#d50c .cc3 .kv4 b{color:#c4bde0}
+</style>
+<div class="root">
+  <div class="banner">
+    <div><b>TOTAL MARKET CAP</b><span>$2.41tn</span><em class="neg">−2.4% in 24h</em></div>
+    <div><b>24H VOLUME</b><span>$96.2bn</span><em>1.14× 30-day avg</em></div>
+    <div><b>BTC DOMINANCE</b><span>52.6%</span><em class="pos">+0.8pp this week</em></div>
+    <div><b>FEAR &amp; GREED</b><span style="color:#ffb44f">42</span><em>fear · was 61 last week</em></div>
+    <div><b>24H LIQUIDATIONS</b><span class="neg">$412m</span><em>78% longs</em></div>
+  </div>
+  <div class="hd"><h3>Majors</h3><span class="s">click a card to watch</span><span class="lv2"><i></i>STREAMING</span></div>
+  <div class="grid5" id="d50c-g"></div>
+</div>
+<script>(function(){
+ var C=[
+  {t:"BTC",n:"Bitcoin",c:"#f7931a",p:64280,d:-1.84,cap:"$1.27tn",vol:"$32.4bn",sp:[16,15,14,15,13,12,11,12,11,10]},
+  {t:"ETH",n:"Ethereum",c:"#627eea",p:3142,d:-2.62,cap:"$378bn",vol:"$18.6bn",sp:[14,13,13,12,11,10,9,10,9,9]},
+  {t:"SOL",n:"Solana",c:"#14f195",p:148.60,d:-3.86,cap:"$68bn",vol:"$6.2bn",sp:[12,11,12,10,9,8,7,8,7,7]},
+  {t:"BNB",n:"BNB",c:"#f3ba2f",p:562.40,d:-0.94,cap:"$82bn",vol:"$2.1bn",sp:[10,10,9,10,9,9,8,9,9,8]},
+  {t:"XRP",n:"XRP",c:"#5a6472",p:0.6284,d:1.24,cap:"$36bn",vol:"$1.8bn",sp:[8,8,9,8,9,9,10,9,10,10]},
+  {t:"DOGE",n:"Dogecoin",c:"#c2a633",p:0.1284,d:-5.24,cap:"$19bn",vol:"$1.2bn",sp:[13,12,11,10,9,8,7,7,6,6]},
+  {t:"TON",n:"Toncoin",c:"#0098ea",p:5.42,d:2.86,cap:"$14bn",vol:"$0.3bn",sp:[7,8,8,9,10,11,12,11,12,13]},
+  {t:"LINK",n:"Chainlink",c:"#2a5ada",p:14.86,d:-1.42,cap:"$9bn",vol:"$0.4bn",sp:[9,9,10,9,9,8,9,8,9,9]}
+ ];
+ function fmt(p){return p>=1000?p.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0}):p>=1?p.toFixed(2):p.toFixed(4);}
+ function spark(sp,up){var w=200,h=38,mn=Math.min.apply(null,sp),mx=Math.max.apply(null,sp),p="";
+  sp.forEach(function(v,i){p+=(i?"L":"M")+(i*w/(sp.length-1)).toFixed(1)+","+(h-(v-mn)/(mx-mn||1)*(h-4)-2).toFixed(1);});
+  var c=up?"#6ee7c8":"#ff8098";
+  return '<svg viewBox="0 0 '+w+' '+h+'" height="38" preserveAspectRatio="none"><path d="'+p+'L'+w+','+h+'L0,'+h+'Z" fill="'+c+'" opacity=".1"/><path d="'+p+'" fill="none" stroke="'+c+'" stroke-width="1.8"/></svg>';}
+ function render(){
+  document.getElementById("d50c-g").innerHTML=C.map(function(c,i){
+   return '<div class="cc3" data-i="'+i+'"><div class="top3"><span class="ic2" style="background:'+c.c+'">'+c.t[0]+'</span>'+
+   '<div class="nm4">'+c.n+'<small>'+c.t+'/USD</small></div><span class="star">★</span></div>'+
+   '<div class="px3" id="d50c-p'+i+'">$'+fmt(c.p)+'</div>'+
+   '<div class="ch3 '+(c.d>=0?"pos":"neg")+'">'+(c.d>=0?"▲ +":"▼ ")+c.d.toFixed(2)+'% · 24h</div>'+
+   spark(c.sp,c.d>=0)+
+   '<div class="kv4"><span>cap <b>'+c.cap+'</b></span><span>vol <b>'+c.vol+'</b></span></div></div>';}).join("");
+  [].forEach.call(document.querySelectorAll("#d50c .cc3"),function(e){
+   e.addEventListener("click",function(){e.classList.toggle("watch")});});
+ }
+ render();
+ setInterval(function(){
+  var i=Math.floor(Math.random()*C.length),c=C[i];
+  var mv=(Math.random()-0.5)*c.p*0.0012;c.p=c.p+mv;
+  var el=document.getElementById("d50c-p"+i);if(!el)return;
+  el.textContent="$"+fmt(c.p);
+  el.classList.remove("up","dn");void el.offsetWidth;el.classList.add(mv>=0?"up":"dn");
+  setTimeout(function(){el.classList.remove("up","dn")},600);
+ },900);
+})();</script>
+  </div>
+</div>
+</section>
+
+<section class="comp" id="c51">
+  <div class="comp-head"><span class="num">51</span><h2>Index snapshot</h2><span class="sz med">Medium</span>
+    <span class="desc">One index's level, today's change and its chart, presented compactly.</span></div>
+
+<!-- ============================ 51.a ============================ -->
+<div class="design" id="d51a">
+  <div class="dlabel"><span class="id">51.a</span><span class="nm">Card with intraday area, day range rail and session stats</span><span class="tag">hover chart · range rail</span></div>
+  <div class="dbody">
+<style>
+#d51a .wrapx{padding:22px;background:#f5f6f8;display:flex;justify-content:center}
+#d51a .card6{width:420px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-family:var(--sans);box-shadow:0 12px 30px -22px rgba(16,24,40,.6)}
+#d51a .r1{display:flex;align-items:baseline;gap:9px}
+#d51a .r1 b{font-size:14px;font-weight:650}
+#d51a .r1 small{font:500 10px var(--mono);color:#98a0b3;letter-spacing:.08em}
+#d51a .r1 .st2{margin-left:auto;font:600 9.5px var(--mono);background:#e8f6f0;color:#0b6e4b;padding:3px 7px;border-radius:5px}
+#d51a .lvl3{font:600 36px var(--mono);letter-spacing:-.02em;margin-top:10px}
+#d51a .chg{font:600 14px var(--mono);margin-top:2px}
+#d51a .chg span{color:#98a0b3;font-weight:500;margin-left:6px}
+#d51a .chartc{margin-top:12px;position:relative}
+#d51a .rail3{margin-top:14px}
+#d51a .rail3 .bar6{height:8px;border-radius:4px;background:linear-gradient(90deg,#f0f2f5,#e5e8ee);position:relative}
+#d51a .rail3 .bar6 i{position:absolute;top:0;bottom:0;background:#11141c;border-radius:4px}
+#d51a .rail3 .bar6 b{position:absolute;top:-4px;width:3px;height:16px;background:#3b62f6;border-radius:2px}
+#d51a .rail3 .lbls{display:flex;justify-content:space-between;font:500 10px var(--mono);color:#98a0b3;margin-top:5px}
+#d51a .grid6{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:14px}
+#d51a .grid6 div{background:#fff;padding:9px 10px}
+#d51a .grid6 b{font:500 8.5px var(--mono);letter-spacing:.08em;color:#98a0b3;display:block}
+#d51a .grid6 span{font:600 13px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="wrapx"><div class="card6">
+  <div class="r1"><b>S&amp;P 500</b><small>SPX · USD</small><span class="st2">MARKET OPEN</span></div>
+  <div class="lvl3">5,612.40</div>
+  <div class="chg pos">▲ +34.62 (+0.62%)<span>as of 15:42 ET</span></div>
+  <div class="chartc"><svg id="d51a-svg" viewBox="0 0 380 110" style="width:100%;height:auto"></svg></div>
+  <div class="rail3"><div class="bar6"><i id="d51a-i"></i><b id="d51a-b"></b></div>
+    <div class="lbls"><span>low 5,578.20</span><span>day range</span><span>high 5,621.84</span></div></div>
+  <div class="grid6">
+    <div><b>OPEN</b><span>5,584.10</span></div><div><b>PREV CLOSE</b><span>5,577.78</span></div>
+    <div><b>52W RANGE</b><span style="font-size:11px">4,918 – 5,622</span></div><div><b>YTD</b><span class="pos">+7.4%</span></div>
+  </div>
+</div></div>
+<script>(function(){
+ var pts=[],p=5577.78;
+ for(var i=0;i<78;i++){p+=Math.sin(i/6)*3.4+Math.sin(i/2.1)*1.8+0.52;pts.push(p);}
+ pts[77]=5612.40;
+ var W=380,H=110,mn=5570,mx=5628;
+ var X=function(i){return i*W/(pts.length-1)},Y=function(v){return 8+(mx-v)/(mx-mn)*(H-22)};
+ var s="",d="";
+ pts.forEach(function(v,i){d+=(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1);});
+ s+='<defs><linearGradient id="d51ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f9d6a" stop-opacity=".26"/><stop offset="1" stop-color="#0f9d6a" stop-opacity="0"/></linearGradient></defs>';
+ s+='<line x1="0" y1="'+Y(5577.78)+'" x2="'+W+'" y2="'+Y(5577.78)+'" stroke="#c8cdd8" stroke-dasharray="3 3"/>';
+ s+='<text x="2" y="'+(Y(5577.78)-4)+'" font-size="8" font-family="ui-monospace" fill="#98a0b3">prev close</text>';
+ s+='<path d="'+d+'L'+W+','+(H-14)+'L0,'+(H-14)+'Z" fill="url(#d51ag)"/>';
+ s+='<path d="'+d+'" fill="none" stroke="#0f9d6a" stroke-width="2"/>';
+ s+='<circle cx="'+X(77)+'" cy="'+Y(5612.4)+'" r="3.4" fill="#0f9d6a"/>';
+ ["09:30","11:00","12:30","14:00","15:42"].forEach(function(t,i){
+  s+='<text x="'+(i*W/4.3+4)+'" y="'+(H-2)+'" font-size="8" font-family="ui-monospace" fill="#b0b7c5">'+t+'</text>';});
+ document.getElementById("d51a-svg").innerHTML=s;
+ var lo=5578.20,hi=5621.84,cur=5612.40,op=5584.10;
+ document.getElementById("d51a-i").style.left=((Math.min(op,cur)-lo)/(hi-lo)*100)+"%";
+ document.getElementById("d51a-i").style.width=(Math.abs(cur-op)/(hi-lo)*100)+"%";
+ document.getElementById("d51a-b").style.left=((cur-lo)/(hi-lo)*100)+"%";
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 51.b ============================ -->
+<div class="design" id="d51b">
+  <div class="dlabel"><span class="id">51.b</span><span class="nm">Dark terminal tile with period tabs and bar chart</span><span class="tag">period tabs · bar hover</span></div>
+  <div class="dbody">
+<style>
+#d51b .wrapx{padding:22px;background:#0a0c11;display:flex;justify-content:center}
+#d51b .tile3{width:440px;background:#11141b;border:1px solid #1e232e;border-radius:12px;font-family:var(--sans);color:#e3e8f1;overflow:hidden}
+#d51b .head3{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid #1e232e}
+#d51b .head3 .t3{font:700 15px var(--mono)}
+#d51b .head3 .n5{font-size:11px;color:#68728a}
+#d51b .head3 .dot2{margin-left:auto;display:flex;align-items:center;gap:6px;font:600 9px var(--mono);color:#18c281;letter-spacing:.1em}
+#d51b .head3 .dot2 i{width:6px;height:6px;border-radius:50%;background:#18c281}
+#d51b .body3{padding:14px 15px}
+#d51b .big4{display:flex;align-items:baseline;gap:12px}
+#d51b .big4 .v4{font:600 34px var(--mono);letter-spacing:-.02em}
+#d51b .big4 .c4{font:600 14px var(--mono)}
+#d51b .tabs2{display:flex;gap:2px;margin-top:12px;background:#171b24;border-radius:7px;padding:3px}
+#d51b .tabs2 button{flex:1;background:transparent;border:0;color:#68728a;padding:6px;font:600 10.5px var(--mono);border-radius:5px}
+#d51b .tabs2 button.on{background:#232a36;color:#e3e8f1}
+#d51b .chart3{margin-top:12px;position:relative;height:120px}
+#d51b .chart3 .tipe{position:absolute;background:#232a36;border-radius:6px;padding:5px 8px;font:500 10px var(--mono);opacity:0;pointer-events:none}
+#d51b .stats4{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+#d51b .stats4 div{background:#161a22;border-radius:8px;padding:8px 10px}
+#d51b .stats4 b{font:500 8.5px var(--mono);letter-spacing:.1em;color:#5c667c;display:block}
+#d51b .stats4 span{font:600 13px var(--mono);display:block;margin-top:3px}
+</style>
+<div class="wrapx"><div class="tile3">
+  <div class="head3"><span class="t3">NDX</span><span class="n5">Nasdaq 100 Index</span><span class="dot2"><i></i>LIVE</span></div>
+  <div class="body3">
+    <div class="big4"><span class="v4">19,842.60</span><span class="c4 pos">+184.20<br><span style="font-size:11px">+0.94%</span></span></div>
+    <div class="tabs2" id="d51b-tabs"><button class="on" data-p="1D">1D</button><button data-p="1W">1W</button><button data-p="1M">1M</button><button data-p="3M">3M</button><button data-p="1Y">1Y</button></div>
+    <div class="chart3"><svg id="d51b-svg" viewBox="0 0 400 120" style="width:100%;height:120px"></svg><div class="tipe" id="d51b-tip"></div></div>
+    <div class="stats4">
+      <div><b>DAY RANGE</b><span style="font-size:11px">19,684 – 19,868</span></div>
+      <div><b>VOLUME</b><span>842m</span></div>
+      <div><b>ADV/DEC</b><span>71 / 29</span></div>
+      <div><b>P/E FWD</b><span>28.4×</span></div>
+      <div><b>VOL 30D</b><span>16.8%</span></div>
+      <div><b>YTD</b><span class="pos">+12.8%</span></div>
+    </div>
+  </div>
+</div></div>
+<script>(function(){
+ var P={"1D":[0.2,-0.1,0.3,0.15,0.4,0.25,0.5,0.35,0.62,0.48,0.74,0.94],
+  "1W":[0.4,-0.6,1.2,0.3,0.94],"1M":[1.2,-0.8,2.1,0.4,-1.1,1.8,0.6,2.4,-0.4,1.2,0.9,1.4],
+  "3M":[2.4,-1.8,3.6,1.2,-2.4,4.1,0.8,2.6],"1Y":[3.4,-2.1,5.2,1.8,-4.2,6.1,2.4,-1.2,4.8,3.2,-2.6,5.4]};
+ var per="1D";
+ function draw(){
+  var d=P[per],W=400,H=120,mx=Math.max.apply(null,d.map(Math.abs))*1.2;
+  var bw=(W-10)/d.length*0.66,s="";
+  s+='<line x1="0" y1="'+(H/2)+'" x2="'+W+'" y2="'+(H/2)+'" stroke="#2a3140"/>';
+  d.forEach(function(v,i){
+   var x=8+i*(W-16)/d.length+((W-16)/d.length-bw)/2;
+   var h=Math.abs(v)/mx*(H/2-10);
+   s+='<rect class="b7" data-v="'+v+'" data-i="'+i+'" x="'+x+'" y="'+(v>=0?H/2-h:H/2)+'" width="'+bw+'" height="'+h+'" rx="2" fill="'+(v>=0?"#18c281":"#ff5b52")+'" opacity=".85"/>';});
+  s+='<text x="2" y="12" font-size="9" font-family="ui-monospace" fill="#5c667c">+'+mx.toFixed(1)+'%</text>';
+  s+='<text x="2" y="'+(H-4)+'" font-size="9" font-family="ui-monospace" fill="#5c667c">−'+mx.toFixed(1)+'%</text>';
+  document.getElementById("d51b-svg").innerHTML=s;
+  var tip=document.getElementById("d51b-tip");
+  [].forEach.call(document.querySelectorAll("#d51b .b7"),function(b){
+   b.addEventListener("mouseenter",function(e){
+    var r=document.querySelector("#d51b .chart3").getBoundingClientRect(),br=b.getBoundingClientRect();
+    tip.style.opacity=1;tip.style.left=(br.left-r.left-10)+"px";tip.style.top="0px";
+    var v=+b.dataset.v;tip.innerHTML='<span style="color:'+(v>=0?"#18c281":"#ff5b52")+'">'+(v>=0?"+":"")+v.toFixed(2)+'%</span>';});
+   b.addEventListener("mouseleave",function(){tip.style.opacity=0});});
+ }
+ document.getElementById("d51b-tabs").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  [].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)});per=b.dataset.p;draw();});
+ draw();
+})();</script>
+  </div>
+</div>
+
+<!-- ============================ 51.c ============================ -->
+<div class="design" id="d51c">
+  <div class="dlabel"><span class="id">51.c</span><span class="nm">Editorial snapshot with sentence lead and sector contribution strip</span><span class="tag">hover contribution · expand note</span></div>
+  <div class="dbody">
+<style>
+#d51c .wrapx{padding:22px;background:#faf9f6;display:flex;justify-content:center}
+#d51c .snap{width:520px;background:#fff;border:1px solid #e6e2d7;border-radius:4px;padding:20px 22px;font-family:var(--sans)}
+#d51c .kick{font:600 9.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#b0a894}
+#d51c h3{font:600 21px var(--serif);margin-top:8px;letter-spacing:-.01em}
+#d51c .row7{display:flex;align-items:flex-end;gap:16px;margin-top:14px;border-bottom:1px solid #eeeae0;padding-bottom:14px}
+#d51c .row7 .lv4{font:600 42px var(--mono);letter-spacing:-.03em;line-height:1}
+#d51c .row7 .ch4{font:600 15px var(--mono)}
+#d51c .row7 .ch4 small{display:block;font:500 10.5px var(--mono);color:#a29a86;margin-top:3px}
+#d51c .row7 .mini2{margin-left:auto}
+#d51c .lede2{font-size:13px;line-height:1.65;color:#514c42;margin-top:14px}
+#d51c .lede2 b{color:#26231c}
+#d51c .contrib{margin-top:16px}
+#d51c .contrib h4{font:600 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#b0a894;margin-bottom:8px}
+#d51c .cstrip{display:flex;height:30px;border-radius:4px;overflow:hidden}
+#d51c .cstrip div{position:relative;cursor:pointer;transition:filter .12s}
+#d51c .cstrip div:hover{filter:brightness(1.15)}
+#d51c .cstrip div span{position:absolute;inset:0;display:grid;place-items:center;font:600 9px var(--mono);color:#fff}
+#d51c .clab{font-size:11.5px;color:#7a7364;margin-top:8px;min-height:32px;line-height:1.5}
+#d51c .foot3{display:flex;justify-content:space-between;font:500 10.5px var(--mono);color:#b0a894;border-top:1px solid #eeeae0;margin-top:14px;padding-top:10px}
+</style>
+<div class="wrapx"><div class="snap">
+  <div class="kick">Index snapshot · 24 April 2026</div>
+  <h3>S&amp;P 500 grinds to a fresh closing high</h3>
+  <div class="row7">
+    <div><div class="lv4">5,612.40</div></div>
+    <div class="ch4 pos">+34.62<small>+0.62% on the day</small></div>
+    <div class="mini2"><svg viewBox="0 0 150 46" width="150" height="46">
+      <path d="M0,34 L12,31 L24,36 L36,28 L48,30 L60,22 L72,26 L84,18 L96,22 L108,14 L120,17 L132,9 L150,6" fill="none" stroke="#2e7d5b" stroke-width="2"/>
+      <path d="M0,34 L12,31 L24,36 L36,28 L48,30 L60,22 L72,26 L84,18 L96,22 L108,14 L120,17 L132,9 L150,6 L150,46 L0,46 Z" fill="#2e7d5b" opacity=".09"/>
+      <text x="0" y="45" font-size="8" font-family="ui-monospace" fill="#b0a894">20 sessions</text></svg></div>
+  </div>
+  <p class="lede2">The index closed at a record for the third time this month, helped by a <b>1.9% advance in semiconductors</b> and a firmer bid across utilities. Breadth was constructive — <b>318 of 503</b> members finished higher — though energy was a clear drag after crude slipped below $71.</p>
+  <div class="contrib"><h4>Contribution to today's 34.6-point move</h4>
+    <div class="cstrip" id="d51c-cs"></div>
+    <div class="clab" id="d51c-cl">Hover a block to see how much each sector added or subtracted from the index move.</div></div>
+  <div class="foot3"><span>Open 5,584.10 · High 5,621.84 · Low 5,578.20</span><span>Volume 4.12bn</span></div>
+</div></div>
+<script>(function(){
+ var S=[["Technology",18.4,"#2b3a67"],["Comm Services",6.2,"#3c5a8a"],["Utilities",4.1,"#4f7fa8"],["Financials",3.8,"#6b9ec4"],
+  ["Health Care",2.6,"#8bb8d6"],["Industrials",1.9,"#a8cde0"],["Energy",-2.4,"#c4645a"]];
+ var tot=S.reduce(function(a,s){return a+Math.abs(s[1])},0);
+ document.getElementById("d51c-cs").innerHTML=S.map(function(s,i){
+  return '<div data-i="'+i+'" style="flex:'+Math.abs(s[1])+';background:'+s[2]+'"><span>'+(Math.abs(s[1])/tot>0.1?(s[1]>=0?"+":"")+s[1].toFixed(1):"")+'</span></div>';}).join("");
+ [].forEach.call(document.querySelectorAll("#d51c-cs div"),function(d){
+  d.addEventListener("mouseenter",function(){
+   var s=S[+d.dataset.i];
+   document.getElementById("d51c-cl").innerHTML='<b style="color:#26231c">'+s[0]+'</b> '+(s[1]>=0?"added":"subtracted")+' <b style="color:'+(s[1]>=0?"#2e7d5b":"#b44c3f")+'">'+Math.abs(s[1]).toFixed(1)+' index points</b> ('+(Math.abs(s[1])/34.62*100).toFixed(0)+'% of the day\'s move).';});
+  d.addEventListener("mouseleave",function(){
+   document.getElementById("d51c-cl").textContent="Hover a block to see how much each sector added or subtracted from the index move.";});});
+})();</script>
+  </div>
+</div>
+</section>
